@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <title>Daftar School Supervisors</title>
+</head>
+<body>
+  <h1>School Supervisors</h1>
+  <p><a th:href="@{/sch-spv/create}">Tambah School Supervisor</a></p>
+  <table border="1" cellpadding="6" cellspacing="0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nama</th>
+        <th>Email</th>
+        <th>Employee ID</th>
+        <th>Phone</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="ssp : ${sspv}">
+        <td th:text="${ssp.sSupervisorId}">1</td>
+        <td th:text="${ssp.user != null ? ssp.user.username : '—'}">Nama</td>
+        <td th:text="${ssp.user != null ? ssp.user.email : '—'}">email@contoh.com</td>
+        <td th:text="${ssp.employeeIdNumber != null ? ssp.employeeIdNumber : '—'}">EMP123</td>
+        <td th:text="${ssp.phoneNumber != null ? ssp.phoneNumber : '—'}">0812...</td>
+        <td>
+          <a th:href="@{/sch-spv/edit/{id}(id=${ssp.sSupervisorId})}">Edit</a>
+          <form th:action="@{/sch-spv/{id}(id=${ssp.sSupervisorId})}"
+                th:method="post" style="display:inline;">
+            <input type="hidden" name="_method" value="delete" />
+            <button type="submit" onclick="return confirm('Yakin ingin menghapus?')">Delete</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

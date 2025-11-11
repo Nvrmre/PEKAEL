@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Tambah Company Supervisor</title>
+</head>
+
+<body>
+    <h1>Edit Company Supervisor</h1>
+    <form th:action="@{/comp-spv/{id}(id=${cspv.cSupervisorId})}" th:object="${cspv}" method="post">
+        <input type="hidden" name="_method" value="put" />
+
+        <!-- User -->
+        <label>Username:</label>
+        <input type="text" th:field="*{user.username}" required /><br />
+
+        <label>Email:</label>
+        <input type="email" th:field="*{user.email}" required /><br />
+
+        <label>Password (kosongkan kalau tidak ganti):</label>
+        <input type="password" th:field="*{user.password}" /><br />
+
+        <!-- Company select -->
+        <label>Perusahaan:</label>
+        <select name="companyId" required>
+            <option value="">-- Pilih Perusahaan --</option>
+            <option th:each="c : ${companies}" th:value="${c.companyId}" th:text="${c.companyName}"
+                th:selected="${c.companyId} == ${cspv.company != null ? cspv.company.companyId : -1}">
+            </option>
+        </select><br />
+
+        <label>Job Title:</label>
+        <input type="text" th:field="*{jobTitle}" /><br />
+
+        <button type="submit">Simpan</button>
+    </form>
+
+</body>
+
+</html>

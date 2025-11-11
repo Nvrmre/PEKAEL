@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Tambah student</title>
+</head>
+<body>
+    <h1>Form Tambah student</h1>
+    <form th:action="@{/companies}" th:object="${comp}" method="post">
+        <label>Company Name:</label>
+        <input type="text" th:field="*{companyName}" /><br/>
+
+        <label>Address:</label>
+        <input type="text" th:field="*{companyAddress}" /><br/>
+
+        <label>Phone:</label>
+        <input type="text" th:field="*{companyPhone}" /><br/>
+
+        <label >Contact Person</label>
+        <input type="text" th:field="*{contactPerson}"/><br/>
+
+        <button type="submit">Simpan</button>
+    </form>
+</body>
+</html>

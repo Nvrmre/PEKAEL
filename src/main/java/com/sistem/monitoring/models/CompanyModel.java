@@ -1,0 +1,90 @@
+package com.sistem.monitoring.models;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "companies")
+public class CompanyModel {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long companyId;
+
+    @Column(nullable = false)
+    private String companyName;
+
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CompanySupervisorModel> supervisors = new ArrayList<>();
+
+    @Column(nullable = false)
+    private String companyAddress;
+    
+    @Column(nullable = false)
+    private Long companyPhone;
+   
+    private String contactPerson;
+
+    public CompanyModel(){}
+
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public List<CompanySupervisorModel> getSupervisors() {
+        return supervisors;
+    }
+
+    public void setSupervisors(List<CompanySupervisorModel> supervisors) {
+        this.supervisors = supervisors;
+    }
+
+    public String getCompanyAddress() {
+        return companyAddress;
+    }
+
+    public void setCompanyAddress(String companyAddress) {
+        this.companyAddress = companyAddress;
+    }
+
+    public Long getCompanyPhone() {
+        return companyPhone;
+    }
+
+    public void setCompanyPhone(Long companyPhone) {
+        this.companyPhone = companyPhone;
+    }
+
+    public String getContactPerson() {
+        return contactPerson;
+    }
+
+    public void setContactPerson(String contactPerson) {
+        this.contactPerson = contactPerson;
+    }
+
+   
+
+
+}

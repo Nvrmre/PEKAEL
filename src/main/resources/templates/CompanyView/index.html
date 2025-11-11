@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Daftar comp</title>
+</head>
+
+<body>
+    <h1>Daftar Pengguna</h1>
+    <a th:href="@{/companies/create}">Tambah comp</a>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Company Name</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Contact Person</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="comp : ${companies}">
+                <td th:text="${comp.companyId}"></td>
+                <td th:text="${comp.companyName}"></td>
+                <td th:text="${comp.companyAddress}"></td>
+                <td th:text="${comp.companyPhone}"></td>
+                <td th:text="${comp.contactPerson}"></td>
+                <td>
+                    <a th:href="@{'/companies/edit/' + ${comp.companyId}}">Edit</a>
+                    <form th:action="@{/companies/{id}(id=${comp.companyId})}" method="post" style="display:inline;">
+                        <input type="hidden" name="_method" value="delete" />
+                        <button type="submit" onclick="return confirm('Yakin ingin hapus comp ini?')">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>

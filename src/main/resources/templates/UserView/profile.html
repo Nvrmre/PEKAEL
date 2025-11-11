@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail User</title>
+</head>
+<body>
+    <h1>Detail User</h1>
+
+    <p><strong>ID:</strong> <span th:text="${user.userId}">1</span></p>
+    <p><strong>Username:</strong> <span th:text="${user.username}">John Doe</span></p>
+    <p><strong>Email:</strong> <span th:text="${user.email}">john@example.com</span></p>
+    <p><strong>Role:</strong> <span th:text="${user.role}">Student</span></p>
+    <div th:switch="${user.role}">
+        <!-- Jika role Student -->
+        <div th:case="'Student'">
+            <h3>Data Student</h3>
+            <p th:text="'Student Number: ' + ${user.student != null ? user.student.studentNumber : '—'}"></p>
+            <p th:text="'Phone Number: ' + ${user.student != null ? user.student.phoneNumber : '—'}"></p>
+        </div>
+
+        <!-- Jika role Company Supervisor -->
+        <div th:case="'Company_Supervisor'">
+            <h3>Data Company Supervisor</h3>
+            <p th:text="'Job Title: ' + ${user.companySupervisor != null ? user.companySupervisor.jobTitle : '—'}"></p>
+            <p th:text="'Company: ' + ${user.companySupervisor != null && user.companySupervisor.company != null ? user.companySupervisor.company.companyName : '—'}"></p>
+        </div>
+
+        <!-- Jika role School Supervisor -->
+        <div th:case="'School_Supervisor'">
+            <h3>Data School Supervisor</h3>
+            <p th:text="'Employee ID: ' + ${user.schoolSupervisor != null ? user.schoolSupervisor.employeeIdNumber : '—'}"></p>
+            <p th:text="'Phone Number: ' + ${user.schoolSupervisor != null ? user.schoolSupervisor.phoneNumber : '—'}"></p>
+        </div>
+    </div>
+
+    <p><a th:href="@{/users}">← Kembali ke daftar user</a></p>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <title>Homepage - Sistem Monitoring</title>
+</head>
+<body>
+  <header>
+    <h1>Halo geys</h1>
+    <p th:if="${username != null}">Halo, <strong th:text="${username}">User</strong>!</p>
+  </header>
+
+  <section>
+    <div class="card">
+      <h3>Total Users</h3>
+      <p th:text="${totalUsers}">0</p>
+    </div>
+
+    <div class="card">
+      <h3>Total Students</h3>
+      <p th:text="${totalStudents}">0</p>
+    </div>
+
+    <div class="card">
+      <h3>Company Supervisors</h3>
+      <p th:text="${totalCompanySpv}">0</p>
+    </div>
+
+    <div class="card">
+      <h3>School Supervisors</h3>
+      <p th:text="${totalSchoolSpv}">0</p>
+    </div>
+
+    <div class="card">
+      <h3>Placements</h3>
+      <p th:text="${totalPlacements}">0</p>
+    </div>
+  </section>
+
+  <section style="margin-top:20px;">
+    <h2>Quick Links</h2>
+    <ul>
+      <li><a th:href="@{/users}">Daftar User</a></li>
+      <li><a th:href="@{/students}">Daftar Student</a></li>
+      <li><a th:href="@{/comp-spv}">Company Supervisors</a></li>
+      <li><a th:href="@{/sch-spv}">School Supervisors</a></li>
+      <li><a th:href="@{/placements}">Placements</a></li>
+    </ul>
+  </section>
+</body>
+</html>

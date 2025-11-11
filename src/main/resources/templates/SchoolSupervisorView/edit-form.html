@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Edit Supervisor</title>
+</head>
+
+<body>
+    <h1>Edit User</h1>
+
+    <!-- lebih robust: gunakan uri template expression dengan placeholder -->
+    <form th:action="@{/sch-spv/{id}(id=${sspv.sSupervisorId})}" th:object="${sspv}" method="post">
+        <input type="hidden" name="_method" value="put"/>
+        <label>Username:</label>
+        <input type="text" th:field="*{user.username}" /><br />
+
+        <label>Password:</label>
+        <input type="password" th:field="*{user.password}" /><br />
+
+        <label>Email:</label>
+        <input type="email" th:field="*{user.email}" /><br />
+
+        <label>No Pegawai</label>
+        <input type="text" th:field="*{employeeIdNumber}" /><br />
+
+        <label>No Hp</label>
+        <input type="text" th:field="*{phoneNumber}" /><br />
+
+        <button type="submit">Simpan</button>
+    </form>
+</body>
+
+</html>

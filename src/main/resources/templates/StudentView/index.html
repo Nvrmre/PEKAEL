@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Daftar Student</title>
+</head>
+
+<body>
+    <h1>Daftar Student</h1>
+    <p><a th:href="@{/students/create}">Tambah student</a></p>
+
+    <table border="1" cellpadding="6" cellspacing="0">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nama</th>
+                <th>Email</th>
+                <th>NISN</th>
+                <th>No HP</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="student : ${students}">
+                <td th:text="${student.studentId}">1</td>
+                <!-- akses properti user yang ada di StudentModel -->
+                <td th:text="${student.user != null ? student.user.username : '—'}">Nama</td>
+                <td th:text="${student.user != null ? student.user.email : '—'}">email@contoh.com</td>
+                <td th:text="${student.studentNumber}"></td>
+                <td th:text="${student.phoneNumber}"></td>
+                <td>
+                    <a th:href="@{/students/edit/{id}(id=${student.studentId})}">Edit</a>
+                    <form th:action="@{/students/{id}(id=${student.studentId})}" th:method="post" style="display:inline;">
+                        <!-- Jika kamu menggunakan HiddenHttpMethodFilter untuk DELETE -->
+                        <input type="hidden" name="_method" value="delete" />
+                        <button type="submit" onclick="return confirm('Yakin ingin hapus student ini?')">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>

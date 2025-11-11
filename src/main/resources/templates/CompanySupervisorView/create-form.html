@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <title>Tambah Company Supervisor</title>
+</head>
+<body>
+  <h1>Tambah Company Supervisor</h1>
+
+  <form th:action="@{/comp-spv}" th:object="${cspv}" method="post">
+    <fieldset>
+      <legend>Akunnya (User)</legend>
+      <label>Username:</label>
+      <input type="text" th:field="*{user.username}" required /><br/>
+
+      <label>Email:</label>
+      <input type="email" th:field="*{user.email}" required /><br/>
+
+      <label>Password:</label>
+      <input type="password" th:field="*{user.password}" required /><br/>
+    </fieldset>
+
+    <fieldset>
+      <legend>Perusahaan & Job</legend>
+      <label>Perusahaan:</label>
+      <select name="companyId" required>
+        <option value="">-- Pilih Perusahaan --</option>
+        <option th:each="c : ${companies}" th:value="${c.companyId}" th:text="${c.companyName}"></option>
+      </select><br/>
+
+      <label>Job Title:</label>
+      <input type="text" th:field="*{jobTitle}" /><br/>
+    </fieldset>
+
+    <br/>
+    <button type="submit">Simpan</button>
+    <a th:href="@{/comp-spv}">Batal</a>
+  </form>
+</body>
+</html>

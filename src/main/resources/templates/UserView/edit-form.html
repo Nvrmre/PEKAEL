@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit User</title>
+    <script>
+        // fungsi JS untuk toggle field berdasarkan role
+        function toggleFields() {
+            const role = document.getElementById("roleSelect").value;
+            document.getElementById("studentFields").style.display = (role === 'Student') ? 'block' : 'none';
+            document.getElementById("companySupervisorFields").style.display = (role === 'Company_Supervisor') ? 'block' : 'none';
+            document.getElementById("schoolSupervisorFields").style.display = (role === 'School_Supervisor') ? 'block' : 'none';
+        }
+
+        document.addEventListener("DOMContentLoaded", toggleFields);
+    </script>
+</head>
+<body>
+    <h1>Edit User</h1>
+
+    <!-- lebih robust: gunakan uri template expression dengan placeholder -->
+    <form th:action="@{/users/{id}(id=${user.userId})}" th:object="${user}" method="post">
+        <!-- method override supaya Spring menganggap ini PUT -->
+        <input type="hidden" name="_method" value="put" />
+
+        <!-- hidden id sesuai model -->
+        <input type="hidden" th:field="*{userId}" />
+
+        <label>Username:</label>
+        <input type="text" th:field="*{username}" /><br/>
+
+        <label>Password:</label>
+        <input type="password" th:field="*{password}" /><br/>
+
+        <label>Email</label>
+        <input type="email" th:field="*{email}"/><br>
+
+         <label>Role:</label>
+        <select th:field="*{role}" id="roleSelect" onchange="toggleFields()" required>
+            <option value="" disabled selected>Pilih Role</option>
+            <option th:each="r : ${T(com.sistem.monitoring.models.UserModel.Role).values()}"
+                    th:value="${r}" th:text="${r}"></option>
+        </select><br/><br/>
+
+        <!-- ========== STUDENT FIELDS ========== -->
+        <div id="studentFields" style="display:none; border:1px solid #ccc; padding:10px;">
+            <h3>Data Student</h3>
+            <label>Student Number:</label>
+            <input type="text" name="studentNumber"/><br/>
+
+            <label>Phone Number:</label>
+            <input type="text" name="studentPhone"/><br/>
+        </div>
+
+        <!-- ========== COMPANY SUPERVISOR FIELDS ========== -->
+        <div id="companySupervisorFields" style="display:none; border:1px solid #ccc; padding:10px;">
+            <h3>Data Company Supervisor</h3>
+            <label>Company Name:</label>
+            <input type="text" name="companyName"/><br/>
+
+            <label>Job Title:</label>
+            <input type="text" name="jobTitle"/><br/>
+        </div>
+
+        <!-- ========== SCHOOL SUPERVISOR FIELDS ========== -->
+        <div id="schoolSupervisorFields" style="display:none; border:1px solid #ccc; padding:10px;">
+            <h3>Data School Supervisor</h3>
+            <label>Employee ID Number:</label>
+            <input type="text" name="employeeIdNumber"/><br/>
+
+            <label>Phone Number:</label>
+            <input type="text" name="schoolPhone"/><br/>
+        </div>
+
+        <button type="submit">Update</button>
+    </form>
+</body>
+</html>
