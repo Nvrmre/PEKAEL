@@ -77,7 +77,7 @@ public class CompanySupervisorController {
         CompanyModel company = companyService.getCompanyById(companyId)
                                 .orElseThrow(()-> new RuntimeException("company "+ companyId + "not found"));
         spv.setCompany(company);
-        companySupervisorService.createCompanySupervisor(spv);
+        companySupervisorService.createCompanySupervisor(spv,company);
         return "redirect:/comp-spv";
     }
 

@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sistem.monitoring.models.CompanyModel;
 import com.sistem.monitoring.models.PlacementModel;
+import com.sistem.monitoring.repositories.CompanyRepository;
 import com.sistem.monitoring.repositories.PlacementRepository;
 
 @Service
@@ -14,6 +16,9 @@ public class PlacementService {
     
     @Autowired
     private PlacementRepository placementRepository;
+
+    @Autowired
+    private CompanyRepository companyRepository;
 
     public List<PlacementModel> getAllPlacement(){
         return placementRepository.findAll();
@@ -24,6 +29,12 @@ public class PlacementService {
     }
 
     public PlacementModel createPlacement(PlacementModel placement){
+        if (placement.getCompany() != null && placement.getCompany().getCompanyId() != null) {
+        Long companyId = placement.getCompany().getCompanyId();
+        CompanyModel managedCompany = companyRepository.findById(companyId)
+            .orElseThrow(() -> new RuntimeException("Company not found: " + companyId));
+        placement.setCompany(managedCompany);
+    }
         return placementRepository.save(placement);
     }
 

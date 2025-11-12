@@ -10,31 +10,34 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.sistem.monitoring.services.UserService;
 import com.sistem.monitoring.services.SchoolSupervisorService;
 import com.sistem.monitoring.services.CompanySupervisorService;
+import com.sistem.monitoring.services.DailyJournalService;
 import com.sistem.monitoring.services.StudentServices;
 import com.sistem.monitoring.services.PlacementService;
 
 @Controller
 public class HomeController {
 
-    // contoh: inject beberapa service kalau mau tampilkan ringkasan statistik
+   
     private final UserService userService;
     private final StudentServices studentServices;
     private final CompanySupervisorService companySupervisorService;
     private final SchoolSupervisorService schoolSupervisorService;
     private final PlacementService placementService;
+    private final DailyJournalService dailyJournalService;
 
-    @Autowired
     public HomeController(
             UserService userService,
             StudentServices studentServices,
             CompanySupervisorService companySupervisorService,
             SchoolSupervisorService schoolSupervisorService,
-            PlacementService placementService) {
+            PlacementService placementService,
+            DailyJournalService dailyJournalService ) {
         this.userService = userService;
         this.studentServices = studentServices;
         this.companySupervisorService = companySupervisorService;
         this.schoolSupervisorService = schoolSupervisorService;
         this.placementService = placementService;
+        this.dailyJournalService = dailyJournalService;
     }
 
     // redirect root ke /home (opsional)
@@ -52,12 +55,13 @@ public class HomeController {
         model.addAttribute("totalCompanySpv", companySupervisorService.getCompanySupervisor().size());
         model.addAttribute("totalSchoolSpv", schoolSupervisorService.getSchoolSupervisor().size());
         model.addAttribute("totalPlacements", placementService.getAllPlacement().size());
+        model.addAttribute("totalJournal", dailyJournalService.getAllJournal().size());
 
-        // jika ingin tampilkan username yang sedang login (jika pakai Spring Security)
+       
         if (principal != null) {
             model.addAttribute("username", principal.getName());
         }
 
-        return "index"; // akan merender templates/home.html
+        return "index"; 
     }
 }

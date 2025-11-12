@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Daftar User</title>
+</head>
+<body>
+    <h1>Daftar Pengguna</h1>
+    <a th:href="@{/daily-journal/create}">Tambah User</a>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="j : ${journal}">
+                <td th:text="${j.journalId}"></td>
+                <td th:text="${j.placementId}"></td>
+                <td th:text="${j.activityDesc}"></td>
+                <td th:text="${j.supervisorNotes}"></td>
+                <td th:text="${j.validationStatus}"></td>
+                <td>
+                    <a th:href="@{'/users/edit/' + ${user.userId}}">Edit</a>
+                    <a th:href="@{'/users/' + ${user.userId}}">Lihat Detail</a>
+                    <form th:action="@{/users/{id}(id=${user.userId})}" method="post" style="display:inline;">
+                        <input type="hidden" name="_method" value="delete" />
+                        <button type="submit" onclick="return confirm('Yakin ingin hapus user ini?')">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

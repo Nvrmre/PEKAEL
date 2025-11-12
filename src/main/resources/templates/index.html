@@ -2,50 +2,273 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Homepage - Sistem Monitoring</title>
+
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy: #0b2340;
+      --cream: #f2ece3;
+      --muted: #6c757d;
+      --accent: #b78b4a;
+    }
+
+    body {
+      background-color: var(--cream);
+      color: var(--navy);
+      font-size: 1.05rem;
+    }
+
+    /* Navbar */
+    .topbar {
+      background: linear-gradient(180deg, rgba(11,35,64,0.98), rgba(11,35,64,0.95));
+      color: white;
+      padding: 0.75rem 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    }
+    .brand { font-weight: 600; font-size: 1.25rem; }
+    .nav-small { font-size: .95rem; }
+
+    /* Main container */
+    .container-main {
+      max-width: 1150px;
+      margin: 2rem auto 3rem;
+    }
+
+    /* Card */
+    .stat-card {
+      border-left: 6px solid transparent;
+      border-radius: 10px;
+      background: white;
+      padding: 1.2rem;
+      min-height: 115px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 1px 6px rgba(11,35,64,0.08);
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 20px rgba(11,35,64,0.15);
+      background-color: #ffffffee;
+    }
+
+    .stat-icon {
+      width: 64px;
+      height: 64px;
+      flex: 0 0 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: linear-gradient(180deg, rgba(11,35,64,0.06), rgba(11,35,64,0.02));
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover .stat-icon {
+      background: var(--accent);
+    }
+
+    .stat-icon svg {
+      width: 32px;
+      height: 32px;
+      stroke: var(--navy);
+      transition: stroke 0.3s ease;
+    }
+
+    .stat-card:hover svg {
+      stroke: white;
+    }
+
+    .stat-text h5 {
+      margin: 0;
+      font-size: 1rem;
+      color: var(--muted);
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    .stat-text p {
+      margin: 0;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .stat-card:hover .stat-text h5 {
+      color: var(--accent);
+    }
+
+    /* Border colors */
+    .border-users { border-left-color: #0b74a4; }
+    .border-students { border-left-color: #2b8f4a; }
+    .border-comp { border-left-color: #b78b4a; }
+    .border-school { border-left-color: #c44d3a; }
+    .border-place { border-left-color: #6c5ce7; }
+    .border-journal { border-left-color: #4b5563; }
+
+    /* Quick Links */
+    .quick-links .btn {
+      min-width: 180px;
+      padding: .6rem 1rem;
+      font-weight: 600;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+    .quick-links .btn:hover {
+      transform: translateY(-3px);
+    }
+
+    footer.footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 1rem 0;
+      font-size: .95rem;
+    }
+  </style>
 </head>
+
 <body>
-  <header>
-    <h1>Halo geys</h1>
-    <p th:if="${username != null}">Halo, <strong th:text="${username}">User</strong>!</p>
-  </header>
+  <!-- Navbar -->
+  <nav class="topbar d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center gap-3">
+      <div class="brand">Sistem Monitoring</div>
+      <div class="nav-small text-white-50">Dashboard Utama</div>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+      <div class="text-white nav-small" th:if="${username != null}">Halo, <strong th:text="${username}">Bapak</strong></div>
+      <a th:href="@{/logout}" class="btn btn-sm btn-light fw-semibold">Logout</a>
+    </div>
+  </nav>
 
-  <section>
-    <div class="card">
-      <h3>Total Users</h3>
-      <p th:text="${totalUsers}">0</p>
+  <!-- Main -->
+  <main class="container-main">
+    <div class="mb-3">
+      <h2 class="fw-bold">Ringkasan</h2>
+      <div class="text-muted small">Statistik singkat sistem</div>
     </div>
 
-    <div class="card">
-      <h3>Total Students</h3>
-      <p th:text="${totalStudents}">0</p>
+    <!-- Cards -->
+    <div class="row g-3">
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="stat-card border-users">
+          <div class="stat-icon">
+            <!-- User SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 7.5a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a8.25 8.25 0 0115 0" />
+            </svg>
+          </div>
+          <div class="stat-text">
+            <h5>Total Users</h5>
+            <p th:text="${totalUsers}">0</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="stat-card border-students">
+          <div class="stat-icon">
+            <!-- Student (Graduation Cap) SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0v7m0-7l-6.16-3.422A12.083 12.083 0 003 13.5C3 17.642 7.03 21 12 21s9-3.358 9-7.5a12.083 12.083 0 00-2.84-2.922L12 14z" />
+            </svg>
+          </div>
+          <div class="stat-text">
+            <h5>Total Siswa</h5>
+            <p th:text="${totalStudents}">0</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="stat-card border-comp">
+          <div class="stat-icon">
+            <!-- Building SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M9 8h6m-6 4h6m-6 4h6M4 21V7a1 1 0 011-1h14a1 1 0 011 1v14" />
+            </svg>
+          </div>
+          <div class="stat-text">
+            <h5>Total Pembimbing Perusahaan</h5>
+            <p th:text="${totalCompanySpv}">0</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="stat-card border-school">
+          <div class="stat-icon">
+            <!-- School SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3l8 4.5v6c0 4-4 7-8 7s-8-3-8-7v-6L12 3z" />
+            </svg>
+          </div>
+          <div class="stat-text">
+            <h5>Total Pembimbing Sekolah</h5>
+            <p th:text="${totalSchoolSpv}">0</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="stat-card border-place">
+          <div class="stat-icon">
+            <!-- Location Pin SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s8-4.5 8-10A8 8 0 104 11c0 5.5 8 10 8 10z" />
+              <circle cx="12" cy="11" r="2.5" />
+            </svg>
+          </div>
+          <div class="stat-text">
+            <h5>Penempatan PKL</h5>
+            <p th:text="${totalPlacements}">0</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="stat-card border-journal">
+          <div class="stat-icon">
+            <!-- Journal / Book SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 5h16v14H4zM4 5v14M8 5v14" />
+            </svg>
+          </div>
+          <div class="stat-text">
+            <h5>Total Laporan Harian Siswa</h5>
+            <p th:text="${totalJournal}">0</p>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="card">
-      <h3>Company Supervisors</h3>
-      <p th:text="${totalCompanySpv}">0</p>
-    </div>
+    <!-- Quick Links -->
+    <section class="mt-4">
+      <h4 class="fw-bold mb-3">Akses Cepat</h4>
+      <div class="d-flex flex-wrap gap-2 quick-links">
+        <a th:href="@{/users}" class="btn btn-outline-primary">User</a>
+        <a th:href="@{/students}" class="btn btn-outline-success">Siswa</a>
+        <a th:href="@{/comp-spv}" class="btn btn-outline-dark">Pembimbing Perusahaan</a>
+        <a th:href="@{/sch-spv}" class="btn btn-outline-danger">Pembimbing Sekolah</a>
+        <a th:href="@{/placements}" class="btn btn-outline-secondary">Tempat</a>
+        <a th:href="@{/daily-journal}" class="btn btn-outline-info">Laporan Harian</a>
+        <a th:href="@{/attendances}" class="btn btn-outline-info">Absen</a>
+        <a th:href="@{/grades}" class="btn btn-outline-info">Nilai</a>
+        <a th:href="@{/companies}" class="btn btn-outline-info">Perusahaan</a>
+        <a th:href="@{/report-submissions}" class="btn btn-outline-secondary">Laporan Akhir</a>
+      </div>
+    </section>
+  </main>
 
-    <div class="card">
-      <h3>School Supervisors</h3>
-      <p th:text="${totalSchoolSpv}">0</p>
-    </div>
+  <footer class="footer">
+    &copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}">2025</span> Sistem Monitoring — Semua hak dilindungi.
+  </footer>
 
-    <div class="card">
-      <h3>Placements</h3>
-      <p th:text="${totalPlacements}">0</p>
-    </div>
-  </section>
-
-  <section style="margin-top:20px;">
-    <h2>Quick Links</h2>
-    <ul>
-      <li><a th:href="@{/users}">Daftar User</a></li>
-      <li><a th:href="@{/students}">Daftar Student</a></li>
-      <li><a th:href="@{/comp-spv}">Company Supervisors</a></li>
-      <li><a th:href="@{/sch-spv}">School Supervisors</a></li>
-      <li><a th:href="@{/placements}">Placements</a></li>
-    </ul>
-  </section>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

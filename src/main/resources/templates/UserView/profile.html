@@ -1,39 +1,365 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Detail User</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Detail User - Sistem Monitoring</title>
+
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy: #0b2340;
+      --cream: #f2ece3;
+      --muted: #6c757d;
+      --accent: #b78b4a;
+    }
+
+    body {
+      background-color: var(--cream);
+      color: var(--navy);
+      font-size: 1.05rem;
+    }
+
+    .topbar {
+      background: linear-gradient(180deg, rgba(11, 35, 64, 0.98), rgba(11, 35, 64, 0.95));
+      color: white;
+      padding: 0.75rem 1rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    }
+
+    .brand {
+      font-weight: 600;
+      font-size: 1.25rem;
+    }
+
+    .nav-small {
+      font-size: .95rem;
+    }
+
+    .container-main {
+      max-width: 850px;
+      margin: 2rem auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(11, 35, 64, 0.08);
+      padding: 2rem;
+    }
+
+    .detail-title {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 700;
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .detail-title svg {
+      width: 30px;
+      height: 30px;
+      stroke: var(--accent);
+    }
+
+    .info-block {
+      background: #fbfaf8;
+      border: 1px solid rgba(11, 35, 64, 0.05);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .info-block h5 {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .info-item {
+      margin-bottom: 0.4rem;
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
+    .info-icon {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      stroke: var(--navy);
+    }
+
+    .info-label {
+      font-weight: 600;
+      width: 160px;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-back {
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.55rem 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-weight: 600;
+      transition: all 0.25s ease;
+      text-decoration: none;
+    }
+
+    .btn-back:hover {
+      background: #a5793e;
+      transform: translateY(-2px);
+    }
+
+    .btn-back svg {
+      width: 18px;
+      height: 18px;
+      stroke: white;
+    }
+
+    footer.footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 1rem 0;
+      font-size: .95rem;
+    }
+  </style>
 </head>
+
 <body>
-    <h1>Detail User</h1>
+  <!-- Navbar -->
+  <nav class="topbar d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center gap-3">
+      <div class="brand">Sistem Monitoring</div>
+      <div class="nav-small text-white-50">Detail User</div>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+      <div class="text-white nav-small" th:if="${username != null}">
+        Halo, <strong th:text="${username}">Bapak</strong>
+      </div>
+      <a th:href="@{/logout}" class="btn btn-sm btn-light fw-semibold">Logout</a>
+    </div>
+  </nav>
 
-    <p><strong>ID:</strong> <span th:text="${user.userId}">1</span></p>
-    <p><strong>Username:</strong> <span th:text="${user.username}">John Doe</span></p>
-    <p><strong>Email:</strong> <span th:text="${user.email}">john@example.com</span></p>
-    <p><strong>Role:</strong> <span th:text="${user.role}">Student</span></p>
-    <div th:switch="${user.role}">
-        <!-- Jika role Student -->
-        <div th:case="'Student'">
-            <h3>Data Student</h3>
-            <p th:text="'Student Number: ' + ${user.student != null ? user.student.studentNumber : '—'}"></p>
-            <p th:text="'Phone Number: ' + ${user.student != null ? user.student.phoneNumber : '—'}"></p>
-        </div>
-
-        <!-- Jika role Company Supervisor -->
-        <div th:case="'Company_Supervisor'">
-            <h3>Data Company Supervisor</h3>
-            <p th:text="'Job Title: ' + ${user.companySupervisor != null ? user.companySupervisor.jobTitle : '—'}"></p>
-            <p th:text="'Company: ' + ${user.companySupervisor != null && user.companySupervisor.company != null ? user.companySupervisor.company.companyName : '—'}"></p>
-        </div>
-
-        <!-- Jika role School Supervisor -->
-        <div th:case="'School_Supervisor'">
-            <h3>Data School Supervisor</h3>
-            <p th:text="'Employee ID: ' + ${user.schoolSupervisor != null ? user.schoolSupervisor.employeeIdNumber : '—'}"></p>
-            <p th:text="'Phone Number: ' + ${user.schoolSupervisor != null ? user.schoolSupervisor.phoneNumber : '—'}"></p>
-        </div>
+  <!-- Content -->
+  <main class="container-main">
+    <div class="detail-title">
+      <!-- User Detail Icon -->
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M16 12a4 4 0 10-8 0 4 4 0 008 0zM12 14v8m-6-4a9 9 0 1118 0" />
+      </svg>
+      Detail Pengguna
     </div>
 
-    <p><a th:href="@{/users}">← Kembali ke daftar user</a></p>
+    <!-- Basic User Info -->
+    <div class="info-block">
+      <h5 class="d-flex align-items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"
+          width="20" height="20" class="text-warning flex-shrink-0">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+        Informasi Dasar
+      </h5>
+
+
+      <div class="info-item">
+        <div class="info-label">
+          <span class="info-icon" aria-hidden="true">
+            <!-- id/hash icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h10M7 12h10M7 17h10" />
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-label">
+          <span class="info-icon" aria-hidden="true">
+            <!-- user icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a8.25 8.25 0 0115 0" />
+            </svg>
+          </span>
+          Username
+        </div>
+        <span th:text="${user.username}">John Doe</span>
+      </div>
+
+      <div class="info-item">
+        <div class="info-label">
+          <span class="info-icon" aria-hidden="true">
+            <!-- mail icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l8.5 6L20 8M4 20h16V8" />
+            </svg>
+          </span>
+          Email
+        </div>
+        <span th:text="${user.email}">john@example.com</span>
+      </div>
+
+      <div class="info-item">
+        <div class="info-label">
+          <span class="info-icon" aria-hidden="true">
+            <!-- shield/role icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 2l7 4v6c0 5-3.58 9.74-7 11-3.42-1.26-7-6-7-11V6l7-4z" />
+            </svg>
+          </span>
+          Role
+        </div>
+        <span th:text="${user.role}">Student</span>
+      </div>
+    </div>
+
+    <!-- Conditional Role Info -->
+    <div th:switch="${user.role}">
+      <!-- Student -->
+      <div th:case="'Student'" class="info-block">
+        <h5>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z" />
+          </svg>
+          Data Student
+        </h5>
+        <div class="info-item">
+          <div class="info-label">
+            <span class="info-icon" aria-hidden="true">
+              <!-- id card -->
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
+                <rect x="3" y="4" width="18" height="16" rx="2" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 8h10M7 12h4" />
+              </svg>
+            </span>
+            Student Number
+          </div>
+          <span th:text="${user.student != null ? user.student.studentNumber : '—'}">12345</span>
+        </div>
+        <div class="info-item">
+          <div class="info-label">
+            <span class="info-icon" aria-hidden="true">
+              <!-- phone -->
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3 5a2 2 0 012-2h3l2 4-2 2a14 14 0 006 6l2-2 4 2v3a2 2 0 01-2 2h-1" />
+              </svg>
+            </span>
+            Phone Number
+          </div>
+          <span th:text="${user.student != null ? user.student.phoneNumber : '—'}">08123456789</span>
+        </div>
+      </div>
+
+      <!-- Company Supervisor -->
+      <div th:case="'Company_Supervisor'" class="info-block">
+        <h5>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M6 7v10a2 2 0 002 2h8a2 2 0 002-2V7" />
+          </svg>
+          Data Company Supervisor
+        </h5>
+        <div class="info-item">
+          <div class="info-label">
+            <span class="info-icon" aria-hidden="true">
+              <!-- briefcase -->
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3 7h18M8 7v4m8-4v4M6 21h12a1 1 0 001-1V8H5v12a1 1 0 001 1z" />
+              </svg>
+            </span>
+            Job Title
+          </div>
+          <span th:text="${user.companySupervisor != null ? user.companySupervisor.jobTitle : '—'}">Manager</span>
+        </div>
+        <div class="info-item">
+          <div class="info-label">
+            <span class="info-icon" aria-hidden="true">
+              <!-- building -->
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 21V7l8-5 8 5v14" />
+              </svg>
+            </span>
+            Company
+          </div>
+          <span
+            th:text="${user.companySupervisor != null && user.companySupervisor.company != null ? user.companySupervisor.company.companyName : '—'}">PT
+            Contoh</span>
+        </div>
+      </div>
+
+      <!-- School Supervisor -->
+      <div th:case="'School_Supervisor'" class="info-block">
+        <h5>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3l9 4-9 4-9-4 9-4z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 10v4a9 9 0 0018 0v-4" />
+          </svg>
+          Data School Supervisor
+        </h5>
+        <div class="info-item">
+          <div class="info-label">
+            <span class="info-icon" aria-hidden="true">
+              <!-- id card -->
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
+                <rect x="3" y="4" width="18" height="16" rx="2" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 8h10M7 12h4" />
+              </svg>
+            </span>
+            Employee ID
+          </div>
+          <span th:text="${user.schoolSupervisor != null ? user.schoolSupervisor.employeeIdNumber : '—'}">NIP001</span>
+        </div>
+        <div class="info-item">
+          <div class="info-label">
+            <span class="info-icon" aria-hidden="true">
+              <!-- phone -->
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3 5a2 2 0 012-2h3l2 4-2 2a14 14 0 006 6l2-2 4 2v3a2 2 0 01-2 2h-1" />
+              </svg>
+            </span>
+            Phone Number
+          </div>
+          <span th:text="${user.schoolSupervisor != null ? user.schoolSupervisor.phoneNumber : '—'}">08123456789</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Back Button -->
+    <div class="mt-4">
+      <a th:href="@{/users}" class="btn-back">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+        Kembali ke daftar user
+      </a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    &copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}">2025</span> Sistem Monitoring — Semua hak
+    dilindungi.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Daftar Pengguna - Sistem Monitoring</title>
+  <title>Daftar Laporan - Sistem Monitoring</title>
 
-  <!-- Bootstrap 5 CDN -->
+  <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <style>
@@ -23,7 +23,6 @@
       font-size: 1.05rem;
     }
 
-    /* Navbar */
     .topbar {
       background: linear-gradient(180deg, rgba(11, 35, 64, 0.98), rgba(11, 35, 64, 0.95));
       color: white;
@@ -40,7 +39,6 @@
       font-size: .95rem;
     }
 
-    /* Container */
     .container-main {
       max-width: 1100px;
       margin: 2rem auto;
@@ -66,7 +64,6 @@
       stroke: var(--accent);
     }
 
-    /* Tombol Tambah */
     .btn-add {
       background-color: var(--accent);
       color: #fff;
@@ -85,9 +82,12 @@
       transform: translateY(-2px);
     }
 
-    .btn-add svg { width: 18px; height: 18px; color: white; }
+    .btn-add svg {
+      width: 18px;
+      height: 18px;
+      stroke: white;
+    }
 
-    /* Tabel */
     .table-custom thead {
       background-color: var(--navy);
       color: white;
@@ -95,10 +95,8 @@
 
     .table-custom tbody tr:hover {
       background-color: rgba(183, 139, 74, 0.07);
-      transition: background-color 0.25s ease;
     }
 
-    /* Tombol aksi */
     .action-links a,
     .action-links button {
       border: none;
@@ -106,20 +104,42 @@
       padding: 0;
       margin-right: 0.6rem;
       cursor: pointer;
-      transition: all 0.2s ease;
       color: inherit;
     }
 
-    /* SVG use currentColor so CSS color applies */
-    .action-links svg { width: 20px; height: 20px; stroke-width: 1.6; stroke: currentColor; fill: none; }
+    .action-links svg {
+      width: 20px;
+      height: 20px;
+      stroke-width: 1.6;
+      stroke: currentColor;
+    }
 
-    .btn-edit { color: #0b74a4; }
-    .btn-view { color: #2b8f4a; }
-    .btn-delete { color: #c44d3a; }
+    .btn-view {
+      color: #2b8f4a;
+    }
 
-    .btn-edit:hover { color: #095b7c; transform: scale(1.05); }
-    .btn-view:hover { color: #20763c; transform: scale(1.05); }
-    .btn-delete:hover { color: #a63d2c; transform: scale(1.05); }
+    .btn-edit {
+      color: #0b74a4;
+    }
+
+    .btn-delete {
+      color: #c44d3a;
+    }
+
+    .btn-view:hover {
+      color: #20763c;
+      transform: scale(1.05);
+    }
+
+    .btn-edit:hover {
+      color: #095b7c;
+      transform: scale(1.05);
+    }
+
+    .btn-delete:hover {
+      color: #a63d2c;
+      transform: scale(1.05);
+    }
 
     footer.footer {
       text-align: center;
@@ -131,37 +151,37 @@
 </head>
 
 <body>
+
   <!-- Navbar -->
   <nav class="topbar d-flex align-items-center justify-content-between">
     <div class="d-flex align-items-center gap-3">
       <div class="brand">Sistem Monitoring</div>
-      <div class="nav-small text-white-50">Daftar User</div>
+      <div class="nav-small text-white-50">Daftar Laporan</div>
     </div>
     <div class="d-flex align-items-center gap-3">
       <div class="text-white nav-small" th:if="${username != null}">
-        Halo, <strong th:text="${username}">Bapak</strong>
+        Halo, <strong th:text="${username}">Pengguna</strong>
       </div>
-      <a th:href="@{/}" class="btn btn-sm btn-light fw-semibold">Kembali</a>
+      <a th:href="@{/logout}" class="btn btn-sm btn-light fw-semibold">Logout</a>
     </div>
   </nav>
 
-  <!-- Main Content -->
+  <!-- Content -->
   <main class="container-main">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h1>
-        <!-- User List Icon -->
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8">
           <path stroke-linecap="round" stroke-linejoin="round"
-            d="M16 12a4 4 0 10-8 0 4 4 0 008 0zM12 14v8m-6-4a9 9 0 1118 0" />
+            d="M9 12h6m-3-3v6m-7 8h14a2 2 0 002-2V5a2 2 0 00-2-2H7L3 7v13a2 2 0 002 2z" />
         </svg>
-        Daftar Pengguna
+        Daftar Laporan
       </h1>
 
-      <a th:href="@{/users/create}" class="btn-add">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <a th:href="@{/report-submissions/create}" class="btn-add">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
         </svg>
-        Tambah User
+        Tambah Laporan
       </a>
     </div>
 
@@ -169,46 +189,47 @@
       <table class="table table-hover align-middle table-custom">
         <thead>
           <tr>
-            <th style="width:7%;">NO</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th style="width:12%;">Aksi</th>
+            <th>NO</th>
+            <th>Judul Laporan</th>
+            <th>Mahasiswa</th>
+            <th>Tanggal Unggah</th>
+            <th>Status</th>
+            <th>Aksi</th>
           </tr>
         </thead>
         <tbody>
-          <tr th:each="user,stats : ${users}">
-            <td th:text="${stats.index + 1}">1</td>
-            <td th:text="${user.username}">nama</td>
-            <td th:text="${user.email}">a@b.c</td>
-            <td th:text="${user.role}">Student</td>
+          <tr th:each="report, stat : ${submission}">
+            <td th:text="${stat.index + 1}">1</td>
+            <td th:text="${report.title}">Laporan Mingguan</td>
+            <td th:text="${report.student != null ? report.student.user.username : '-'}">Nama Siswa</td>
+            <td th:text="${#dates.format(report.uploadDate, 'dd MMM yyyy')}">12 Nov 2025</td>
+            <td>
+              <span th:text="${report.status}" class="badge bg-secondary">Pending</span>
+            </td>
             <td class="action-links d-flex align-items-center">
-              <!-- Edit -->
-              <a th:href="@{'/users/edit/' + ${user.userId}}" class="btn-edit" title="Edit">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 20h4l10-10-4-4L4 16v4z" />
-                </svg>
-              </a>
-
               <!-- View -->
-              <a th:href="@{'/users/' + ${user.userId}}" class="btn-view" title="Lihat Detail">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none">
+              <a th:href="@{'/report-submissions/' + ${report.id}}" class="btn-view" title="Lihat Detail">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round"
                     d="M2.458 12C3.732 7.943 7.52 5 12 5c4.48 0 8.268 2.943 9.542 7-1.274 4.057-5.062 7-9.542 7-4.48 0-8.268-2.943-9.542-7z" />
                   <circle cx="12" cy="12" r="3" />
                 </svg>
               </a>
 
-              <!-- Delete -->
-              <form th:action="@{/users/{id}(id=${user.userId})}" method="post" class="delete-form" style="display:inline;">
-                <input type="hidden" name="_method" value="delete" />
+              <!-- Edit -->
+              <a th:href="@{'/report-submissions/edit/' + ${report.id}}" class="btn-edit" title="Edit">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 20h4l10-10-4-4L4 16v4z" />
+                </svg>
+              </a>
 
-                <!-- gunakan th:attr untuk binding Thymeleaf atribut data & aria -->
-                <button type="button"
-                        class="btn btn-outline-danger btn-sm btn-delete"
-                        title="Hapus"
-                        th:attr="data-username=${user.username}, aria-label='Hapus pengguna ' + ${user.username}">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" width="16" height="16" aria-hidden="true">
+              <!-- Delete -->
+              <form th:action="@{/report-submissions/{id}(id=${report.id})}" method="post" class="delete-form"
+                style="display:inline;">
+                <input type="hidden" name="_method" value="delete" />
+                <button type="button" class="btn btn-outline-danger btn-sm btn-delete" title="Hapus"
+                  th:attr="data-title=${report.title}">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="16" height="16">
                     <path stroke-linecap="round" stroke-linejoin="round"
                       d="M6 7h12M9 7v10a2 2 0 002 2h2a2 2 0 002-2V7M10 11h4m-4 4h4" />
                   </svg>
@@ -221,7 +242,7 @@
     </div>
   </main>
 
-  <!-- Modal konfirmasi hapus -->
+  <!-- Modal Konfirmasi Hapus -->
   <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -230,8 +251,8 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
         </div>
         <div class="modal-body">
-          <p id="confirmDeleteMessage" class="mb-0">Apakah Anda yakin ingin menghapus pengguna ini?</p>
-          <small class="text-muted">Tindakan ini tidak bisa dibatalkan. data yang telah dihapus tidak dapat dikembalikan</small>
+          <p id="confirmDeleteMessage" class="mb-0">Apakah Anda yakin ingin menghapus laporan ini?</p>
+          <small class="text-muted">Tindakan ini tidak bisa dibatalkan.</small>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -242,31 +263,30 @@
   </div>
 
   <footer class="footer">
-    &copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}">2025</span> Sistem Monitoring — Semua hak dilindungi.
+    &copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}">2025</span> Sistem Monitoring — Semua hak
+    dilindungi.
   </footer>
 
+  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     (function () {
       let formToSubmit = null;
-      let bootstrapModal = null;
+      let modalInstance = null;
 
-      function showConfirmModal(username, formElement) {
+      function showConfirmModal(title, formElement) {
         formToSubmit = formElement;
-
-        if (!bootstrapModal) {
+        if (!modalInstance) {
           const modalEl = document.getElementById('confirmDeleteModal');
-          bootstrapModal = new bootstrap.Modal(modalEl, { backdrop: 'static', keyboard: false });
+          modalInstance = new bootstrap.Modal(modalEl, { backdrop: 'static', keyboard: false });
         }
 
         const msg = document.getElementById('confirmDeleteMessage');
-        if (username && username.trim().length > 0) {
-          msg.textContent = 'Yakin ingin menghapus pengguna "' + username + '"?';
-        } else {
-          msg.textContent = 'Yakin ingin menghapus pengguna ini?';
-        }
+        msg.textContent = title && title.trim()
+          ? 'Yakin ingin menghapus laporan "' + title + '"?'
+          : 'Yakin ingin menghapus laporan ini?';
 
-        bootstrapModal.show();
+        modalInstance.show();
       }
 
       document.addEventListener('DOMContentLoaded', function () {
@@ -275,9 +295,8 @@
           btn.addEventListener('click', function (e) {
             e.preventDefault();
             const form = btn.closest('form');
-            // baca data-username (atribut sudah di-bind via th:attr)
-            const username = btn.getAttribute('data-username') || '';
-            showConfirmModal(username, form);
+            const title = btn.getAttribute('data-title') || '';
+            showConfirmModal(title, form);
           });
         });
 

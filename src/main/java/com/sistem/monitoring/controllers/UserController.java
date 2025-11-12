@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sistem.monitoring.models.UserModel;
+import com.sistem.monitoring.services.CompanySupervisorService;
 import com.sistem.monitoring.services.UserService;
 
 @Controller
@@ -23,6 +24,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CompanySupervisorService companySupervisorService;
 
     @GetMapping
     public String listAllUser(Model model){
@@ -40,6 +44,7 @@ public class UserController {
     @GetMapping("/create")
     public String showCreateForm(Model model){
         model.addAttribute("user",new UserModel());
+        model.addAttribute("cspv",companySupervisorService.getCompanySupervisor());
         return "UserView/create-form";
     }
     

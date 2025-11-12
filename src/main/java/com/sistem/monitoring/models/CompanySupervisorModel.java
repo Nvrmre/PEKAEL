@@ -1,6 +1,7 @@
 package com.sistem.monitoring.models;
 
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,8 +28,8 @@ public class CompanySupervisorModel {
     @Column(nullable = false)
     private String jobTitle;
 
-    @ManyToOne
-    @JoinColumn(name = "company_id")
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "company_id", referencedColumnName = "companyId")
     private CompanyModel company;
 
     private String phoneNumber;

@@ -48,7 +48,7 @@ public class CompanyController {
                 return "CompanyView/edit-form";
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public String updateDataCompany (@PathVariable Long id, @ModelAttribute CompanyModel comp){
         companyService.updateCompanyData(id, comp);
         return "redirect:/companies";

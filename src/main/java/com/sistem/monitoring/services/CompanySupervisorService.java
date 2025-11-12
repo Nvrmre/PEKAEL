@@ -18,7 +18,7 @@ import com.sistem.monitoring.repositories.UserRepository;
 public class CompanySupervisorService {
     
     @Autowired
-    private CompanySupervisorRepository CompanySupervisorRepository;
+    private CompanySupervisorRepository companySupervisorRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -27,20 +27,24 @@ public class CompanySupervisorService {
     private CompanyRepository companyRepository;
 
     public List<CompanySupervisorModel> getCompanySupervisor(){
-        return CompanySupervisorRepository.findAll();
+        return companySupervisorRepository.findAll();
     }
 
     public Optional<CompanySupervisorModel> getCompanysupervisorById(Long id){
-        return CompanySupervisorRepository.findById(id);
+        return companySupervisorRepository.findById(id);
     }
 
-    public CompanySupervisorModel createCompanySupervisor(CompanySupervisorModel spv){
-        return CompanySupervisorRepository.save(spv);
+    public CompanySupervisorModel createCompanySupervisor(CompanySupervisorModel cs, Long companyId) {
+        CompanyModel company = companyRepository.findById(companyId)
+                              .orElseThrow(() -> new RuntimeException("Company not found: " + companyId));
+                    cs.setCompany(company);
+        return companySupervisorRepository.save(cs);
     }
+
 
     @Transactional
     public CompanySupervisorModel updateCompanySupervisor(Long id, CompanySupervisorModel formSpv, Long companyId) {
-        CompanySupervisorModel existing = CompanySupervisorRepository.findById(id)
+        CompanySupervisorModel existing = companySupervisorRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("CompanySupervisor not found: " + id));
 
         // --- Update nested user (safe update, bukan create) ---
@@ -86,7 +90,7 @@ public class CompanySupervisorService {
         existing.setJobTitle(formSpv.getJobTitle());
 
         // Simpan supervisor (ini juga akan menyimpan user jika kamu pakai cascade pada mapping)
-        CompanySupervisorModel saved = CompanySupervisorRepository.save(existing);
+        CompanySupervisorModel saved = companySupervisorRepository.save(existing);
 
         System.out.println("DEBUG saved cspv id=" + saved.getcSupervisorId()
                 + " companyId=" + (saved.getCompany() != null ? saved.getCompany().getCompanyId() : "null")
@@ -96,6 +100,6 @@ public class CompanySupervisorService {
 
 
     public void deleteCompanySupervisor(Long id){
-        CompanySupervisorRepository.deleteById(id);
+        companySupervisorRepository.deleteById(id);
     }
 }

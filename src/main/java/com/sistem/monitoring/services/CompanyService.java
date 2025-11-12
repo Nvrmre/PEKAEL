@@ -34,6 +34,7 @@ public class CompanyService {
                             company.setCompanyName(updated.getCompanyName());
                             company.setCompanyPhone(updated.getCompanyPhone());
                             company.setContactPerson(updated.getContactPerson());
+                            companyRepository.save(company);
                             return companyRepository.save(company);
     }
 
