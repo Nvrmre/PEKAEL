@@ -153,18 +153,10 @@
 <body>
 
   <!-- Navbar -->
-  <nav class="topbar d-flex align-items-center justify-content-between">
-    <div class="d-flex align-items-center gap-3">
-      <div class="brand">Sistem Monitoring</div>
-      <div class="nav-small text-white-50">Daftar Laporan</div>
-    </div>
-    <div class="d-flex align-items-center gap-3">
-      <div class="text-white nav-small" th:if="${username != null}">
-        Halo, <strong th:text="${username}">Pengguna</strong>
-      </div>
-      <a th:href="@{/logout}" class="btn btn-sm btn-light fw-semibold">Logout</a>
-    </div>
-  </nav>
+  <div th:replace="~{layouts/fragments/navbar :: topbar}"></div>
+  <div th:replace="~{layouts/fragments/sidebar :: sidebar}"></div>
+
+  <div id="pageOverlay" class="overlay" aria-hidden="true"></div>
 
   <!-- Content -->
   <main class="container-main">
@@ -178,7 +170,8 @@
       </h1>
 
       <a th:href="@{/report-submissions/create}" class="btn-add">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+        <!-- plus icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
         </svg>
         Tambah Laporan

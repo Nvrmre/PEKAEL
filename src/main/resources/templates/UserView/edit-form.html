@@ -135,14 +135,11 @@
 </head>
 
 <body>
-    <!-- Navbar -->
-    <nav class="topbar d-flex align-items-center justify-content-between">
-        <div class="d-flex align-items-center gap-3">
-            <div class="brand">Sistem Monitoring</div>
-            <div class="text-white-50 small">Edit Pengguna</div>
-        </div>
-        <a th:href="@{/users}" class="btn btn-sm btn-light fw-semibold">Kembali</a>
-    </nav>
+    <div th:replace="~{layouts/fragments/navbar :: topbar}"></div>
+    <div th:replace="~{layouts/fragments/sidebar :: sidebar}"></div>
+
+    <div id="pageOverlay" class="overlay" aria-hidden="true"></div>
+
 
     <!-- Main Content -->
     <main class="container-main">

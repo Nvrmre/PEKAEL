@@ -1,166 +1,101 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Homepage - Sistem Monitoring</title>
+  <title>Dashboard - Sistem Monitoring</title>
 
-  <!-- Bootstrap 5 CDN -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <style>
-    :root {
-      --navy: #0b2340;
-      --cream: #f2ece3;
-      --muted: #6c757d;
-      --accent: #b78b4a;
+    /* Palette & base */
+    :root{
+      --navy:#0b2340;
+      --cream:#f2ece3;
+      --muted:#6c757d;
+      --accent:#b78b4a;
+      --topbar-h:56px;
+      --sidebar-w:260px;
+      --shadow:0 6px 20px rgba(11,35,64,0.06);
     }
+    html,body{height:100%;margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial;background:var(--cream);color:var(--navy);-webkit-font-smoothing:antialiased;}
 
-    body {
-      background-color: var(--cream);
-      color: var(--navy);
-      font-size: 1.05rem;
+    /* Topbar (fixed) */
+    .topbar{
+      position:fixed; inset:0 0 auto 0; height:var(--topbar-h);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:.6rem 1rem;
+      background:linear-gradient(180deg, rgba(11,35,64,0.98), rgba(11,35,64,0.95));
+      color:#fff; box-shadow:var(--shadow); z-index:1200;
     }
+    .topbar .brand{display:flex;gap:.5rem;align-items:center;font-weight:600;}
+    .topbar .brand svg{width:18px;height:18px;stroke:var(--accent);}
 
-    /* Navbar */
-    .topbar {
-      background: linear-gradient(180deg, rgba(11,35,64,0.98), rgba(11,35,64,0.95));
-      color: white;
-      padding: 0.75rem 1rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    /* Sidebar: kept minimal, default hidden (open class shows it) */
+    .sidebar{
+      position:fixed; top:var(--topbar-h); left:0; bottom:0; width:var(--sidebar-w);
+      background:#fff; padding:1rem; box-shadow:var(--shadow);
+      transform:translateX(-110%); opacity:0; visibility:hidden;
+      transition:transform .28s ease, opacity .18s ease; z-index:1150;
+      border-radius:0 10px 10px 0; overflow:auto;
     }
-    .brand { font-weight: 600; font-size: 1.25rem; }
-    .nav-small { font-size: .95rem; }
+    .sidebar.open{ transform:translateX(0); opacity:1; visibility:visible; }
 
-    /* Main container */
-    .container-main {
-      max-width: 1150px;
-      margin: 2rem auto 3rem;
-    }
+    .sidebar .title{ font-weight:700; margin-bottom:.8rem; color:var(--navy); display:flex; gap:.5rem; align-items:center; }
+    .nav-btn{ display:flex; gap:.6rem; align-items:center; padding:.55rem .65rem; color:var(--navy); text-decoration:none; border-radius:8px; font-weight:600; }
+    .nav-btn svg{ width:18px;height:18px; stroke:var(--accent); }
+    .nav-btn:hover{ background:rgba(11,35,64,0.04); transform:translateX(4px); }
+    .nav-btn.active{ background:rgba(183,139,74,0.11); border-left:3px solid var(--accent); padding-left:.5rem; }
 
-    /* Card */
-    .stat-card {
-      border-left: 6px solid transparent;
-      border-radius: 10px;
-      background: white;
-      padding: 1.2rem;
-      min-height: 115px;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      box-shadow: 0 1px 6px rgba(11,35,64,0.08);
-      transition: all 0.3s ease;
-    }
+    /* Overlay shown when sidebar open on small screens (fragment may toggle 'show' class) */
+    .overlay{ position:fixed; inset:var(--topbar-h) 0 0 0; background:rgba(0,0,0,.45); visibility:hidden; opacity:0; transition:opacity .18s ease; z-index:1140; }
+    .overlay.show{ visibility:visible; opacity:1; }
 
-    .stat-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 8px 20px rgba(11,35,64,0.15);
-      background-color: #ffffffee;
-    }
+    /* Main content */
+    .main-wrap{ margin-top:var(--topbar-h); padding:1.5rem; min-height:calc(100vh - var(--topbar-h)); }
+    .panel{ background:#fff; border-radius:12px; padding:1.4rem; box-shadow:var(--shadow); }
 
-    .stat-icon {
-      width: 64px;
-      height: 64px;
-      flex: 0 0 64px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 8px;
-      background: linear-gradient(180deg, rgba(11,35,64,0.06), rgba(11,35,64,0.02));
-      transition: all 0.3s ease;
-    }
+    /* Stat cards */
+    .stat-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; }
+    .stat-card{ display:flex; gap:1rem; align-items:center; padding:.9rem; border-radius:10px; background:#fbfaf8; border-left:6px solid rgba(183,139,74,0.18); transition:transform .18s ease, box-shadow .18s ease; }
+    .stat-card:hover{ transform:translateY(-6px); box-shadow:0 10px 26px rgba(11,35,64,0.08); }
+    .stat-icon{ width:56px; height:56px; display:flex; align-items:center; justify-content:center; border-radius:8px; background:linear-gradient(180deg, rgba(11,35,64,0.03), rgba(11,35,64,0.01)); }
+    .stat-icon svg{ width:28px;height:28px; stroke:var(--accent); }
+    .stat-text h5{ margin:0; color:var(--muted); font-weight:600; font-size:.95rem; }
+    .stat-text p{ margin:0; font-weight:700; color:var(--navy); font-size:1.4rem; margin-top:.18rem; }
 
-    .stat-card:hover .stat-icon {
-      background: var(--accent);
-    }
+    footer.footer{ text-align:center; color:var(--muted); padding:1.2rem 0; margin-top:1.5rem; }
 
-    .stat-icon svg {
-      width: 32px;
-      height: 32px;
-      stroke: var(--navy);
-      transition: stroke 0.3s ease;
-    }
-
-    .stat-card:hover svg {
-      stroke: white;
-    }
-
-    .stat-text h5 {
-      margin: 0;
-      font-size: 1rem;
-      color: var(--muted);
-      font-weight: 600;
-      transition: color 0.3s ease;
-    }
-
-    .stat-text p {
-      margin: 0;
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: var(--navy);
-    }
-
-    .stat-card:hover .stat-text h5 {
-      color: var(--accent);
-    }
-
-    /* Border colors */
-    .border-users { border-left-color: #0b74a4; }
-    .border-students { border-left-color: #2b8f4a; }
-    .border-comp { border-left-color: #b78b4a; }
-    .border-school { border-left-color: #c44d3a; }
-    .border-place { border-left-color: #6c5ce7; }
-    .border-journal { border-left-color: #4b5563; }
-
-    /* Quick Links */
-    .quick-links .btn {
-      min-width: 180px;
-      padding: .6rem 1rem;
-      font-weight: 600;
-      border-radius: 6px;
-      transition: all 0.2s ease;
-    }
-    .quick-links .btn:hover {
-      transform: translateY(-3px);
-    }
-
-    footer.footer {
-      text-align: center;
-      color: var(--muted);
-      padding: 1rem 0;
-      font-size: .95rem;
-    }
+    /* Keep toggle button visible and simple (fragment provides it) */
+    #toggleSidebarBtn{ width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center; padding:0; border:0; background:transparent; color:white; cursor:pointer; }
+    #toggleSidebarBtn svg{ width:22px;height:22px; stroke:currentColor; }
   </style>
 </head>
 
 <body>
-  <!-- Navbar -->
-  <nav class="topbar d-flex align-items-center justify-content-between">
-    <div class="d-flex align-items-center gap-3">
-      <div class="brand">Sistem Monitoring</div>
-      <div class="nav-small text-white-50">Dashboard Utama</div>
-    </div>
-    <div class="d-flex align-items-center gap-3">
-      <div class="text-white nav-small" th:if="${username != null}">Halo, <strong th:text="${username}">Bapak</strong></div>
-      <a th:href="@{/logout}" class="btn btn-sm btn-light fw-semibold">Logout</a>
-    </div>
-  </nav>
+  <!-- topbar & sidebar fragments (assumed fragments contain their own minimal scripts to toggle .sidebar.open and .overlay.show) -->
+  <div th:replace="~{layouts/fragments/navbar :: topbar}"></div>
+  <div th:replace="~{layouts/fragments/sidebar :: sidebar}"></div>
 
-  <!-- Main -->
-  <main class="container-main">
-    <div class="mb-3">
-      <h2 class="fw-bold">Ringkasan</h2>
-      <div class="text-muted small">Statistik singkat sistem</div>
-    </div>
+  <!-- overlay (fragment scripts should toggle 'show') -->
+  <div id="pageOverlay" class="overlay" aria-hidden="true"></div>
 
-    <!-- Cards -->
-    <div class="row g-3">
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="stat-card border-users">
-          <div class="stat-icon">
-            <!-- User SVG -->
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 7.5a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a8.25 8.25 0 0115 0" />
+  <!-- main content -->
+  <div class="main-wrap" id="mainWrap">
+    <div class="panel">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <div>
+          <h4 class="mb-0">Ringkasan Sistem</h4>
+          <small class="text-muted">Statistik singkat</small>
+        </div>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
+              <path d="M15.75 7.5a3.75 3.75 0 11-7.5 0zM4.5 20.25a8.25 8.25 0 0115 0" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </div>
           <div class="stat-text">
@@ -168,14 +103,11 @@
             <p th:text="${totalUsers}">0</p>
           </div>
         </div>
-      </div>
 
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="stat-card border-students">
-          <div class="stat-icon">
-            <!-- Student (Graduation Cap) SVG -->
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0v7m0-7l-6.16-3.422A12.083 12.083 0 003 13.5C3 17.642 7.03 21 12 21s9-3.358 9-7.5a12.083 12.083 0 00-2.84-2.922L12 14z" />
+        <div class="stat-card">
+          <div class="stat-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
+              <path d="M12 14l9-5-9-5-9 5 9 5zm0 0v7" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </div>
           <div class="stat-text">
@@ -183,92 +115,28 @@
             <p th:text="${totalStudents}">0</p>
           </div>
         </div>
-      </div>
 
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="stat-card border-comp">
-          <div class="stat-icon">
-            <!-- Building SVG -->
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M9 8h6m-6 4h6m-6 4h6M4 21V7a1 1 0 011-1h14a1 1 0 011 1v14" />
+        <div class="stat-card">
+          <div class="stat-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
+              <path d="M3 21h18M9 8h6m-6 4h6M4 21V7h16v14z" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </div>
           <div class="stat-text">
-            <h5>Total Pembimbing Perusahaan</h5>
-            <p th:text="${totalCompanySpv}">0</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="stat-card border-school">
-          <div class="stat-icon">
-            <!-- School SVG -->
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3l8 4.5v6c0 4-4 7-8 7s-8-3-8-7v-6L12 3z" />
-            </svg>
-          </div>
-          <div class="stat-text">
-            <h5>Total Pembimbing Sekolah</h5>
-            <p th:text="${totalSchoolSpv}">0</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="stat-card border-place">
-          <div class="stat-icon">
-            <!-- Location Pin SVG -->
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s8-4.5 8-10A8 8 0 104 11c0 5.5 8 10 8 10z" />
-              <circle cx="12" cy="11" r="2.5" />
-            </svg>
-          </div>
-          <div class="stat-text">
-            <h5>Penempatan PKL</h5>
-            <p th:text="${totalPlacements}">0</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="stat-card border-journal">
-          <div class="stat-icon">
-            <!-- Journal / Book SVG -->
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4 5h16v14H4zM4 5v14M8 5v14" />
-            </svg>
-          </div>
-          <div class="stat-text">
-            <h5>Total Laporan Harian Siswa</h5>
-            <p th:text="${totalJournal}">0</p>
+            <h5>Total Perusahaan</h5>
+            <p th:text="${totalCompany}">0</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Quick Links -->
-    <section class="mt-4">
-      <h4 class="fw-bold mb-3">Akses Cepat</h4>
-      <div class="d-flex flex-wrap gap-2 quick-links">
-        <a th:href="@{/users}" class="btn btn-outline-primary">User</a>
-        <a th:href="@{/students}" class="btn btn-outline-success">Siswa</a>
-        <a th:href="@{/comp-spv}" class="btn btn-outline-dark">Pembimbing Perusahaan</a>
-        <a th:href="@{/sch-spv}" class="btn btn-outline-danger">Pembimbing Sekolah</a>
-        <a th:href="@{/placements}" class="btn btn-outline-secondary">Tempat</a>
-        <a th:href="@{/daily-journal}" class="btn btn-outline-info">Laporan Harian</a>
-        <a th:href="@{/attendances}" class="btn btn-outline-info">Absen</a>
-        <a th:href="@{/grades}" class="btn btn-outline-info">Nilai</a>
-        <a th:href="@{/companies}" class="btn btn-outline-info">Perusahaan</a>
-        <a th:href="@{/report-submissions}" class="btn btn-outline-secondary">Laporan Akhir</a>
-      </div>
-    </section>
-  </main>
+    <footer class="footer">
+      &copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}">2025</span> Sistem Monitoring — Semua hak dilindungi.
+    </footer>
+  </div>
 
-  <footer class="footer">
-    &copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}">2025</span> Sistem Monitoring — Semua hak dilindungi.
-  </footer>
-
+  <!-- Bootstrap JS (kept) — jangan duplikat toggle script di sini jika sudah ada di fragment -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

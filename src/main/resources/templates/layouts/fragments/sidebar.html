@@ -1,0 +1,198 @@
+<!-- templates/layouts/fragments/sidebar.html -->
+<div th:fragment="sidebar">
+  <aside id="sidebarMenu" class="sm-sidebar" aria-hidden="true" role="navigation">
+    <div class="sm-title">
+      <strong class="ms-1">Akses Cepat</strong>
+    </div>
+
+    <nav class="sm-nav">
+      <!-- DASHBOARD -->
+      <a th:href="@{/}" class="sm-nav-btn" th:classappend="${page=='dashboard'} ? ' active'">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.7">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M3 12l9-9 9 9M4 10v10a1 1 0 001 1h4a1 1 0 001-1v-4h4v4a1 1 0 001 1h4a1 1 0 001-1V10" />
+        </svg>
+        <span>Dashboard</span>
+      </a>
+
+      <!-- USER -->
+      <a th:href="@{/users}" class="sm-nav-btn" th:classappend="${page=='users'} ? ' active'">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.7">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 14c4.418 0 8 1.79 8 4v2H4v-2c0-2.21 3.582-4 8-4zm0-8a4 4 0 110 8 4 4 0 010-8z" />
+        </svg>
+        <span>Pengguna</span>
+      </a>
+      <!-- COMPANY -->
+      <a th:href="@{/companies}" class="sm-nav-btn" th:classappend="${page=='companies'} ? ' active'">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.7">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M3 21h18M9 8h6m-6 4h6M4 21V7a1 1 0 011-1h14a1 1 0 011 1v14" />
+        </svg>
+        <span>Perusahaan</span>
+      </a>
+
+      <!-- PLACEMENT -->
+      <a th:href="@{/placements}" class="sm-nav-btn" th:classappend="${page=='placements'} ? ' active'">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.7">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 21s8-4.5 8-10A8 8 0 104 11c0 5.5 8 10 8 10z" />
+          <circle cx="12" cy="11" r="2.5" />
+        </svg>
+        <span>Penempatan</span>
+      </a>
+
+      <!-- ATTENDANCE -->
+      <a th:href="@{/attendances}" class="sm-nav-btn" th:classappend="${page=='attendances'} ? ' active'">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.7">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 8v5l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>Absensi</span>
+      </a>
+
+      <!-- DAILY JOURNAL -->
+      <a th:href="@{/daily-journal}" class="sm-nav-btn" th:classappend="${page=='journals'} ? ' active'">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.7">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" />
+        </svg>
+        <span>Laporan Harian</span>
+      </a>
+
+      <!-- REPORT -->
+      <a th:href="@{/report-submissions}" class="sm-nav-btn" th:classappend="${page=='reports'} ? ' active'">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.7">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M4 4h16v16H4zM4 4l8 8-8 8" />
+        </svg>
+        <span>Laporan Akhir</span>
+      </a>
+
+      <!-- GRADE -->
+      <a th:href="@{/grades}" class="sm-nav-btn" th:classappend="${page=='grades'} ? ' active'">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.7">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 3l3.09 6.26L22 10l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.87 2 10l6.91-1.74L12 3z" />
+        </svg>
+        <span>Nilai</span>
+      </a>
+    </nav>
+  </aside>
+
+  <style>
+    :root {
+      --navy: #0b2340;
+      --accent: #b78b4a;
+      --muted: #6c757d;
+    }
+
+    .sm-sidebar {
+      position: fixed;
+      top: 56px;
+      left: 0;
+      bottom: 0;
+      width: 260px;
+      background: #ffffff;
+      box-shadow: 0 10px 40px rgba(11, 35, 64, 0.1);
+      transform: translateX(-110%);
+      opacity: 0;
+      visibility: hidden;
+      transition: transform .3s ease, opacity .25s ease;
+      z-index: 1400;
+      padding: 1.2rem 1rem;
+      border-radius: 0 12px 12px 0;
+      overflow-y: auto;
+      border-left: 3px solid rgba(183, 139, 74, 0.1);
+    }
+
+    .sm-sidebar.open {
+      transform: translateX(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .sm-title {
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      color: var(--navy);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      font-size: .9rem;
+      letter-spacing: .03em;
+    }
+
+    .sm-title svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--accent);
+    }
+
+    .sm-nav {
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+    }
+
+    .sm-nav-btn {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      padding: .6rem .7rem;
+      color: var(--navy);
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 10px;
+      transition: all .25s ease;
+      background: transparent;
+    }
+
+    .sm-nav-btn svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--accent);
+      transition: all .25s ease;
+    }
+
+    .sm-nav-btn:hover {
+      background: rgba(183, 139, 74, 0.1);
+      transform: translateX(4px);
+    }
+
+    .sm-nav-btn:hover svg {
+      stroke: var(--navy);
+    }
+
+    .sm-nav-btn.active {
+      background: rgba(183, 139, 74, 0.2);
+      border-left: 4px solid var(--accent);
+      transform: translateX(0);
+    }
+  </style>
+
+  <script th:inline="javascript">
+    (function () {
+      const toggleBtn = document.getElementById('toggleSidebarBtn');
+      const sidebar = document.getElementById('sidebarMenu');
+      const overlay = document.getElementById('pageOverlay');
+      if (!toggleBtn || !sidebar) return;
+
+      toggleBtn.addEventListener('click', () => {
+        const isOpen = sidebar.classList.contains('open');
+        sidebar.classList.toggle('open', !isOpen);
+        overlay.classList.toggle('show', !isOpen);
+        toggleBtn.setAttribute('aria-expanded', !isOpen);
+        document.body.style.overflow = isOpen ? '' : 'hidden';
+      });
+
+      overlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('show');
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      });
+    })();
+  </script>
+</div>

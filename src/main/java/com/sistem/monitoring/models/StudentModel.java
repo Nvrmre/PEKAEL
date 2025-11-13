@@ -30,6 +30,11 @@ public class StudentModel {
     @Column(nullable = true, length = 13)
     private String phoneNumber;
 
+    private String studentFullName;
+    private String studentAddress;
+    private String studentMajor;
+    private String studentClass;
+
     // constructor
     public StudentModel(){}
 
@@ -65,6 +70,38 @@ public class StudentModel {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getStudentFullName() {
+        return studentFullName;
+    }
 
+    public void setStudentFullName(String studentFullName) {
+        this.studentFullName = studentFullName;
+    }
+
+    public String getStudentAddress() {
+        return studentAddress;
+    }
+
+    public void setStudentAddress(String studentAddress) {
+        this.studentAddress = studentAddress;
+    }
+
+    public String getStudentMajor() {
+        return studentMajor;
+    }
+
+    public void setStudentMajor(String studentMajor) {
+        this.studentMajor = studentMajor;
+    }
+
+    public String getStudentClass() {
+        return studentClass;
+    }
+
+    public void setStudentClass(String studentClass) {
+        this.studentClass = studentClass;
+    }
+
+  
    
 }

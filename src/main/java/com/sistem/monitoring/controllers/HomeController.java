@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.sistem.monitoring.services.UserService;
 import com.sistem.monitoring.services.SchoolSupervisorService;
+import com.sistem.monitoring.services.CompanyService;
 import com.sistem.monitoring.services.CompanySupervisorService;
 import com.sistem.monitoring.services.DailyJournalService;
 import com.sistem.monitoring.services.StudentServices;
@@ -24,6 +25,7 @@ public class HomeController {
     private final SchoolSupervisorService schoolSupervisorService;
     private final PlacementService placementService;
     private final DailyJournalService dailyJournalService;
+    private final CompanyService companyService;
 
     public HomeController(
             UserService userService,
@@ -31,13 +33,15 @@ public class HomeController {
             CompanySupervisorService companySupervisorService,
             SchoolSupervisorService schoolSupervisorService,
             PlacementService placementService,
-            DailyJournalService dailyJournalService ) {
+            DailyJournalService dailyJournalService,
+            CompanyService companyService ) {
         this.userService = userService;
         this.studentServices = studentServices;
         this.companySupervisorService = companySupervisorService;
         this.schoolSupervisorService = schoolSupervisorService;
         this.placementService = placementService;
         this.dailyJournalService = dailyJournalService;
+        this.companyService = companyService;
     }
 
     // redirect root ke /home (opsional)
@@ -56,7 +60,7 @@ public class HomeController {
         model.addAttribute("totalSchoolSpv", schoolSupervisorService.getSchoolSupervisor().size());
         model.addAttribute("totalPlacements", placementService.getAllPlacement().size());
         model.addAttribute("totalJournal", dailyJournalService.getAllJournal().size());
-
+        model.addAttribute("totalCompany",companyService.getAllCompanyData().size());
        
         if (principal != null) {
             model.addAttribute("username", principal.getName());

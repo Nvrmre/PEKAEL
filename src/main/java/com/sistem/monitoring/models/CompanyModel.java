@@ -34,6 +34,10 @@ public class CompanyModel {
    
     private String contactPerson;
 
+    private String contactEmail;
+
+    private String companyIndustry;
+
     public CompanyModel(){}
 
     public Long getCompanyId() {
@@ -82,6 +86,22 @@ public class CompanyModel {
 
     public void setContactPerson(String contactPerson) {
         this.contactPerson = contactPerson;
+    }
+
+    public String getContactEmail() {
+        return contactEmail;
+    }
+
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
+    }
+
+    public String getCompanyIndustry() {
+        return companyIndustry;
+    }
+
+    public void setCompanyIndustry(String companyIndustry) {
+        this.companyIndustry = companyIndustry;
     }
 
    

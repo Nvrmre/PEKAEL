@@ -2,46 +2,260 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="utf-8" />
-    <title>Daftar Student</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daftar Siswa - Sistem Monitoring</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy: #0b2340;
+      --cream: #f2ece3;
+      --muted: #6c757d;
+      --accent: #b78b4a;
+    }
+
+    body {
+      background-color: var(--cream);
+      color: var(--navy);
+      font-size: 1.05rem;
+    }
+
+    .topbar {
+      background: linear-gradient(180deg, rgba(11, 35, 64, 0.98), rgba(11, 35, 64, 0.95));
+      color: white;
+      padding: 0.75rem 1rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    }
+
+    .brand {
+      font-weight: 600;
+      font-size: 1.25rem;
+    }
+
+    .container-main {
+      max-width: 1100px;
+      margin: 2rem auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(11, 35, 64, 0.08);
+      padding: 2rem;
+    }
+
+    h1 {
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    h1 svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--accent);
+    }
+
+    .btn-add {
+      background-color: var(--accent);
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      padding: 0.55rem 1rem;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-add:hover {
+      background-color: #a5793e;
+      transform: translateY(-2px);
+    }
+
+    .btn-add svg {
+      width: 18px;
+      height: 18px;
+      stroke: white;
+    }
+
+    table thead {
+      background-color: var(--navy);
+      color: white;
+    }
+
+    table tbody tr:hover {
+      background-color: rgba(183, 139, 74, 0.07);
+      transition: background-color 0.25s ease;
+    }
+
+    .action-links a,
+    .action-links button {
+      border: none;
+      background: none;
+      padding: 0;
+      margin-right: 0.5rem;
+      cursor: pointer;
+      color: inherit;
+    }
+
+    .action-links svg {
+      width: 20px;
+      height: 20px;
+      stroke-width: 1.6;
+      stroke: currentColor;
+      transition: transform 0.2s ease;
+    }
+
+    .btn-edit {
+      color: #0b74a4;
+    }
+
+    .btn-delete {
+      color: #c44d3a;
+    }
+
+    .btn-edit:hover svg {
+      transform: scale(1.15);
+      stroke: #095b7c;
+    }
+
+    .btn-delete:hover svg {
+      transform: scale(1.15);
+      stroke: #a63d2c;
+    }
+
+    footer.footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 1rem 0;
+      font-size: .95rem;
+    }
+  </style>
 </head>
 
 <body>
-    <h1>Daftar Student</h1>
-    <p><a th:href="@{/students/create}">Tambah student</a></p>
+  <div th:replace="~{layouts/fragments/navbar :: topbar}"></div>
+  <div th:replace="~{layouts/fragments/sidebar :: sidebar}"></div>
 
-    <table border="1" cellpadding="6" cellspacing="0">
+  <div id="pageOverlay" class="overlay" aria-hidden="true"></div>
+
+  <!-- Main Container -->
+  <main class="container-main">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h1>
+        <!-- Graduation cap icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0v7" />
+        </svg>
+        Daftar Siswa
+      </h1>
+      <a th:href="@{/students/create}" class="btn-add">
+        <!-- plus icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+        </svg>
+        Tambah Siswa
+      </a>
+    </div>
+
+    <!-- Table -->
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
         <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nama</th>
-                <th>Email</th>
-                <th>NISN</th>
-                <th>No HP</th>
-                <th>Aksi</th>
-            </tr>
+          <tr>
+            <th>No</th>
+            <th>Nama</th>
+            <th>Email</th>
+            <th>NISN</th>
+            <th>No HP</th>
+            <th>Aksi</th>
+          </tr>
         </thead>
         <tbody>
-            <tr th:each="student : ${students}">
-                <td th:text="${student.studentId}">1</td>
-                <!-- akses properti user yang ada di StudentModel -->
-                <td th:text="${student.user != null ? student.user.username : '—'}">Nama</td>
-                <td th:text="${student.user != null ? student.user.email : '—'}">email@contoh.com</td>
-                <td th:text="${student.studentNumber}"></td>
-                <td th:text="${student.phoneNumber}"></td>
-                <td>
-                    <a th:href="@{/students/edit/{id}(id=${student.studentId})}">Edit</a>
-                    <form th:action="@{/students/{id}(id=${student.studentId})}" th:method="post" style="display:inline;">
-                        <!-- Jika kamu menggunakan HiddenHttpMethodFilter untuk DELETE -->
-                        <input type="hidden" name="_method" value="delete" />
-                        <button type="submit" onclick="return confirm('Yakin ingin hapus student ini?')">
-                            Delete
-                        </button>
-                    </form>
-                </td>
-            </tr>
+          <tr th:each="student, stat : ${students}">
+            <td th:text="${stat.count}">1</td>
+            <td th:text="${student.user != null ? student.user.username : '—'}">Nama</td>
+            <td th:text="${student.user != null ? student.user.email : '—'}">email@contoh.com</td>
+            <td th:text="${student.studentNumber}">12345</td>
+            <td th:text="${student.phoneNumber}">08123456789</td>
+            <td class="action-links d-flex align-items-center">
+              <!-- Edit -->
+              <a th:href="@{/students/edit/{id}(id=${student.studentId})}" class="btn-edit" title="Edit">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 20h4l10-10-4-4L4 16v4z" />
+                </svg>
+              </a>
+
+              <!-- Delete -->
+              <form th:action="@{/students/{id}(id=${student.studentId})}" method="post" class="delete-form"
+                id="del-[[${student.studentId}]]">
+                <input type="hidden" name="_method" value="delete" />
+                <button type="button" class="btn btn-sm btn-outline-danger btn-open-delete"
+                  data-form-id="del-[[${student.studentId}]]"
+                  data-name="[[${student.user != null ? student.user.username : 'Siswa'}]]" title="Hapus">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M6 7h12M9 7v10a2 2 0 002 2h2a2 2 0 002-2V7M10 11h4m-4 4h4" />
+                  </svg>
+                </button>
+              </form>
+            </td>
+          </tr>
         </tbody>
-    </table>
+      </table>
+    </div>
+  </main>
+
+  <!-- Modal Konfirmasi -->
+  <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmDeleteLabel">Konfirmasi Hapus</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+        </div>
+        <div class="modal-body">
+          <p id="confirmDeleteMessage">Apakah Anda yakin ingin menghapus siswa ini?</p>
+          <small class="text-muted">Tindakan ini tidak dapat dibatalkan.</small>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+          <button type="button" id="confirmDeleteBtn" class="btn btn-danger">Hapus</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    &copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}">2025</span> Sistem Monitoring — Semua hak
+    dilindungi.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    (function () {
+      let formToSubmit = null;
+
+      document.querySelectorAll('.btn-open-delete').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const formId = btn.dataset.formId;
+          const name = btn.dataset.name;
+          document.getElementById('confirmDeleteMessage').textContent = `Yakin ingin menghapus "${name}"?`;
+          formToSubmit = document.getElementById(formId);
+          new bootstrap.Modal(document.getElementById('confirmDeleteModal')).show();
+        });
+      });
+
+      document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
+        if (formToSubmit) formToSubmit.submit();
+      });
+    })();
+  </script>
 </body>
 
 </html>

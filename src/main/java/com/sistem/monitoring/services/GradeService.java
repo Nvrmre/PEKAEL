@@ -39,7 +39,7 @@ public class GradeService {
                         return gradeRepository.save(grade);
     }
 
-    public void deleteById(Long id){
+    public void deleteGrade(Long id){
         gradeRepository.deleteById(id);
     }
     

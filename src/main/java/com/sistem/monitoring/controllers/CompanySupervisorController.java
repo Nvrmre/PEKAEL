@@ -69,15 +69,15 @@ public class CompanySupervisorController {
         if (spv.getJobTitle() == null){
             spv.setJobTitle("");
         }
-        if (spv.getPhoneNumber() == null ){
-            spv.setPhoneNumber("");
+        if (spv.getCompanySupervisorPhone() == null ){
+            spv.setCompanySupervisorPhone("");
         }
 
         spv.setUser(savedUser);
         CompanyModel company = companyService.getCompanyById(companyId)
                                 .orElseThrow(()-> new RuntimeException("company "+ companyId + "not found"));
         spv.setCompany(company);
-        companySupervisorService.createCompanySupervisor(spv,company);
+        companySupervisorService.createCompanySupervisor(spv,companyId);
         return "redirect:/comp-spv";
     }
 

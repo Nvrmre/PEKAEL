@@ -135,18 +135,23 @@
       padding: 1rem 0;
       font-size: .95rem;
     }
+
+    .btn-outline-danger svg {
+      transition: transform 0.25s ease, stroke 0.25s ease;
+    }
+
+    .btn-outline-danger:hover svg {
+      transform: scale(1.15);
+      stroke: #a52834;
+    }
   </style>
 </head>
 
 <body>
-  <!-- Navbar -->
-  <nav class="topbar d-flex align-items-center justify-content-between">
-    <div class="d-flex align-items-center gap-3">
-      <div class="brand">Sistem Monitoring</div>
-      <div class="text-white-50">Daftar Perusahaan</div>
-    </div>
-    <a th:href="@{/logout}" class="btn btn-sm btn-light fw-semibold">Logout</a>
-  </nav>
+   <div th:replace="~{layouts/fragments/navbar :: topbar}"></div>
+  <div th:replace="~{layouts/fragments/sidebar :: sidebar}"></div>
+
+  <div id="pageOverlay" class="overlay" aria-hidden="true"></div>
 
   <!-- Main Container -->
   <main class="container-main">
@@ -163,7 +168,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
         </svg>
-        Tambah Perusahaan
+        Tambah
       </a>
     </div>
 
@@ -195,11 +200,20 @@
               </a>
 
               <!-- Delete -->
-              <form th:action="@{/companies/{id}(id=${comp.companyId})}" method="post" class="delete-form"
-                id="del-[[${comp.companyId}]]">
+              <form th:action="@{/companies/{id}(id=${comp.companyId})}" method="post"
+                th:id="${'del-' + comp.companyId}" class="delete-form">
                 <input type="hidden" name="_method" value="delete" />
-                <button type="button" class="btn btn-sm btn-outline-danger btn-open-delete"
-                  data-form-id="del-[[${comp.companyId}]]" data-name="[[${comp.companyName}]]">Hapus</button>
+                <button type="button"
+                  class="btn btn-sm btn-outline-danger btn-open-delete d-flex align-items-center gap-1"
+                  th:attr="data-form-id=${'del-' + comp.companyId}, data-name=${comp.companyName}"
+                  title="Hapus Perusahaan">
+                  <!-- trash icon -->
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
+                    stroke="currentColor" width="18" height="18">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M6 7h12M9 7v10a2 2 0 002 2h2a2 2 0 002-2V7M10 11h4m-4 4h4M4 7h16" />
+                  </svg>
+                </button>
               </form>
             </td>
           </tr>
@@ -235,67 +249,48 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    (function () {
+    document.addEventListener('DOMContentLoaded', function () {
       let formToSubmit = null;
-      let modalInstance = null;
+      const modalEl = document.getElementById('confirmDeleteModal');
+      const bsModal = new bootstrap.Modal(modalEl, { backdrop: 'static', keyboard: false });
+      const msgEl = document.getElementById('confirmDeleteMessage');
+      const confirmBtn = document.getElementById('confirmDeleteBtn');
 
-      function showConfirmModal(companyName, formElement) {
-        formToSubmit = formElement;
-        if (!modalInstance) {
-          const modalEl = document.getElementById('confirmDeleteModal');
-          modalInstance = new bootstrap.Modal(modalEl, { backdrop: 'static', keyboard: false });
-        }
-
-        const msg = document.getElementById('confirmDeleteMessage');
-        msg.textContent = companyName && companyName.trim()
-          ? `Yakin ingin menghapus perusahaan "${companyName}"?`
-          : `Yakin ingin menghapus perusahaan ini?`;
-
-        modalInstance.show();
-      }
+      // open modal when any .btn-open-delete clicked
       document.querySelectorAll('.btn-open-delete').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const formId = btn.dataset.formId;
-          const name = btn.dataset.name;
-          // tampilkan modal (asumsikan already present)
-          document.getElementById('confirmDeleteMessage').textContent = `Yakin ingin menghapus "${name}"?`;
-          window.formToSubmit = document.getElementById(formId);
-          new bootstrap.Modal(document.getElementById('confirmDeleteModal')).show();
+        btn.addEventListener('click', function () {
+          const formId = btn.dataset.formId;     // already rendered by Thymeleaf
+          const name = btn.dataset.name || '';   // already rendered by Thymeleaf
+          formToSubmit = document.getElementById(formId);
+
+          // safe text insertion (no HTML)
+          if (name.trim().length > 0) {
+            msgEl.textContent = `Yakin ingin menghapus "${name}"?`;
+          } else {
+            msgEl.textContent = 'Yakin ingin menghapus perusahaan ini?';
+          }
+
+          bsModal.show();
         });
       });
 
-      document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
-        if (window.formToSubmit) window.formToSubmit.submit();
+      // confirm delete
+      confirmBtn.addEventListener('click', function () {
+        if (!formToSubmit) return;
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = 'Menghapus...';
+        formToSubmit.submit();
       });
 
-      document.addEventListener('DOMContentLoaded', function () {
-        const deleteButtons = document.querySelectorAll('.delete-form .btn-delete');
-        deleteButtons.forEach(btn => {
-          btn.addEventListener('click', function (e) {
-            e.preventDefault();
-            const form = btn.closest('form');
-            const companyName = btn.getAttribute('data-name') || '';
-            showConfirmModal(companyName, form);
-          });
-        });
-
-        const confirmBtn = document.getElementById('confirmDeleteBtn');
-        confirmBtn.addEventListener('click', function () {
-          if (!formToSubmit) return;
-          confirmBtn.disabled = true;
-          confirmBtn.textContent = 'Menghapus...';
-          formToSubmit.submit();
-        });
-
-        const modalEl = document.getElementById('confirmDeleteModal');
-        modalEl.addEventListener('hidden.bs.modal', function () {
-          formToSubmit = null;
-          confirmBtn.disabled = false;
-          confirmBtn.textContent = 'Hapus';
-        });
+      // reset when modal hides
+      modalEl.addEventListener('hidden.bs.modal', function () {
+        formToSubmit = null;
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = 'Hapus';
       });
-    })();
+    });
   </script>
+
 </body>
 
 </html>

@@ -1,0 +1,86 @@
+    <div th:fragment="topbar">
+      <nav class="sm-topbar" role="navigation" aria-label="Topbar">
+        <div class="left">
+          <button id="toggleSidebarBtn" class="sm-toggle" aria-controls="sidebarMenu" aria-expanded="false" title="Buka / Tutup menu" type="button">
+            <!-- hamburger -->
+            <svg viewBox="0 0 24 24" stroke-width="1.8" fill="none" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16" />
+            </svg>
+          </button>
+
+          <div class="brand">
+            <svg viewBox="0 0 24 24" stroke-width="1.6" fill="none" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16M4 12h16" />
+            </svg>
+            <span th:text="${siteTitle ?: 'Sistem Monitoring'}">Sistem Monitoring</span>
+          </div>
+
+          <div class="page-title small" th:if="${pageTitle != null}" th:text="${pageTitle}">Dashboard</div>
+        </div>
+
+        <div class="right">
+          <div class="greeting" th:if="${username != null}">Halo, <strong th:text="${username}">Admin</strong></div>
+          <a th:href="@{/logout}" class="btn-logout">Logout</a>
+        </div>
+      </nav>
+
+      <!-- overlay (placed with navbar so fragment include sekali) -->
+      <div id="smOverlay" class="sm-overlay" aria-hidden="true"></div>
+
+      <style>
+        /* Scoped styles for navbar + overlay + small helper */
+        :root{ --navy:#0b2340; --accent:#b78b4a; --cream:#f2ece3; --muted:#6c757d; }
+        .sm-topbar{ display:flex; justify-content:space-between; align-items:center; gap:1rem;
+                    background:linear-gradient(180deg, rgba(11,35,64,0.98), rgba(11,35,64,0.95));
+                    color:#fff; padding:.6rem 1rem; box-shadow:0 2px 6px rgba(0,0,0,.12); height:56px; position:relative; z-index:1300; }
+        .sm-topbar .left{ display:flex; align-items:center; gap:.6rem; }
+        .sm-toggle{ display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; padding:0; border-radius:8px; border:0; background:transparent; color:inherit; cursor:pointer; }
+        .sm-toggle svg{ width:22px; height:22px; stroke:currentColor; }
+        .brand{ display:flex; align-items:center; gap:.5rem; font-weight:600; color:#fff; }
+        .brand svg{ width:20px; height:20px; stroke:var(--accent); }
+        .page-title{ color: rgba(255,255,255,0.9); margin-left:.5rem; font-size:.95rem; }
+        .right{ display:flex; align-items:center; gap:.6rem; }
+        .greeting{ color: rgba(255,255,255,0.95); font-size:.95rem; }
+        .btn-logout{ background: rgba(255,255,255,0.08); color:#fff; padding:.35rem .6rem; border-radius:6px; text-decoration:none; font-weight:600; }
+        .sm-overlay{ position:fixed; inset:56px 0 0 0; background:rgba(0,0,0,0.45); opacity:0; visibility:hidden; transition:opacity .18s ease; z-index:1250; }
+
+        /* small accessibility focus */
+        .sm-toggle:focus{ outline:2px solid rgba(183,139,74,0.24); outline-offset:2px; }
+      </style>
+
+      <!-- <script th:inline="javascript">
+        /* Toggle script (scoped) - will look for #sidebarMenu and #smOverlay */
+        (function(){
+          const toggle = document.getElementById('toggleSidebarBtn');
+          const sidebar = document.getElementById('sidebarMenu');
+          const overlay = document.getElementById('smOverlay');
+
+          if(!toggle) return; // nothing to do
+
+          function openSidebar(){
+            if(sidebar) sidebar.classList.add('open');
+            if(overlay) { overlay.style.opacity = '1'; overlay.style.visibility = 'visible'; overlay.setAttribute('aria-hidden','false'); }
+            toggle.setAttribute('aria-expanded','true');
+            // prevent body scroll on small screens
+            if(window.innerWidth < 992) document.body.style.overflow = 'hidden';
+          }
+          function closeSidebar(){
+            if(sidebar) sidebar.classList.remove('open');
+            if(overlay) { overlay.style.opacity = '0'; overlay.style.visibility = 'hidden'; overlay.setAttribute('aria-hidden','true'); }
+            toggle.setAttribute('aria-expanded','false');
+            document.body.style.overflow = '';
+          }
+
+          toggle.addEventListener('click', function(e){
+            if(sidebar && sidebar.classList.contains('open')) closeSidebar(); else openSidebar();
+          });
+          if(overlay) overlay.addEventListener('click', closeSidebar);
+
+          // close on ESC
+          document.addEventListener('keydown', function(e){
+            if(e.key === 'Escape' && sidebar && sidebar.classList.contains('open')) closeSidebar();
+          });
+        })();
+      </script> -->
+   
+    </div>

@@ -13,6 +13,7 @@ import com.sistem.monitoring.models.CompanySupervisorModel;
 import com.sistem.monitoring.models.PlacementModel;
 import com.sistem.monitoring.models.SchoolSupervisorModel;
 import com.sistem.monitoring.models.StudentModel;
+import com.sistem.monitoring.models.UserModel;
 import com.sistem.monitoring.models.PlacementModel.Status;
 import com.sistem.monitoring.services.CompanyService;
 import com.sistem.monitoring.services.CompanySupervisorService;
@@ -57,6 +58,16 @@ public class PlacementController {
 
     @GetMapping("/create")
     public String showCreateForm(Model model) {
+        List<StudentModel> dummy = studentServices.getAllUserStudent();
+        if (dummy.isEmpty()) {
+            // tambahkan data dummy buat ngetes tampilan
+            StudentModel s = new StudentModel();
+            s.setStudentId(1L);
+            UserModel u = new UserModel();
+            u.setUsername("Dummy Student");
+            s.setUser(u);
+            dummy.add(s);
+        }
         model.addAttribute("placement", new PlacementModel());
         model.addAttribute("students", studentServices.getAllUserStudent());
         model.addAttribute("companies", companyService.getAllCompanyData());
