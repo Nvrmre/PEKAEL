@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sistem.monitoring.models.CompanyModel;
 import com.sistem.monitoring.models.CompanySupervisorModel;
@@ -31,7 +32,6 @@ public class PlacementController {
     private final SchoolSupervisorService schoolSupervisorService;
     private final CompanySupervisorService companySupervisorService;
 
- 
     private static final DateTimeFormatter DT_FORMAT = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
     public PlacementController(
@@ -47,14 +47,12 @@ public class PlacementController {
         this.companySupervisorService = companySupervisorService;
     }
 
-
     @GetMapping
     public String listPlacements(Model model) {
         List<PlacementModel> list = placementService.getAllPlacement();
         model.addAttribute("placements", list);
         return "PlacementView/index";
     }
-
 
     @GetMapping("/create")
     public String showCreateForm(Model model) {
@@ -77,7 +75,6 @@ public class PlacementController {
         return "PlacementView/create-form";
     }
 
- 
     @PostMapping
     public String savePlacement(
             @ModelAttribute("placement") PlacementModel placement,
@@ -88,10 +85,8 @@ public class PlacementController {
             @RequestParam("startDate") String startDateStr,
             @RequestParam("endDate") String endDateStr,
             @RequestParam("status") String statusStr,
-            Model model
-    ) {
+            Model model) {
 
-      
         StudentModel student = studentServices.getUserStudentById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found: " + studentId));
         CompanyModel company = companyService.getCompanyById(companyId)
@@ -128,14 +123,13 @@ public class PlacementController {
         try {
             placement.setStatus(Status.valueOf(statusStr));
         } catch (Exception ex) {
-            placement.setStatus(Status.PENDING); 
+            placement.setStatus(Status.PENDING);
         }
 
         placementService.createPlacement(placement);
         return "redirect:/placements";
     }
 
-   
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         PlacementModel placement = placementService.getPlacementById(id)
@@ -160,8 +154,7 @@ public class PlacementController {
             @RequestParam(value = "companySupervisorId", required = false) Long companySupervisorId,
             @RequestParam("startDate") String startDateStr,
             @RequestParam("endDate") String endDateStr,
-            @RequestParam("status") String statusStr
-    ) {
+            @RequestParam("status") String statusStr) {
         PlacementModel placement = placementService.getPlacementById(id)
                 .orElseThrow(() -> new RuntimeException("Placement not found: " + id));
 
@@ -214,4 +207,18 @@ public class PlacementController {
         placementService.deletePlacement(id);
         return "redirect:/placements";
     }
+
+    @GetMapping("/detail/{id}")
+    public String showDetail(@PathVariable Long id, Model model) {
+        try {
+            PlacementModel placement = placementService.getPlacementById(id)
+                    .orElseThrow(() -> new RuntimeException("Placement not found"));
+            model.addAttribute("placement", placement);
+            return "PlacementView/detail";
+        } catch (Exception ex) {
+            model.addAttribute("errorMessage", ex.getMessage());
+            return "error/custom-error"; // buat halaman error-friendly jika mau
+        }
+    }
+
 }

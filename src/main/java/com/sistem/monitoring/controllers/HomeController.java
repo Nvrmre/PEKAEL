@@ -2,7 +2,6 @@ package com.sistem.monitoring.controllers;
 
 import java.security.Principal;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +11,7 @@ import com.sistem.monitoring.services.SchoolSupervisorService;
 import com.sistem.monitoring.services.CompanyService;
 import com.sistem.monitoring.services.CompanySupervisorService;
 import com.sistem.monitoring.services.DailyJournalService;
+import com.sistem.monitoring.services.GradeService;
 import com.sistem.monitoring.services.StudentServices;
 import com.sistem.monitoring.services.PlacementService;
 
@@ -26,6 +26,7 @@ public class HomeController {
     private final PlacementService placementService;
     private final DailyJournalService dailyJournalService;
     private final CompanyService companyService;
+    private final GradeService gradeService;
 
     public HomeController(
             UserService userService,
@@ -34,7 +35,8 @@ public class HomeController {
             SchoolSupervisorService schoolSupervisorService,
             PlacementService placementService,
             DailyJournalService dailyJournalService,
-            CompanyService companyService ) {
+            CompanyService companyService,
+            GradeService gradeService ) {
         this.userService = userService;
         this.studentServices = studentServices;
         this.companySupervisorService = companySupervisorService;
@@ -42,6 +44,7 @@ public class HomeController {
         this.placementService = placementService;
         this.dailyJournalService = dailyJournalService;
         this.companyService = companyService;
+        this.gradeService = gradeService;
     }
 
     // redirect root ke /home (opsional)
@@ -53,7 +56,7 @@ public class HomeController {
     // Home page
     @GetMapping("/index")
     public String home(Model model, Principal principal) {
-        // contoh ringkasan statistik sederhana
+        model.addAttribute("totalGrade", gradeService.getAllGrade().size());
         model.addAttribute("totalUsers", userService.getAllUser().size());
         model.addAttribute("totalStudents", studentServices.getAllUserStudent().size());
         model.addAttribute("totalCompanySpv", companySupervisorService.getCompanySupervisor().size());

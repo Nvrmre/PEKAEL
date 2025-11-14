@@ -26,7 +26,13 @@ public class SchoolSupervisorModel {
     private String employeeIdNumber;
 
     @Column(nullable = true, length = 13)
-    private String phoneNumber;
+    private String schoolSupervisorPhone;
+
+    private String schoolSupervisorFullName;
+    private String schoolSupervisorAddress;
+    private String schoolName;
+    private String schoolSupervisorPosition;
+    private String schoolSupervisorSubject;
 
     public SchoolSupervisorModel(){}
 
@@ -54,11 +60,54 @@ public class SchoolSupervisorModel {
         this.employeeIdNumber = employeeIdNumber;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getSchoolSupervisorPhone() {
+        return schoolSupervisorPhone;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setSchoolSupervisorPhone(String schoolSupervisorPhone) {
+        this.schoolSupervisorPhone = schoolSupervisorPhone;
     }
+
+    public String getSchoolSupervisorFullName() {
+        return schoolSupervisorFullName;
+    }
+
+    public void setSchoolSupervisorFullName(String schoolSupervisorFullName) {
+        this.schoolSupervisorFullName = schoolSupervisorFullName;
+    }
+
+    public String getSchoolSupervisorAddress() {
+        return schoolSupervisorAddress;
+    }
+
+    public void setSchoolSupervisorAddress(String schoolSupervisorAddress) {
+        this.schoolSupervisorAddress = schoolSupervisorAddress;
+    }
+
+    public String getSchoolName() {
+        return schoolName;
+    }
+
+    public void setSchoolName(String schoolName) {
+        this.schoolName = schoolName;
+    }
+
+    public String getSchoolSupervisorPosition() {
+        return schoolSupervisorPosition;
+    }
+
+    public void setSchoolSupervisorPosition(String schoolSupervisorPosition) {
+        this.schoolSupervisorPosition = schoolSupervisorPosition;
+    }
+
+    public String getSchoolSupervisorSubject() {
+        return schoolSupervisorSubject;
+    }
+
+    public void setSchoolSupervisorSubject(String schoolSupervisorSubject) {
+        this.schoolSupervisorSubject = schoolSupervisorSubject;
+    }
+    
+
+    
 }

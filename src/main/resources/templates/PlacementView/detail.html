@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Detail Placement - Sistem Monitoring</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0b2340;
+      --cream: #f2ece3;
+      --accent: #b78b4a;
+      --muted: #6c757d;
+      --card-bg: #ffffff;
+      --field-bg: #fbfaf8;
+      --value-bg: rgba(11, 35, 64, 0.04);
+      --success: #e6f6ea;
+      --danger: #fff0f0;
+      --shadow: 0 6px 18px rgba(11, 35, 64, 0.06);
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--navy);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      -webkit-font-smoothing: antialiased;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container-main {
+      max-width: 980px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    .card-panel {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .title {
+      display: flex;
+      gap: .6rem;
+      align-items: center;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .title svg { stroke: var(--accent); width:28px; height:28px; }
+
+    .section {
+      background: var(--field-bg);
+      border: 1px solid rgba(11, 35, 64, .03);
+      padding: 1rem;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem 1.5rem;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+    }
+
+    .label {
+      color: var(--muted);
+      font-size: .88rem;
+      font-weight: 700;
+    }
+
+    .value {
+      background: var(--value-bg);
+      color: var(--navy);
+      padding: .55rem .75rem;
+      border-radius: 8px;
+      font-weight: 600;
+      box-shadow: inset 0 -1px 0 rgba(11,35,64,0.02);
+    }
+
+    /* status pill variants */
+    .value.status {
+      display: inline-flex;
+      gap: .5rem;
+      align-items: center;
+      padding: .4rem .6rem;
+      border-radius: 999px;
+      font-weight: 800;
+    }
+    .value.status.PENDING { color: #b78b4a; background: rgba(183,139,74,0.06); border-left: 3px solid var(--accent); }
+    .value.status.ACTIVE { color: #1f7a35; background: rgba(31,122,53,0.06); }
+    .value.status.COMPLETED { color: #4b86c6; background: rgba(11,91,154,0.06); }
+    .value.status.CANCELLED { color: #c44d3a; background: rgba(196,77,58,0.06); }
+
+    .meta {
+      margin-top: .6rem;
+      color: var(--muted);
+      font-size: .86rem;
+    }
+
+    .actions { display:flex; gap:.5rem; align-items:center; }
+
+    .btn-back {
+      border: 1px solid rgba(11, 35, 64, .06);
+      background: transparent;
+      color: var(--navy);
+      padding:.45rem .65rem;
+      border-radius:8px;
+    }
+
+    .btn-edit {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding:.45rem .65rem;
+      border-radius:8px;
+    }
+
+    @media (max-width: 767px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div th:replace="~{layouts/fragments/navbar :: topbar}"></div>
+  <div th:replace="~{layouts/fragments/sidebar :: sidebar}"></div>
+
+  <div class="container-main">
+    <div class="card-panel">
+      <div class="header">
+        <div class="title">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="1.6" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 21V7a1 1 0 011-1h4v6h6V6h3v15H4z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 21v-4h6v4" />
+          </svg>
+          <div>
+            <div>Detail Penempatan </div>
+            <small class="meta" th:if="${placement != null and placement.placementId != null}"
+              th:text="'ID: ' + ${placement.placementId}"></small>
+          </div>
+        </div>
+
+        <div class="actions">
+          <a th:href="@{/placements}" class="btn-back">Kembali</a>
+          <a th:if="${placement != null and placement.placementId != null}"
+             th:href="@{/placements/edit/{id}(id=${placement.placementId})}" class="btn-edit">Ubah</a>
+        </div>
+      </div>
+
+      <!-- primary info in two columns -->
+      <div class="section">
+        <div class="grid">
+          <!-- Left column -->
+          <div>
+            <div class="field">
+              <div class="label">Nama Siswa</div>
+              <div class="value" th:if="${placement != null and placement.student != null and placement.student.user != null}"
+                   th:text="${placement.student.user.username}">-</div>
+              <div class="value" th:unless="${placement != null and placement.student != null and placement.student.user != null}">-</div>
+            </div>
+
+            <div class="field">
+              <div class="label">NIS / NIM</div>
+              <div class="value" th:if="${placement != null and placement.student != null and placement.student.studentNumber != null}"
+                   th:text="${placement.student.studentNumber}">-</div>
+              <div class="value" th:unless="${placement != null and placement.student != null and placement.student.studentNumber != null}">-</div>
+            </div>
+
+            <div class="field">
+              <div class="label">Nomor HP Siswa</div>
+              <div class="value" th:if="${placement != null and placement.student != null and (placement.student.phoneNumber != null)}"
+                   th:text="${placement.student.phoneNumber}">-</div>
+              <div class="value" th:unless="${placement != null and placement.student != null and (placement.student.phoneNumber != null)}">-</div>
+            </div>
+
+            <div class="field">
+              <div class="label">Perusahaan</div>
+              <div class="value" th:if="${placement != null and placement.company != null}"
+                   th:text="${placement.company.companyName}">-</div>
+              <div class="value" th:unless="${placement != null and placement.company != null}">-</div>
+            </div>
+
+            <div class="field">
+              <div class="label">Alamat Perusahaan</div>
+              <div class="value" th:if="${placement != null and placement.company != null and placement.company.companyAddress != null}"
+                   th:text="${placement.company.companyAddress}">-</div>
+              <div class="value" th:unless="${placement != null and placement.company != null and placement.company.companyAddress != null}">-</div>
+            </div>
+          </div>
+
+          <!-- Right column -->
+          <div>
+            <div class="field">
+              <div class="label">Pembimbing Perusahaan</div>
+              <div class="value" th:if="${placement != null and placement.companySupervisor != null and placement.companySupervisor.user != null}"
+                   th:text="${placement.companySupervisor.user.username}">-</div>
+              <div class="value" th:if="${placement != null and (placement.companySupervisor == null) and placement.schoolSupervisor != null and placement.schoolSupervisor.user != null}"
+                   th:text="${placement.schoolSupervisor.user.username}">-</div>
+              <div class="value" th:if="${placement == null or (placement.companySupervisor == null and (placement.schoolSupervisor == null or placement.schoolSupervisor.user == null))}">-</div>
+            </div>
+
+            <div class="field">
+              <div class="label">No. HP Pembimbing Perusahaan</div>
+              <div class="value" th:if="${placement != null and placement.companySupervisor != null and (placement.companySupervisor.phoneNumber != null)}"
+                   th:text="${placement.companySupervisor.phoneNumber}">-</div>
+              <div class="value" th:unless="${placement != null and placement.companySupervisor != null and (placement.companySupervisor.phoneNumber != null)}">-</div>
+            </div>
+
+            <div class="field">
+              <div class="label">Pembimbing Sekolah / Akademik</div>
+              <div class="value" th:if="${placement != null and placement.schoolSupervisor != null and placement.schoolSupervisor.user != null}"
+                   th:text="${placement.schoolSupervisor.user.username}">-</div>
+              <div class="value" th:unless="${placement != null and placement.schoolSupervisor != null and placement.schoolSupervisor.user != null}">-</div>
+            </div>
+
+            <div class="field">
+              <div class="label">No. HP Pembimbing Sekolah</div>
+              <div class="value" th:if="${placement != null and placement.schoolSupervisor != null and (placement.schoolSupervisor.phoneNumber != null)}"
+                   th:text="${placement.schoolSupervisor.phoneNumber}">-</div>
+              <div class="value" th:unless="${placement != null and placement.schoolSupervisor != null and (placement.schoolSupervisor.phoneNumber != null)}">-</div>
+            </div>
+
+            <div class="field">
+              <div class="label">Periode</div>
+              <div class="value" th:if="${placement != null and placement.startDate != null and placement.endDate != null}">
+                <span th:text="${#temporals.format(placement.startDate,'dd MMM yyyy')}">01 Jan 2025</span>
+                 — 
+                <span th:text="${#temporals.format(placement.endDate,'dd MMM yyyy')}">31 Mar 2025</span>
+              </div>
+              <div class="value" th:if="${placement != null and placement.startDate != null and placement.endDate == null}"
+                   th:text="${#temporals.format(placement.startDate,'dd MMM yyyy')}">01 Jan 2025</div>
+              <div class="value" th:if="${placement != null and placement.startDate == null and placement.endDate != null}"
+                   th:text="${#temporals.format(placement.endDate,'dd MMM yyyy')}">31 Mar 2025</div>
+              <div class="value" th:if="${placement == null or (placement.startDate == null and placement.endDate == null)}">-</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- status + extra detail -->
+      <div class="section">
+        <div class="grid">
+          <div>
+            <div class="field">
+              <div class="label">Status</div>
+
+              <!-- safe switch for status showing pill with appropriate style -->
+              <div th:if="${placement != null and placement.status != null}">
+                <span th:switch="${placement.status.name()}">
+                  <span th:case="'ACTIVE'">
+                    <span class="value status ACTIVE" th:text="${placement.status.name()}">ACTIVE</span>
+                  </span>
+                  <span th:case="'COMPLETED'">
+                    <span class="value status COMPLETED" th:text="${placement.status.name()}">COMPLETED</span>
+                  </span>
+                  <span th:case="'CANCELLED'">
+                    <span class="value status CANCELLED" th:text="${placement.status.name()}">CANCELLED</span>
+                  </span>
+                  <span th:case="'PENDING'">
+                    <span class="value status PENDING" th:text="${placement.status.name()}">PENDING</span>
+                  </span>
+                  <span th:case="*">
+                    <span class="value" th:text="${placement.status.name()}">UNKNOWN</span>
+                  </span>
+                </span>
+              </div>
+
+              <div class="value" th:unless="${placement != null and placement.status != null}">PENDING</div>
+            </div>
+          </div>
+
+          <div>
+            <div class="field">
+              <div class="label">Lokasi (jika ada)</div>
+              <div class="value" th:if="${placement != null and placement.location != null}" th:text="${placement.location.name()}">-</div>
+              <div class="value" th:unless="${placement != null and placement.location != null}">-</div>
+            </div>
+
+            <div class="field">
+              <div class="label">Catatan / Deskripsi Perusahaan</div>
+              <div class="value" th:if="${placement != null and placement.company != null and placement.company.description != null}"
+                   th:text="${placement.company.description}">-</div>
+              <div class="value" th:unless="${placement != null and placement.company != null and placement.company.description != null}">-</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer style="text-align:center;color:var(--muted);padding:1rem;margin-top:0.5rem;">
+    &copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}">2025</span> Sistem Monitoring
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

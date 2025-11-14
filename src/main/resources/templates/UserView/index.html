@@ -92,7 +92,7 @@
     }
 
     /* Tabel */
-    .table-custom thead {
+    .table-custom thead tbody{
       background-color: var(--navy);
       color: white;
     }
@@ -116,9 +116,9 @@
 
     /* SVG use currentColor so CSS color applies */
     .action-links svg {
-      width: 20px;
-      height: 20px;
-      stroke-width: 1.6;
+      width: 28px;
+      height: 28px;
+      stroke-width: 1.2;
       stroke: currentColor;
       fill: none;
     }
@@ -182,7 +182,6 @@
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
         </svg>
-        Tambah User
       </a>
     </div>
 
@@ -190,8 +189,8 @@
       <table class="table table-hover align-middle table-custom">
         <thead>
           <tr>
-            <th style="width:7%;">NO</th>
-            <th>Username</th>
+            <th>NO</th>
+            <th>Nama Pengguna</th>
             <th>Email</th>
             <th>Role</th>
             <th style="width:12%;">Aksi</th>
@@ -200,7 +199,7 @@
         <tbody>
           <tr th:each="user,stats : ${users}">
             <td th:text="${stats.index + 1}">1</td>
-            <td th:text="${user.username}">nama</td>
+            <td th:text="${user.username}">nama pengguna</td>
             <td th:text="${user.email}">a@b.c</td>
             <td th:text="${user.role}">Student</td>
             <td class="action-links d-flex align-items-center">
@@ -226,7 +225,7 @@
                 <input type="hidden" name="_method" value="delete" />
 
                 <!-- gunakan th:attr untuk binding Thymeleaf atribut data & aria -->
-                <button type="button" class="btn btn-outline-danger btn-sm btn-delete" title="Hapus"
+                <button type="button" class="btn btn-sm btn-delete" title="Hapus"
                   th:attr="data-username=${user.username}, aria-label='Hapus pengguna ' + ${user.username}">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none"
                     width="16" height="16" aria-hidden="true">

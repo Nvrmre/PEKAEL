@@ -38,6 +38,8 @@ public class CompanyModel {
 
     private String companyIndustry;
 
+    private String description;
+
     public CompanyModel(){}
 
     public Long getCompanyId() {
@@ -102,6 +104,14 @@ public class CompanyModel {
 
     public void setCompanyIndustry(String companyIndustry) {
         this.companyIndustry = companyIndustry;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
    

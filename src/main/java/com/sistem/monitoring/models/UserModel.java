@@ -19,9 +19,9 @@ import jakarta.persistence.GenerationType;
 @Entity
 @Table(name = "users")
 public class UserModel {
-    
+
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
     @Column(nullable = false, length = 50)
@@ -43,16 +43,31 @@ public class UserModel {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @OneToOne(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
     private CompanySupervisorModel companySupervisor;
 
-    @OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @OneToOne(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
     private StudentModel student;
 
-    @OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @OneToOne(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
     private SchoolSupervisorModel schoolSupervisor;
 
-    public UserModel(){}
+    private String adminFullName;
+    private String adminPhone;
+    private String adminDepartment;
+    private String adminOfficeLocation;
+
+    @Enumerated(EnumType.ORDINAL)
+    private AccessLevel adminAccessLevel;
+
+    @Column(columnDefinition = "text")
+    private String adminNotes;
+
+    @Column
+    private Boolean adminActive;
+
+    public UserModel() {
+    }
 
     public Long getUserId() {
         return userId;
@@ -134,13 +149,76 @@ public class UserModel {
         this.schoolSupervisor = schoolSupervisor;
     }
 
+    public String getAdminFullName() {
+        return adminFullName;
+    }
 
+    public void setAdminFullName(String adminFullName) {
+        this.adminFullName = adminFullName;
+    }
+
+    public String getAdminPhone() {
+        return adminPhone;
+    }
+
+    public void setAdminPhone(String adminPhone) {
+        this.adminPhone = adminPhone;
+    }
+
+    public String getAdminDepartment() {
+        return adminDepartment;
+    }
+
+    public void setAdminDepartment(String adminDepartment) {
+        this.adminDepartment = adminDepartment;
+    }
+
+    public String getAdminOfficeLocation() {
+        return adminOfficeLocation;
+    }
+
+    public void setAdminOfficeLocation(String adminOfficeLocation) {
+        this.adminOfficeLocation = adminOfficeLocation;
+    }
+
+    public AccessLevel getAdminAccessLevel() {
+        return adminAccessLevel;
+    }
+
+    public void setAdminAccessLevel(AccessLevel adminAccessLevel) {
+        this.adminAccessLevel = adminAccessLevel;
+    }
+
+    
+
+    public String getAdminNotes() {
+        return adminNotes;
+    }
+
+    public void setAdminNotes(String adminNotes) {
+        this.adminNotes = adminNotes;
+    }
+
+    public Boolean getAdminActive() {
+        return adminActive;
+    }
+
+    public void setAdminActive(Boolean adminActive) {
+        this.adminActive = adminActive;
+    }
+
+
+
+    public enum AccessLevel {
+        ADMIN,
+        SUPER_ADMIN
+    }
 
     public enum Role {
         School_Supervisor,
         Company_Supervisor,
         Administrator,
         Student
-       
+
     }
 }

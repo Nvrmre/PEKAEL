@@ -30,7 +30,7 @@ public class SchoolSupervisorService {
     public SchoolSupervisorModel updateSchoolSupervisor(Long id, SchoolSupervisorModel updated){
         SchoolSupervisorModel spv = schoolSupervisorRepository.findById(id)
                                     .orElseThrow(() -> new RuntimeException("nothing"));
-                            spv.setPhoneNumber(updated.getPhoneNumber());
+                            spv.setSchoolSupervisorPhone(updated.getSchoolSupervisorPhone());
                             spv.setEmployeeIdNumber(updated.getEmployeeIdNumber());
                             return schoolSupervisorRepository.save(spv);
     }

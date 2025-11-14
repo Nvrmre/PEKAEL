@@ -13,6 +13,7 @@ import com.sistem.monitoring.models.UserModel;
 @Repository
 public interface SchoolSupervisorRepository extends JpaRepository<SchoolSupervisorModel, Long> {
 
-    Optional<SchoolSupervisorModel> findByUser(UserModel user);
+   SchoolSupervisorModel findByUser(UserModel user);
+
     
 }

@@ -57,8 +57,12 @@ public class StudentController {
         if (student.getPhoneNumber() == null) {
             student.setPhoneNumber("");
         }
+        if (user.getPassword() == null){
+            user.setPassword("");
+        }
         student.setUser(savedUser);
         studentServices.createNewUserStudent(student);
+
         return "redirect:/students";
     }
 

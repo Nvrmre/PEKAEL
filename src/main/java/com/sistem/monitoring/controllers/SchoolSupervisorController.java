@@ -58,8 +58,8 @@ public class SchoolSupervisorController {
         if (spv.getEmployeeIdNumber() == null) {
             spv.setEmployeeIdNumber("");
         }
-        if (spv.getPhoneNumber() == null) {
-            spv.setPhoneNumber("");
+        if (spv.getSchoolSupervisorPhone() == null) {
+            spv.setSchoolSupervisorPhone("");
         }
         spv.setUser(savedUser);
         schoolSupervisorService.createSchoolSupervisor(spv);

@@ -46,6 +46,8 @@ public class PlacementModel {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    private Status location;
+
 
 
     public Long getPlacementId() {
@@ -149,6 +151,18 @@ public class PlacementModel {
         COMPLETED,
         CANCELLED,
         PENDING
+    }
+
+
+
+    public Status getLocation() {
+        return location;
+    }
+
+
+
+    public void setLocation(Status location) {
+        this.location = location;
     }
 
 
