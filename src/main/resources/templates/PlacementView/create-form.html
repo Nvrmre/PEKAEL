@@ -122,7 +122,6 @@
 </head>
 
 <body>
-  <!-- include navbar + sidebar fragments (kalau ada) -->
   <div th:replace="~{layouts/fragments/navbar :: topbar}"></div>
   <div th:replace="~{layouts/fragments/sidebar :: sidebar}"></div>
 
@@ -134,7 +133,7 @@
           <path stroke-linecap="round" stroke-linejoin="round"
             d="M3 7h18M8 7v4m8-4v4M4 21h16a2 2 0 002-2V7a2 2 0 00-2-2H4a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
-        Tambah Placement
+        Tambah Tempat PKL Baru
       </div>
 
       <a th:href="@{/placements}" class="btn-cancel" hover="transform:translateY(-2px)">
