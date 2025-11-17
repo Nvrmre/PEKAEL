@@ -22,6 +22,9 @@ public class GradeModel {
     @JoinColumn(name = "placementId")
     private PlacementModel placement;
 
+    @ManyToOne
+    @JoinColumn(name = "studentId")
+    private StudentModel student;
 
     private Double schoolSupervisorScore;
     private Double companySupervisorScore;
@@ -88,6 +91,14 @@ public class GradeModel {
 
     public void setFinalNotes(String finalNotes) {
         this.finalNotes = finalNotes;
+    }
+
+    public StudentModel getStudent() {
+        return student;
+    }
+
+    public void setStudent(StudentModel student) {
+        this.student = student;
     }
     
 

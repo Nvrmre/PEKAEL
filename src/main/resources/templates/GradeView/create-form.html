@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tambah Grade - Sistem Monitoring</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    :root{
+      --navy:#0b2340; --cream:#f2ece3; --accent:#b78b4a; --muted:#6c757d; --shadow:0 6px 18px rgba(11,35,64,.06);
+    }
+    body{background:var(--cream); color:var(--navy); font-family:system-ui, -apple-system, "Segoe UI", Roboto, Arial;}
+    .container-main{max-width:920px;margin:2rem auto;padding:1rem;}
+    .panel{background:#fff;border-radius:12px;padding:1.25rem;box-shadow:var(--shadow)}
+    .form-title{display:flex;gap:.6rem;align-items:center;font-weight:700;font-size:1.15rem;margin-bottom:.75rem}
+    .card-section{background:#fbfaf8;border-radius:8px;padding:1rem;border:1px solid rgba(11,35,64,.03);margin-bottom:1rem}
+    .btn-primary-accent{background:var(--accent);border:none;color:#fff;padding:.48rem .9rem;border-radius:8px;font-weight:700}
+    .btn-secondary-ghost{border:1px solid rgba(11,35,64,.08);background:transparent;color:var(--navy);padding:.45rem .9rem;border-radius:6px}
+    label.form-label{font-weight:600}
+    .small-note{color:var(--muted);font-size:.92rem;margin-top:.25rem}
+  </style>
+</head>
+
+<body>
+  <div th:replace="~{layouts/fragments/navbar :: topbar}"></div>
+  <div th:replace="~{layouts/fragments/sidebar :: sidebar}"></div>
+
+  <main class="container-main">
+    <div class="panel">
+      <div class="form-title">
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h10"/>
+        </svg>
+        <div>Tambah Penilaian (Grade)</div>
+      </div>
+
+      <!-- th:object="${grades}" karena controller menaruh model key "grades" -->
+      <form th:action="@{/grades}" th:object="${grades}" method="post" novalidate>
+        <div class="card-section">
+          <div class="row g-3">
+
+            <!-- Placement select (tampil jika ada 'placements' di model) -->
+            <div class="col-12 col-md-6" th:if="${placements != null}">
+              <label class="form-label">Placement</label>
+              <select class="form-select" name="placementId" required>
+                <option value="" disabled selected>-- Pilih Placement --</option>
+                <option th:each="pl : ${placements}"
+                        th:value="${pl.placementId}"
+                        th:text="${pl.company != null ? pl.company.companyName + ' — ' + (pl.student != null && pl.student.user != null ? pl.student.user.username : '') : 'Placement ' + pl.placementId}">
+                </option>
+              </select>
+              <div class="small-note">Pilih placement yang akan dinilai.</div>
+            </div>
+
+            <!-- Fallback jika placements tidak dikirim -->
+            <div class="col-12 col-md-6" th:if="${placements == null}">
+              <label class="form-label">Placement (ID)</label>
+              <input type="number" name="placementId" class="form-control" placeholder="Masukkan placementId (opsional)">
+              <div class="small-note">Controller tidak menyediakan daftar placement, isi ID jika perlu.</div>
+            </div>
+
+            <!-- Student select (opsional) -->
+            <div class="col-12 col-md-6" th:if="${students != null}">
+              <label class="form-label">Siswa</label>
+              <select class="form-select" name="studentId" required>
+                <option value="" disabled selected>-- Pilih Siswa --</option>
+                <option th:each="s : ${students}" th:value="${s.studentId}"
+                        th:text="${s.user != null ? s.user.username + ' — ' + (s.studentNumber != null ? s.studentNumber : '') : 'Siswa ' + s.studentId}">
+                </option>
+              </select>
+            </div>
+
+            <div class="col-12 col-md-6" th:if="${students == null}">
+              <label class="form-label">Siswa (ID)</label>
+              <input type="number" name="studentId" class="form-control" placeholder="Masukkan studentId (opsional)">
+            </div>
+
+            <!-- Scores -->
+            <div class="col-12 col-md-4">
+              <label class="form-label">Nilai Pembimbing Sekolah</label>
+              <input type="number" step="0.01" th:field="*{schoolSupervisorScore}" class="form-control"
+                     placeholder="Contoh: 85.5">
+            </div>
+
+            <div class="col-12 col-md-4">
+              <label class="form-label">Nilai Pembimbing Perusahaan</label>
+              <input type="number" step="0.01" th:field="*{companySupervisorScore}" class="form-control"
+                     placeholder="Contoh: 88.0">
+            </div>
+
+            <div class="col-12 col-md-4">
+              <label class="form-label">Nilai Laporan</label>
+              <input type="number" step="0.01" th:field="*{reportScore}" class="form-control"
+                     placeholder="Contoh: 90.0">
+            </div>
+
+            <!-- finalScore required -->
+            <div class="col-12 col-md-6">
+              <label class="form-label">Nilai Akhir <span class="text-danger">*</span></label>
+              <input type="number" step="0.01" th:field="*{finalScore}" class="form-control" required
+                     placeholder="Contoh: 87.5">
+              <div class="small-note">Nilai akhir wajib diisi.</div>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label class="form-label">Catatan Akhir</label>
+              <input type="text" th:field="*{finalNotes}" class="form-control" placeholder="Catatan singkat (opsional)">
+            </div>
+
+          </div>
+        </div>
+
+        <div class="d-flex gap-2 justify-content-end">
+          <a th:href="@{/grades}" class="btn btn-secondary-ghost">Batal</a>
+          <button type="submit" class="btn btn-primary-accent">Simpan Penilaian</button>
+        </div>
+      </form>
+
+    </div>
+  </main>
+
+  <footer class="text-center text-muted mt-4 mb-4">
+    &copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}">2025</span> Sistem Monitoring
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
