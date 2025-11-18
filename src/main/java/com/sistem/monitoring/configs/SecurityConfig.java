@@ -20,13 +20,11 @@ import com.sistem.monitoring.models.UserModel.Role;
 @Configuration
 public class SecurityConfig {
 
-    // 1) PasswordEncoder bean (BCrypt)
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // 2) UserDetailsService yang mengambil user dari DB
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository) {
         return username -> userRepository.findByUsername(username)
@@ -55,8 +53,8 @@ public class SecurityConfig {
             case "admin":
                 authority = "ROLE_ADMIN";
                 break;
-            case "user":
-            case "member":
+            case "Student":
+            case "school_supervisor":
                 authority = "ROLE_USER";
                 break;
             default:

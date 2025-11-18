@@ -36,9 +36,9 @@
       <form th:action="@{/Auth/login}" method="post" class="needs-validation" novalidate>
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
         <div class="mb-3">
-          <label for="username" class="form-label">Username</label>
+          <label for="username" class="form-label">Nama</label>
           <input id="username" name="username" type="text" class="form-control" placeholder="username" required autofocus />
-          <div class="invalid-feedback">Masukkan username.</div>
+          <div class="invalid-feedback">Masukkan nama Lengkap</div>
         </div>
 
         <div class="mb-3">

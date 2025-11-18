@@ -1,5 +1,6 @@
 package com.sistem.monitoring.controllers;
-
+import com.sistem.monitoring.services.PlacementService;
+import com.sistem.monitoring.services.StudentServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +18,21 @@ import com.sistem.monitoring.services.GradeService;
 @Controller
 @RequestMapping("/grades")
 public class GradeController {
+
+    @Autowired
+    private final StudentServices studentServices;
+
+    @Autowired
+    private final PlacementService placementService;
     
 
     @Autowired
     private GradeService gradeService;
+
+    GradeController(PlacementService placementService, StudentServices studentServices) {
+        this.placementService = placementService;
+        this.studentServices = studentServices;
+    }
 
     @GetMapping
     public String showAllGrade(Model model){
@@ -32,6 +44,8 @@ public class GradeController {
     public String showCreateForm(Model model){
         GradeModel grade = new GradeModel();
         model.addAttribute("grades", grade);
+        model.addAttribute("placements", placementService.getAllPlacement());
+        model.addAttribute("students", studentServices.getAllUserStudent());
         return "GradeView/create-form";
     }
 

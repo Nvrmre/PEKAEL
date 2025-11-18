@@ -8,12 +8,16 @@ import org.springframework.stereotype.Service;
 
 import com.sistem.monitoring.models.GradeModel;
 import com.sistem.monitoring.repositories.GradeRepository;
+import com.sistem.monitoring.repositories.PlacementRepository;
+import com.sistem.monitoring.repositories.UserRepository;
 
 @Service
 public class GradeService {
 
     @Autowired
     private GradeRepository gradeRepository;
+    private PlacementRepository placementRepository;
+    private UserRepository userRepository;
 
     public List<GradeModel> getAllGrade(){
         return gradeRepository.findAll();
@@ -24,6 +28,7 @@ public class GradeService {
     }
 
     public GradeModel createGrade(GradeModel grade){
+        
         return gradeRepository.save(grade);
     }
 

@@ -38,21 +38,23 @@
       </div>
 
       <!-- th:object="${grades}" karena controller menaruh model key "grades" -->
-      <form th:action="@{/grades}" th:object="${grades}" method="post" novalidate>
+      <form id="grade-form" th:action="@{/grades}" th:object="${grades}" method="post" novalidate>
         <div class="card-section">
           <div class="row g-3">
 
-            <!-- Placement select (tampil jika ada 'placements' di model) -->
+            <!-- Placement search (pakai datalist) -->
             <div class="col-12 col-md-6" th:if="${placements != null}">
               <label class="form-label">Placement</label>
-              <select class="form-select" name="placementId" required>
-                <option value="" disabled selected>-- Pilih Placement --</option>
+              <input list="placement-list" id="placement-search" class="form-control"
+                     placeholder="Cari placement berdasarkan nama..." autocomplete="off">
+              <datalist id="placement-list">
                 <option th:each="pl : ${placements}"
-                        th:value="${pl.placementId}"
-                        th:text="${pl.company != null ? pl.company.companyName + ' — ' + (pl.student != null && pl.student.user != null ? pl.student.user.username : '') : 'Placement ' + pl.placementId}">
+                        th:value="${pl.placementId + ' - ' + (pl.company != null ? pl.company.companyName : 'Placement ' + pl.placementId)}">
                 </option>
-              </select>
-              <div class="small-note">Pilih placement yang akan dinilai.</div>
+              </datalist>
+              <!-- input tersembunyi yang dikirimkan ke server -->
+              <input type="hidden" name="placementId" id="placementId-hidden">
+              <div class="small-note">Ketik nama placement lalu pilih dari daftar. Sistem akan menyimpan Placement ID yang sesuai.</div>
             </div>
 
             <!-- Fallback jika placements tidak dikirim -->
@@ -62,17 +64,22 @@
               <div class="small-note">Controller tidak menyediakan daftar placement, isi ID jika perlu.</div>
             </div>
 
-            <!-- Student select (opsional) -->
+            <!-- Student search (pakai datalist) -->
             <div class="col-12 col-md-6" th:if="${students != null}">
               <label class="form-label">Siswa</label>
-              <select class="form-select" name="studentId" required>
-                <option value="" disabled selected>-- Pilih Siswa --</option>
-                <option th:each="s : ${students}" th:value="${s.studentId}"
-                        th:text="${s.user != null ? s.user.username + ' — ' + (s.studentNumber != null ? s.studentNumber : '') : 'Siswa ' + s.studentId}">
+              <input list="student-list" id="student-search" class="form-control"
+                     placeholder="Cari siswa berdasarkan nama..." autocomplete="off">
+              <datalist id="student-list">
+                <option th:each="s : ${students}"
+                        th:value="${s.studentId + ' - ' + (s.user != null ? s.user.username : 'Siswa ' + s.studentId)}">
                 </option>
-              </select>
+              </datalist>
+              <!-- hidden input dikirim ke server -->
+              <input type="hidden" name="studentId" id="studentId-hidden">
+              <div class="small-note">Ketik nama siswa lalu pilih dari daftar. Sistem akan menyimpan Student ID.</div>
             </div>
 
+            <!-- Fallback jika students tidak dikirim -->
             <div class="col-12 col-md-6" th:if="${students == null}">
               <label class="form-label">Siswa (ID)</label>
               <input type="number" name="studentId" class="form-control" placeholder="Masukkan studentId (opsional)">
@@ -127,6 +134,62 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // helper: ekstrak id sebelum ' - ' jika format dipilih adalah "id - name"
+    function extractIdFromDisplay(value) {
+      if (!value) return '';
+      const parts = value.split(' - ');
+      return parts.length ? parts[0].trim() : '';
+    }
+
+    // Placement input -> isi hidden placementId
+    const placementSearch = document.getElementById('placement-search');
+    const placementHidden = document.getElementById('placementId-hidden');
+    if (placementSearch && placementHidden) {
+      placementSearch.addEventListener('change', function() {
+        const id = extractIdFromDisplay(this.value);
+        placementHidden.value = id;
+      });
+      placementSearch.addEventListener('input', function() {
+        const id = extractIdFromDisplay(this.value);
+        placementHidden.value = id;
+      });
+    }
+
+    // Student input -> isi hidden studentId
+    const studentSearch = document.getElementById('student-search');
+    const studentHidden = document.getElementById('studentId-hidden');
+    if (studentSearch && studentHidden) {
+      studentSearch.addEventListener('change', function() {
+        const id = extractIdFromDisplay(this.value);
+        studentHidden.value = id;
+      });
+      studentSearch.addEventListener('input', function() {
+        const id = extractIdFromDisplay(this.value);
+        studentHidden.value = id;
+      });
+    }
+
+    // Optional: simple client-side validation before submit
+    // Jika ingin memaksa pemilihan dari daftar saat placements/kandi ada,
+    // hilangkan komentar pada blok berikut ini.
+    /*
+    document.getElementById('grade-form').addEventListener('submit', function(e) {
+      // cek jika server menyediakan placements dan user tidak memilih ID
+      const placementsExist = /*[[${placements != null}]]* / false; // Thymeleaf cannot be used directly here in JS string; handle on server or keep commented
+      if (placementsExist) {
+        if (placementHidden && !placementHidden.value) {
+          e.preventDefault();
+          alert('Pilih placement dari daftar terlebih dahulu.');
+          return false;
+        }
+      }
+    });
+    */
+
+  </script>
+
 </body>
 
 </html>

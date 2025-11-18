@@ -4,6 +4,10 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,10 +23,14 @@ import com.sistem.monitoring.repositories.UserRepository;
 @Service
 public class UserService {
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     private final UserRepository userRepository;
     private final StudentRepository studentRepository;
     private final CompanySupervisorRepository companySupervisorRepository;
     private final SchoolSupervisorRepository schoolSupervisorRepository;
+    
 
     // service dependencies (kamu punya ini di constructor awal)
     private final StudentServices studentServices;
@@ -54,14 +62,6 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    /**
-     * Create user and create role-specific child rows safely.
-     * Important:
-     * - We avoid writing admin-access-level for non-administrator users (fixes DB
-     * constraint/type issues).
-     * - We use reflection to clear admin-access-level if the getter/setter exist on
-     * UserModel
-     */
     @Transactional
     public UserModel createNewUser(
             UserModel user,
@@ -70,7 +70,8 @@ public class UserService {
             String companyName,
             String jobTitle,
             String employeeIdNumber,
-            String supervisorPhone) {
+            String supervisorPhone
+           ) {
 
         if (user.getEmail() != null && userRepository.findByEmail(user.getEmail()) != null) {
             throw new IllegalArgumentException("Email already exists");
@@ -92,9 +93,10 @@ public class UserService {
         } catch (NoSuchMethodException nsme) {
             // UserModel doesn't have adminAccessLevel – that's fine, ignore.
         } catch (Exception ex) {
-            // reflection invocation error; ignore but log if you want (left out to keep
-            // code compact)
+          
         }
+        //create hashed password
+        String hashedPassword = passwordEncoder.encode(studentNumber);
 
         // save user first (so child entities can reference proper user_id)
         UserModel savedUser = userRepository.save(user);
@@ -107,6 +109,9 @@ public class UserService {
                     s.setUser(savedUser); // owning side is StudentModel.user
                     s.setStudentNumber(studentNumber == null ? "" : studentNumber);
                     s.setPhoneNumber(studentPhone == null ? "" : studentPhone);
+                    user.setPassword(hashedPassword);
+                    
+                  
                     // optional: studentFullName not available in params — can be set later via edit
                     studentRepository.save(s);
                     // ensure bi-directional reference
