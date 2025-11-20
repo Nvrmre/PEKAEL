@@ -1,6 +1,6 @@
 package com.sistem.monitoring.repositories;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -11,6 +11,6 @@ import com.sistem.monitoring.models.PlacementModel;
 public interface PlacementRepository extends JpaRepository<PlacementModel, Long> {
     boolean existsByStudentStudentId(Long studentId);
     void deleteByStudentStudentId(Long studentId);
-    List<PlacementModel> findByStudentStudentId(Long studentId);
+    Optional<PlacementModel> findByStudentStudentId(Long studentId);
 }
 

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Profil Siswa - Sistem Monitoring</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root { --navy: #0b2340; --cream: #f2ece3; --accent: #b78b4a; --muted: #6c757d; }
+        body { background-color: var(--cream); color: var(--navy); font-family: 'Segoe UI', sans-serif; }
+        .container-main { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+        .card-profile { border: none; border-radius: 15px; box-shadow: 0 10px 30px rgba(11,35,64,0.08); overflow: hidden; background: #fff; }
+        .profile-header { background: linear-gradient(135deg, var(--navy), #153a63); padding: 3rem 2rem; text-align: center; color: white; }
+        .avatar-circle { width: 100px; height: 100px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 2.5rem; font-weight: bold; color: white; border: 4px solid rgba(255,255,255,0.2); }
+        .profile-name { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.2rem; }
+        .profile-role { font-size: 0.9rem; opacity: 0.8; letter-spacing: 1px; text-transform: uppercase; }
+        .profile-body { padding: 2rem; }
+        .label-field { font-size: 0.85rem; color: var(--muted); font-weight: 600; text-transform: uppercase; margin-bottom: 0.3rem; }
+        .value-field { font-size: 1.05rem; font-weight: 500; color: var(--navy); border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
+        .btn-edit { background-color: var(--accent); color: white; border: none; padding: 0.6rem 1.5rem; border-radius: 8px; font-weight: 600; transition: all 0.3s; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-edit:hover { background-color: #967035; color: white; transform: translateY(-2px); }
+        .btn-back { color: var(--muted); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; }
+        .btn-back:hover { color: var(--navy); }
+    </style>
+</head>
+<body>
+
+<div th:replace="~{layouts/fragments/navbar :: topbar}"></div>
+<div th:replace="~{layouts/fragments/sidebar :: sidebar}"></div>
+<div id="pageOverlay" class="overlay"></div>
+
+<main class="container-main">
+    <div class="mb-4">
+        <a th:href="@{/}" class="btn-back">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Kembali ke Dashboard
+        </a>
+    </div>
+    <div class="card card-profile">
+        <div class="profile-header">
+            <div class="avatar-circle">
+                <!-- <span th:text="${#strings.substring(student.studentFullName,0,1)}">S</span> -->
+            </div>
+            <h1 class="profile-name" th:text="${student.studentFullName}">Nama Siswa</h1>
+            <span class="profile-role">SISWA / PESERTA PKL</span>
+        </div>
+
+        <div class="profile-body">
+            <div class="row">
+                <div class="col-12 mb-4">
+                    <h5 class="text-muted border-bottom pb-2 mb-3">Informasi Akun</h5>
+                </div>
+                <div class="col-md-6">
+                    <div class="label-field">Username</div>
+                    <div class="value-field" th:text="${student.user.username}">username123</div>
+                </div>
+                <div class="col-md-6">
+                    <div class="label-field">Email</div>
+                    <div class="value-field" th:text="${student.user.email}">email@contoh.com</div>
+                </div>
+
+                <div class="col-12 mb-4 mt-2">
+                    <h5 class="text-muted border-bottom pb-2 mb-3">Data Pribadi & Sekolah</h5>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="label-field">NISN / Nomor Induk</div>
+                    <div class="value-field" th:text="${student.studentNumber}">12345678</div>
+                </div>
+                <div class="col-md-6">
+                    <div class="label-field">Nomor Telepon</div>
+                    <div class="value-field" th:text="${student.phoneNumber}">08123456789</div>
+                </div>
+                <div class="col-md-6">
+                    <div class="label-field">Jurusan</div>
+                    <div class="value-field" th:text="${student.studentMajor}">Rekayasa Perangkat Lunak</div>
+                </div>
+                <div class="col-md-6">
+                    <div class="label-field">Kelas</div>
+                    <div class="value-field" th:text="${student.studentClass}">XII RPL 1</div>
+                </div>
+                <div class="col-12">
+                    <div class="label-field">Alamat Lengkap</div>
+                    <div class="value-field" th:text="${student.studentAddress}">Jl. Contoh No. 123</div>
+                </div>
+            </div>
+            <div class="mt-4 text-end">
+                <a th:href="@{'/students/edit/' + ${student.studentId}}" class="btn-edit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                    Edit Profil
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

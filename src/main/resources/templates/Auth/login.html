@@ -26,24 +26,25 @@
         </svg>
         <div>
           <div class="title">Sistem Monitoring</div>
-          <div class="small-note">Masuk menggunakan akun Anda</div>
+          <div class="small-note">Masuk menggunakan Email Anda</div>
         </div>
       </div>
 
       <div th:if="${param.logout}" class="alert alert-success">Anda telah berhasil logout.</div>
-      <div th:if="${param.error}" class="alert alert-danger">Login gagal — periksa username & password.</div>
+      <div th:if="${param.error}" class="alert alert-danger">Login gagal — Email atau Password salah.</div>
 
       <form th:action="@{/Auth/login}" method="post" class="needs-validation" novalidate>
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        
         <div class="mb-3">
-          <label for="username" class="form-label">Nama</label>
-          <input id="username" name="username" type="text" class="form-control" placeholder="username" required autofocus />
-          <div class="invalid-feedback">Masukkan nama Lengkap</div>
+          <label for="email" class="form-label">Email Address</label>
+          <input id="email" name="username" type="email" class="form-control" placeholder="nama@sekolah.sch.id" required autofocus />
+          <div class="invalid-feedback">Masukkan alamat email yang valid.</div>
         </div>
 
         <div class="mb-3">
           <label for="password" class="form-label">Password</label>
-          <input id="password" name="password" type="password" class="form-control" placeholder="password" required />
+          <input id="password" name="password" type="password" class="form-control" placeholder="********" required />
           <div class="invalid-feedback">Masukkan password.</div>
         </div>
 

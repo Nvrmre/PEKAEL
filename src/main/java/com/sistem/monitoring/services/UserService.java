@@ -1,12 +1,10 @@
 package com.sistem.monitoring.services;
 
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +19,7 @@ import com.sistem.monitoring.repositories.StudentRepository;
 import com.sistem.monitoring.repositories.UserRepository;
 
 @Service
+@Transactional
 public class UserService {
 
     @Autowired
@@ -30,28 +29,17 @@ public class UserService {
     private final StudentRepository studentRepository;
     private final CompanySupervisorRepository companySupervisorRepository;
     private final SchoolSupervisorRepository schoolSupervisorRepository;
-    
 
-    // service dependencies (kamu punya ini di constructor awal)
-    private final StudentServices studentServices;
-    private final CompanySupervisorService companySupervisorService;
-    private final SchoolSupervisorService schoolSupervisorService;
-
+    // Constructor Injection
     public UserService(
             UserRepository userRepository,
             StudentRepository studentRepository,
             CompanySupervisorRepository companySupervisorRepository,
-            SchoolSupervisorRepository schoolSupervisorRepository,
-            StudentServices studentServices,
-            CompanySupervisorService companySupervisorService,
-            SchoolSupervisorService schoolSupervisorService) {
+            SchoolSupervisorRepository schoolSupervisorRepository) {
         this.userRepository = userRepository;
         this.studentRepository = studentRepository;
         this.companySupervisorRepository = companySupervisorRepository;
         this.schoolSupervisorRepository = schoolSupervisorRepository;
-        this.studentServices = studentServices;
-        this.companySupervisorService = companySupervisorService;
-        this.schoolSupervisorService = schoolSupervisorService;
     }
 
     public List<UserModel> getAllUser() {
@@ -62,208 +50,181 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    @Transactional
+    // ========================================================================
+    // CREATE NEW USER (Full Parameter Spesifik)
+    // ========================================================================
     public UserModel createNewUser(
             UserModel user,
-            String studentNumber,
-            String studentPhone,
-            String companyName,
-            String jobTitle,
-            String employeeIdNumber,
-            String supervisorPhone
-           ) {
+            // Data Student
+            String studentNumber, String studentPhone, String studentName,
+            String studentAddress, String studentMajor, String studentClass,
+            // Data School Supervisor
+            String employeeIdNumber, String schoolPhone, String schoolSupervisorName,
+            String schoolName, String schoolPosition, String schoolSubject,
+            // Data Company Supervisor
+            String companyName, String jobTitle, String companySupervisorName, String companySupervisorPhone,
+            // Data Administrator
+            String adminFullName, String adminPhone, String adminDept
+    ) {
 
-        if (user.getEmail() != null && userRepository.findByEmail(user.getEmail()) != null) {
-            throw new IllegalArgumentException("Email already exists");
-        }
-
-        // --- Safety: if UserModel has adminAccessLevel field, ensure we do not set a
-        // wrong value for non-admin roles.
-        try {
-            Method getAdmin = user.getClass().getMethod("getAdminAccessLevel");
-            Method setAdmin = user.getClass().getMethod("setAdminAccessLevel", getAdmin.getReturnType());
-
-            if (user.getRole() == null || user.getRole() != UserModel.Role.Administrator) {
-                // set admin access to null for non-admin users (avoids sending invalid value to
-                // DB)
-                setAdmin.invoke(user, new Object[] { null });
+        // 1. Validasi Email
+        if (user.getEmail() != null && !user.getEmail().isBlank()) {
+            if (userRepository.findByEmail(user.getEmail()).isPresent()){
+                throw new IllegalArgumentException("Email Already exist " + user.getEmail());
             }
-            // if role is Administrator we leave whatever value caller set (expected to be
-            // valid enum)
-        } catch (NoSuchMethodException nsme) {
-            // UserModel doesn't have adminAccessLevel – that's fine, ignore.
-        } catch (Exception ex) {
           
         }
-        //create hashed password
-        String hashedPassword = passwordEncoder.encode(studentNumber);
 
-        // save user first (so child entities can reference proper user_id)
-        UserModel savedUser = userRepository.save(user);
+        // 2. Generate Password Default
+        String rawPassword;
+        if (user.getPassword() != null && !user.getPassword().isBlank()) {
+            rawPassword = user.getPassword();
+        } else if (studentNumber != null && !studentNumber.isBlank()) {
+            rawPassword = studentNumber; // Default Password Siswa = NISN
+        } else if (employeeIdNumber != null && !employeeIdNumber.isBlank()) {
+            rawPassword = employeeIdNumber; // Default Password Guru = NIP
+        } else {
+            rawPassword = UUID.randomUUID().toString();
+        }
 
-        // create role-specific child entity (only if role present)
-        if (savedUser.getRole() != null) {
-            switch (savedUser.getRole()) {
+        user.setPassword(passwordEncoder.encode(rawPassword));
+
+        // 3. Reset Admin Access jika bukan Admin
+        if (user.getRole() != UserModel.Role.Administrator) {
+            user.setAdminAccessLevel(null);
+        }
+
+        // 4. Mapping Data ke Child Model
+        if (user.getRole() != null) {
+            switch (user.getRole()) {
                 case Student:
                     StudentModel s = new StudentModel();
-                    s.setUser(savedUser); // owning side is StudentModel.user
-                    s.setStudentNumber(studentNumber == null ? "" : studentNumber);
-                    s.setPhoneNumber(studentPhone == null ? "" : studentPhone);
-                    user.setPassword(hashedPassword);
-                    
-                  
-                    // optional: studentFullName not available in params — can be set later via edit
-                    studentRepository.save(s);
-                    // ensure bi-directional reference
-                    savedUser.setStudent(s);
+                    s.setUser(user);
+                    s.setStudentNumber(safe(studentNumber));
+                    s.setPhoneNumber(safe(studentPhone));
+                    s.setStudentFullName(safe(studentName));
+                    s.setStudentAddress(safe(studentAddress));
+                    s.setStudentMajor(safe(studentMajor));
+                    s.setStudentClass(safe(studentClass));
+                    user.setStudent(s);
                     break;
 
                 case Company_Supervisor:
                     CompanySupervisorModel cs = new CompanySupervisorModel();
-                    cs.setUser(savedUser); // set user owner
-                    cs.setJobTitle(jobTitle == null ? "" : jobTitle);
-                    // company relation not set here because we need CompanyRepository / lookup by
-                    // name.
-                    // If you want to auto-create/find Company by companyName, add CompanyRepository
-                    // and set it here.
-                    companySupervisorRepository.save(cs);
-                    savedUser.setCompanySupervisor(cs);
+                    cs.setUser(user);
+                    cs.setJobTitle(safe(jobTitle));
+                    cs.setCompanySupervisorFullName(safe(companySupervisorName));
+                    cs.setCompanySupervisorPhone(safe(companySupervisorPhone));
+                    // Logic CompanyName jika diperlukan
+                    user.setCompanySupervisor(cs);
                     break;
 
                 case School_Supervisor:
                     SchoolSupervisorModel ss = new SchoolSupervisorModel();
-                    ss.setUser(savedUser);
-                    ss.setEmployeeIdNumber(employeeIdNumber == null ? "" : employeeIdNumber);
-                    ss.setSchoolSupervisorPhone(supervisorPhone == null ? "" : supervisorPhone);
-                    schoolSupervisorRepository.save(ss);
-                    savedUser.setSchoolSupervisor(ss);
+                    ss.setUser(user);
+                    ss.setEmployeeIdNumber(safe(employeeIdNumber));
+                    ss.setSchoolSupervisorPhone(safe(schoolPhone));
+                    ss.setSchoolSupervisorFullName(safe(schoolSupervisorName));
+                    ss.setSchoolName(safe(schoolName));
+                    ss.setSchoolSupervisorPosition(safe(schoolPosition));
+                    ss.setSchoolSupervisorSubject(safe(schoolSubject));
+                    user.setSchoolSupervisor(ss);
                     break;
 
                 case Administrator:
-                    // no separate child entity needed
+                    user.setAdminFullName(safe(adminFullName));
+                    user.setAdminPhone(safe(adminPhone));
+                    user.setAdminDepartment(safe(adminDept));
+                    user.setAdminActive(true);
                     break;
             }
         }
 
-        if (user.getRole() == null || user.getRole() != UserModel.Role.Administrator) {
-            user.setAdminAccessLevel(null);
-        }
-
-        // return fully attached saved user
-        return savedUser;
+        return userRepository.save(user);
     }
 
-    /**
-     * Update user + role-specific data.
-     * If role changed, old child is deleted and new child is created.
-     */
-    @Transactional
-    public UserModel updateUser(Long id, UserModel updated) {
+    // ========================================================================
+    // UPDATE USER (Menerima Parameter Generic)
+    // ========================================================================
+    public UserModel updateUser(Long id, UserModel updated,
+                                String genericFullName,
+                                String genericPhone,
+                                String genericAddress,
+                                String genericIdentityNumber) {
+
         UserModel user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         UserModel.Role oldRole = user.getRole();
         UserModel.Role newRole = updated.getRole();
 
-        // basic fields
+        // 1. Update Data Dasar User
         user.setUsername(updated.getUsername());
         user.setEmail(updated.getEmail());
-        // password handling: if client sends plain password, hash it here; otherwise
-        // keep previous
+
+        // Hanya update password jika diisi
         if (updated.getPassword() != null && !updated.getPassword().isEmpty()) {
-            user.setPassword(updated.getPassword());
+            user.setPassword(passwordEncoder.encode(updated.getPassword()));
         }
 
         user.setRole(newRole);
 
-        // update existing child fields (if objects present)
-        if (user.getCompanySupervisor() != null && updated.getCompanySupervisor() != null) {
-            // update companySupervisor fields safely
-            if (updated.getCompanySupervisor().getCompany() != null) {
-                user.getCompanySupervisor().setCompany(updated.getCompanySupervisor().getCompany());
-            }
-            user.getCompanySupervisor().setJobTitle(updated.getCompanySupervisor().getJobTitle());
-            user.getCompanySupervisor()
-                    .setCompanySupervisorFullName(updated.getCompanySupervisor().getCompanySupervisorFullName());
-            user.getCompanySupervisor()
-                    .setCompanySupervisorPhone(updated.getCompanySupervisor().getCompanySupervisorPhone());
-        }
-        if (user.getStudent() != null && updated.getStudent() != null) {
-            user.getStudent().setStudentNumber(updated.getStudent().getStudentNumber());
-            user.getStudent().setPhoneNumber(updated.getStudent().getPhoneNumber());
-            user.getStudent().setStudentFullName(updated.getStudent().getStudentFullName());
-            user.getStudent().setStudentAddress(updated.getStudent().getStudentAddress());
-            user.getStudent().setStudentMajor(updated.getStudent().getStudentMajor());
-            user.getStudent().setStudentClass(updated.getStudent().getStudentClass());
-        }
-        if (user.getSchoolSupervisor() != null && updated.getSchoolSupervisor() != null) {
-            user.getSchoolSupervisor().setEmployeeIdNumber(updated.getSchoolSupervisor().getEmployeeIdNumber());
-            user.getSchoolSupervisor()
-                    .setSchoolSupervisorPhone(updated.getSchoolSupervisor().getSchoolSupervisorPhone());
-        }
-
-        // handle role change: delete old child rows (to avoid unique constraint
-        // conflicts), then create new child
+        // 2. Handle Perubahan Role (Hapus data child lama jika role berubah)
         if (oldRole != newRole) {
-
-            // delete old children if present
-            if (oldRole == UserModel.Role.Student && user.getStudent() != null) {
-                Long studentId = user.getStudent().getStudentId();
-                if (studentId != null)
-                    studentRepository.deleteById(studentId);
-                user.setStudent(null);
-            }
-            if (oldRole == UserModel.Role.Company_Supervisor && user.getCompanySupervisor() != null) {
-                Long csId = user.getCompanySupervisor().getcSupervisorId();
-                if (csId != null)
-                    companySupervisorRepository.deleteById(csId);
+            if (oldRole == UserModel.Role.Student) {
+                user.setStudent(null); // Orphan Removal akan menghapus di DB
+            } else if (oldRole == UserModel.Role.Company_Supervisor) {
                 user.setCompanySupervisor(null);
-            }
-            if (oldRole == UserModel.Role.School_Supervisor && user.getSchoolSupervisor() != null) {
-                Long ssId = user.getSchoolSupervisor().getsSupervisorId();
-                if (ssId != null)
-                    schoolSupervisorRepository.deleteById(ssId);
+            } else if (oldRole == UserModel.Role.School_Supervisor) {
                 user.setSchoolSupervisor(null);
+            } else if (oldRole == UserModel.Role.Administrator) {
+                user.setAdminFullName(null);
+                user.setAdminPhone(null);
+                user.setAdminDepartment(null);
             }
-
-            // create new child depending on new role
-            if (newRole == UserModel.Role.Student) {
-                StudentModel student = new StudentModel();
-                StudentModel updStud = updated.getStudent();
-                student.setStudentNumber(updStud != null ? safe(updStud.getStudentNumber()) : "");
-                student.setPhoneNumber(updStud != null ? safe(updStud.getPhoneNumber()) : "");
-                student.setStudentFullName(updStud != null ? safe(updStud.getStudentFullName()) : "");
-                student.setUser(user);
-                studentRepository.save(student);
-                user.setStudent(student);
-            } else if (newRole == UserModel.Role.Company_Supervisor) {
-                CompanySupervisorModel spv = new CompanySupervisorModel();
-                CompanySupervisorModel updCs = updated.getCompanySupervisor();
-                if (updCs != null && updCs.getCompany() != null) {
-                    spv.setCompany(updCs.getCompany());
-                }
-                spv.setJobTitle(updCs != null ? safe(updCs.getJobTitle()) : "");
-                spv.setCompanySupervisorFullName(updCs != null ? safe(updCs.getCompanySupervisorFullName()) : "");
-                spv.setCompanySupervisorPhone(updCs != null ? safe(updCs.getCompanySupervisorPhone()) : "");
-                spv.setUser(user);
-                companySupervisorRepository.save(spv);
-                user.setCompanySupervisor(spv);
-            } else if (newRole == UserModel.Role.School_Supervisor) {
-                SchoolSupervisorModel sspv = new SchoolSupervisorModel();
-                SchoolSupervisorModel updSs = updated.getSchoolSupervisor();
-                sspv.setEmployeeIdNumber(updSs != null ? safe(updSs.getEmployeeIdNumber()) : "");
-                sspv.setSchoolSupervisorPhone(updSs != null ? safe(updSs.getSchoolSupervisorPhone()) : "");
-                sspv.setUser(user);
-                schoolSupervisorRepository.save(sspv);
-                user.setSchoolSupervisor(sspv);
-            } else {
-                // newRole Administrator — nothing to create
-            }
+            userRepository.saveAndFlush(user); // Flush perubahan delete
         }
-      
-        
 
-        // ensure user saved and children cascaded/persisted
+        // 3. Mapping Generic Input ke Spesifik Field berdasarkan Role BARU
+        if (newRole == UserModel.Role.Student) {
+            StudentModel student = user.getStudent();
+            if (student == null) { student = new StudentModel(); student.setUser(user); }
+
+            student.setStudentFullName(safe(genericFullName));
+            student.setPhoneNumber(safe(genericPhone));
+            student.setStudentAddress(safe(genericAddress));
+            student.setStudentNumber(safe(genericIdentityNumber)); // NISN
+
+            user.setStudent(student);
+
+        } else if (newRole == UserModel.Role.School_Supervisor) {
+            SchoolSupervisorModel ss = user.getSchoolSupervisor();
+            if (ss == null) { ss = new SchoolSupervisorModel(); ss.setUser(user); }
+
+            ss.setSchoolSupervisorFullName(safe(genericFullName));
+            ss.setSchoolSupervisorPhone(safe(genericPhone));
+            ss.setSchoolSupervisorAddress(safe(genericAddress));
+            ss.setEmployeeIdNumber(safe(genericIdentityNumber)); // NIP
+
+            user.setSchoolSupervisor(ss);
+
+        } else if (newRole == UserModel.Role.Administrator) {
+            user.setAdminFullName(safe(genericFullName));
+            user.setAdminPhone(safe(genericPhone));
+            user.setAdminOfficeLocation(safe(genericAddress));
+            user.setAdminActive(true);
+
+        } else if (newRole == UserModel.Role.Company_Supervisor) {
+            CompanySupervisorModel cs = user.getCompanySupervisor();
+            if (cs == null) { cs = new CompanySupervisorModel(); cs.setUser(user); }
+
+            cs.setCompanySupervisorFullName(safe(genericFullName));
+            cs.setCompanySupervisorPhone(safe(genericPhone));
+            // cs.setCompanyAddress(safe(genericAddress)); // Jika ada
+
+            user.setCompanySupervisor(cs);
+        }
+
         return userRepository.save(user);
     }
 
@@ -271,7 +232,7 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    // small util
+    // Helper untuk mencegah NullPointerException
     private static String safe(String s) {
         return s == null ? "" : s;
     }

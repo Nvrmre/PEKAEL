@@ -60,7 +60,7 @@ public class CompanySupervisorService {
             // cek email uniqueness (jika email diubah)
             String newEmail = uForm.getEmail();
             if (newEmail != null && !newEmail.equals(user.getEmail())) {
-                UserModel byEmail = userRepository.findByEmail(newEmail);
+                UserModel byEmail = userRepository.findByEmail(newEmail).orElse(null);
                 if (byEmail != null && !byEmail.getUserId().equals(user.getUserId())) {
                     throw new IllegalArgumentException("Email already used by another account");
                 }

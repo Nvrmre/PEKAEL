@@ -19,14 +19,14 @@ public class StudentModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long studentId;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private UserModel user;
 
 
     @Column(unique = true)
     private String studentNumber;
-    
+
     @Column(nullable = true, length = 13)
     private String phoneNumber;
 

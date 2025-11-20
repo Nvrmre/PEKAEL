@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,19 +26,18 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository) {
-        return username -> userRepository.findByUsername(username)
+        return emailInput -> userRepository.findByEmail(emailInput)
                 .map(user -> {
                     List<SimpleGrantedAuthority> authorities = mapRoleToAuthorities(user);
-
                     return org.springframework.security.core.userdetails.User
-                            .withUsername(user.getUsername())
+                            .withUsername(user.getUsername()) 
                             .password(user.getPassword())
                             .authorities(authorities)
                             .accountLocked(!Boolean.TRUE.equals(user.getAdminActive()))
                             .disabled(!Boolean.TRUE.equals(user.getAdminActive()))
                             .build();
                 })
-                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+                .orElseThrow(() -> new UsernameNotFoundException("Email tidak ditemukan: " + emailInput));
     }
 
     private static List<SimpleGrantedAuthority> mapRoleToAuthorities(UserModel user) {
@@ -49,17 +47,25 @@ public class SecurityConfig {
 
         String authority;
         switch (r.name().toLowerCase()) {
-            case "administrator":
+            case "administrator": 
+            case "Administrator": 
             case "admin":
-                authority = "ROLE_ADMIN";
+                authority = "ADMINISTRATOR";
                 break;
+            case "student":
             case "Student":
+                authority = "STUDENT"; 
+                break;
             case "school_supervisor":
-                authority = "ROLE_USER";
+            case "School_supervisor":
+                authority = "SCHOOL_SUPERVISOR";
+                break;
+            case "company_supervisor": 
+            case "Company_supervisor": 
+                authority = "COMPANY_SUPERVISOR";
                 break;
             default:
-                // fallback: normalisasi menjadi ROLE_{UPPER}
-                authority = "ROLE_" + r.name().toUpperCase();
+                authority = r.name().toUpperCase();
         }
         return List.of(new SimpleGrantedAuthority(authority));
     }
@@ -67,24 +73,38 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/Auth/login", "/css/**", "/js/**").permitAll()
-                        .anyRequest().authenticated())
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/","/home","/Auth/login", "/css/**", "/js/**").permitAll()
 
-                .formLogin(form -> form
-                        .loginPage("/Auth/login") // ← WAJIB pakai "/" di depan
-                        .loginProcessingUrl("/Auth/login") // ← sama, wajib "/"
-                        .defaultSuccessUrl("/index", true)
-                        .permitAll())
+                // AREA ADMINISTRATOR
+                .requestMatchers(
+                    "/UserView/**",
+                    "/SchoolSupervisorView/**", 
+                    "/ReportSubmissionView/**",
+                    "/PlacementView/**",
+                    "/CompanySupervisorView/**",
+                    "/CompanyView/**",
+                    "/DailyJournalView/**",
+                    "/StudentView/**"
+                ).hasAnyAuthority("ADMINISTRATOR", "ROLE_ADMINISTRATOR") 
+                .anyRequest().authenticated()
+            )
 
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/Auth/login?logout")
-                        .invalidateHttpSession(true)
-                        .clearAuthentication(true)
-                        .permitAll());
+            .formLogin(form -> form
+                .loginPage("/Auth/login")
+                .loginProcessingUrl("/Auth/login")
+                // .usernameParameter("email") 
+                .defaultSuccessUrl("/index", true)
+                .permitAll()
+            )
+
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/Auth/login?logout")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+            );
 
         return http.build();
     }
-
 }

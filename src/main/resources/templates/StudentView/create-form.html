@@ -8,7 +8,7 @@
     <form th:action="@{/students}" th:object="${student}" method="post">
         <label>Username:</label>
         <input type="text" th:field="*{user.username}" /><br/>
-
+        
         <label>Password:</label>
         <input type="password" th:field="*{user.password}" /><br/>
 

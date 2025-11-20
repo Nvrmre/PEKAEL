@@ -28,6 +28,11 @@ public class PlacementService {
         return placementRepository.findById(id);
     }
 
+
+    public Optional<PlacementModel> getPlacementByStudentId(Long studentId) {
+        return placementRepository.findByStudentStudentId(studentId);
+    }
+
     public PlacementModel createPlacement(PlacementModel placement){
         if (placement.getCompany() != null && placement.getCompany().getCompanyId() != null) {
         Long companyId = placement.getCompany().getCompanyId();

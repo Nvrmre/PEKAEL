@@ -34,6 +34,7 @@ public class AttendanceModel {
     private LocalDateTime checkOutTime;
 
     private String checkInPhotoUrl;
+    private String notes;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -102,6 +103,14 @@ public class AttendanceModel {
 
     public void setPresenceStatus(Presence presenceStatus) {
         this.presenceStatus = presenceStatus;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
 
