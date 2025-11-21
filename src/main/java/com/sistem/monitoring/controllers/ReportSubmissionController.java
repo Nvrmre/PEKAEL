@@ -31,7 +31,7 @@ public class ReportSubmissionController {
 
     private final ReportSubmissionService reportSubmissionService;
     private final PlacementService placementService;
-    private final Path uploadDir = Paths.get("Upload/report-submission");
+    private final Path uploadDir = Paths.get("src/main/resources/static/uploads/report-submission/");
 
     public ReportSubmissionController(ReportSubmissionService reportService,
                                       PlacementService placementService) {
