@@ -25,6 +25,9 @@ public class AttendanceModel {
     @JoinColumn(name = "placementId")
     private PlacementModel placement;
 
+
+
+
     @Column(nullable = false)
     private LocalDateTime date;
 
@@ -40,19 +43,13 @@ public class AttendanceModel {
     @Enumerated(EnumType.STRING)
     private Presence presenceStatus;
 
-    public enum Presence{
-        SICK,
-        PRESENT,
-        ABSENT,
-        PERMISION
-    }
-
+    
     public AttendanceModel(){}
-
+    
     public Long getAttendId() {
         return attendId;
     }
-
+    
     public void setAttendId(Long attendId) {
         this.attendId = attendId;
     }
@@ -92,27 +89,33 @@ public class AttendanceModel {
     public String getCheckInPhotoUrl() {
         return checkInPhotoUrl;
     }
-
+    
     public void setCheckInPhotoUrl(String checkInPhotoUrl) {
         this.checkInPhotoUrl = checkInPhotoUrl;
     }
-
+    
     public Presence getPresenceStatus() {
         return presenceStatus;
     }
-
+    
     public void setPresenceStatus(Presence presenceStatus) {
         this.presenceStatus = presenceStatus;
     }
-
+    
     public String getNotes() {
         return notes;
     }
-
+    
     public void setNotes(String notes) {
         this.notes = notes;
     }
-
+    
+    public enum Presence{
+        SICK,
+        PRESENT,
+        ABSENT,
+        PERMISION
+    }
 
     
 }

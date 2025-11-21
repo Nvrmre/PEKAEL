@@ -72,6 +72,7 @@ public class PlacementController {
         model.addAttribute("schoolSupervisors", schoolSupervisorService.getSchoolSupervisor());
         model.addAttribute("companySupervisors", companySupervisorService.getCompanySupervisor());
         model.addAttribute("statuses", Status.values());
+
         return "PlacementView/create-form";
     }
 
@@ -194,7 +195,7 @@ public class PlacementController {
         try {
             placement.setStatus(Status.valueOf(statusStr));
         } catch (Exception ex) {
-            // ignore or set default
+           
         }
 
         placementService.createPlacement(placement);
@@ -217,7 +218,7 @@ public class PlacementController {
             return "PlacementView/detail";
         } catch (Exception ex) {
             model.addAttribute("errorMessage", ex.getMessage());
-            return "error/custom-error"; // buat halaman error-friendly jika mau
+            return "error/custom-error";
         }
     }
 

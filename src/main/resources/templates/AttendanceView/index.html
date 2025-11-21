@@ -178,27 +178,30 @@
         <tbody>
           <tr th:each="att, iterStat : ${attend}">
             <td th:text="${iterStat.count}">1</td>
-            <td th:text="${att.student != null ? att.student.user.username : '—'}">John Doe</td>
-            <td th:text="${#dates.format(att.date,'dd MMM yyyy')}">01 Nov 2025</td>
-            <td th:text="${att.checkInTime != null ? att.checkInTime : '-'}">07:45</td>
-            <td th:text="${att.checkOutTime != null ? att.checkOutTime : '-'}">16:10</td>
+            <td th:text="${att.placement.student != null ? att.placement.student.user.username : '—'}">John Doe</td>
+            <td th:text="${att.date != null ? #temporals.format(att.date, 'dd MMM yyyy') : '-'}">01 Nov 2025</td>
+            <td th:text="${att.checkInTime != null ? #temporals.format(att.checkInTime, 'HH:mm') : '-'}">07:45</td>
+            <td th:text="${att.checkOutTime != null ? #temporals.format(att.checkOutTime, 'HH:mm') : '-'}">16:10</td>
             <td>
-              <span th:text="${att.status}" th:classappend="${att.status == 'Hadir'} ? 'badge bg-success' :
-                                    ${att.status == 'Izin'} ? 'badge bg-warning text-dark' :
-                                    ${att.status == 'Sakit'} ? 'badge bg-info text-dark' : 'badge bg-secondary'">
+              <span th:text="${att.presenceStatus}" 
+                      th:classappend="
+                           ${#strings.toString(att.presenceStatus) == 'PRESENT'} ? 'bg-success' :
+                          (${#strings.toString(att.presenceStatus) == 'PERMIT'} ? 'bg-warning text-dark' :
+                          (${#strings.toString(att.presenceStatus) == 'SICK'} ? 'bg-info text-dark' : 
+                          'bg-danger'))">
                 Hadir
               </span>
             </td>
             <td>
               <div class="d-flex gap-1">
-                <a th:href="@{'/attendances/edit/' + ${att.id}}" class="btn-action btn-edit">
+                <a th:href="@{'/attendances/edit/' + ${att.attendId}}" class="btn-action btn-edit">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor"
                     stroke-width="1.8">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M11 4h6m-6 4h6M6 20h12" />
                   </svg>
                   Edit
                 </a>
-                <form th:action="@{/attendances/{id}(id=${att.id})}" method="post" style="display:inline;">
+                <form th:action="@{/attendances/{id}(id=${att.attendId})}" method="post" style="display:inline;">
                   <input type="hidden" name="_method" value="delete" />
                   <button type="submit" class="btn-action btn-delete"
                     onclick="return confirm('Yakin ingin menghapus data ini?')">

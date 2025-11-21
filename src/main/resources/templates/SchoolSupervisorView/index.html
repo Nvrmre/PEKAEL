@@ -24,7 +24,7 @@
         <td th:text="${ssp.user != null ? ssp.user.username : '—'}">Nama</td>
         <td th:text="${ssp.user != null ? ssp.user.email : '—'}">email@contoh.com</td>
         <td th:text="${ssp.employeeIdNumber != null ? ssp.employeeIdNumber : '—'}">EMP123</td>
-        <td th:text="${ssp.phoneNumber != null ? ssp.phoneNumber : '—'}">0812...</td>
+        <td th:text="${ssp.schoolSupervisorPhone != null ? ssp.schoolSupervisorPhone : '—'}">0812...</td>
         <td>
           <a th:href="@{/sch-spv/edit/{id}(id=${ssp.sSupervisorId})}">Edit</a>
           <form th:action="@{/sch-spv/{id}(id=${ssp.sSupervisorId})}"

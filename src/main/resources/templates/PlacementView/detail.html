@@ -219,9 +219,9 @@
 
             <div class="field">
               <div class="label">No. HP Pembimbing Perusahaan</div>
-              <div class="value" th:if="${placement != null and placement.companySupervisor != null and (placement.companySupervisor.phoneNumber != null)}"
-                   th:text="${placement.companySupervisor.phoneNumber}">-</div>
-              <div class="value" th:unless="${placement != null and placement.companySupervisor != null and (placement.companySupervisor.phoneNumber != null)}">-</div>
+              <div class="value" th:if="${placement != null and placement.companySupervisor != null and (placement.companySupervisor.companySupervisorPhone != null)}"
+                   th:text="${placement.companySupervisor.companySupervisorPhone}">-</div>
+              <div class="value" th:unless="${placement != null and placement.companySupervisor != null and (placement.companySupervisor.companySupervisorPhone != null)}">-</div>
             </div>
 
             <div class="field">
@@ -233,9 +233,9 @@
 
             <div class="field">
               <div class="label">No. HP Pembimbing Sekolah</div>
-              <div class="value" th:if="${placement != null and placement.schoolSupervisor != null and (placement.schoolSupervisor.phoneNumber != null)}"
-                   th:text="${placement.schoolSupervisor.phoneNumber}">-</div>
-              <div class="value" th:unless="${placement != null and placement.schoolSupervisor != null and (placement.schoolSupervisor.phoneNumber != null)}">-</div>
+              <div class="value" th:if="${placement != null and placement.schoolSupervisor != null and (placement.schoolSupervisor.schoolSupervisorPhone != null)}"
+                   th:text="${placement.schoolSupervisor.schoolSupervisorPhone}">-</div>
+              <div class="value" th:unless="${placement != null and placement.schoolSupervisor != null and (placement.schoolSupervisor.schoolSupervisorPhone != null)}">-</div>
             </div>
 
             <div class="field">
