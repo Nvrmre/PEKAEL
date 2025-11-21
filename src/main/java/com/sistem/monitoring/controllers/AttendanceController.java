@@ -60,8 +60,6 @@ public class AttendanceController {
     @GetMapping("/create")
     public String showFormCreate(Model model, Principal principal) {
         AttendanceModel attend = new AttendanceModel();
-
-        // Logika Otomatis untuk Siswa -> Placement
         if (principal != null) {
             String username = principal.getName();
             
@@ -74,11 +72,9 @@ public class AttendanceController {
             if (user != null && user.getRole() == UserModel.Role.Student && user.getStudent() != null) {
                 Long studentId = user.getStudent().getStudentId();
 
-                // Cari Placement aktif
                 PlacementModel myPlacement = placementService.getPlacementByStudentId(studentId)
                         .orElse(null);
 
-                // Jika ketemu, set ke form
                 if (myPlacement != null) {
                     attend.setPlacement(myPlacement);
                 }

@@ -23,18 +23,6 @@
       font-size: 1rem;
     }
 
-    .topbar {
-      background: linear-gradient(180deg, rgba(11, 35, 64, 0.97), rgba(11, 35, 64, 0.93));
-      color: #fff;
-      padding: 0.75rem 1rem;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
-    }
-
-    .brand {
-      font-weight: 600;
-      font-size: 1.2rem;
-    }
-
     .container-main {
       max-width: 1000px;
       margin: 2rem auto;
@@ -59,28 +47,30 @@
       stroke: var(--accent);
     }
 
+    /* smaller add button */
     .btn-add {
       background: var(--accent);
       color: white;
       border: none;
       border-radius: 6px;
-      padding: 0.45rem 0.9rem;
+      padding: 0.35rem 0.7rem;
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.35rem;
       font-weight: 600;
-      transition: all 0.25s ease;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
       text-decoration: none;
+    }
+
+    .btn-add svg {
+      width: 14px;
+      height: 14px;
     }
 
     .btn-add:hover {
       background: #a5793e;
       transform: translateY(-2px);
-    }
-     .btn-add svg {
-      width: 18px;
-      height: 18px;
-      color: white;
     }
 
     table thead {
@@ -97,34 +87,60 @@
       vertical-align: middle;
     }
 
-    .btn-action {
+    /* Icon-only action buttons */
+    .btn-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
       display: inline-flex;
       align-items: center;
-      gap: 0.3rem;
-      font-size: 0.95rem;
-      padding: 0.35rem 0.7rem;
-      border-radius: 6px;
+      justify-content: center;
       border: none;
-      transition: 0.2s;
+      cursor: pointer;
+      transition: 0.18s;
+      padding: 0;
     }
 
-    .btn-edit {
+    .btn-edit-icon {
       background: #0b74a4;
       color: #fff;
     }
 
-    .btn-delete {
+    .btn-edit-icon:hover {
+      background: #095b7f;
+      transform: translateY(-2px);
+    }
+
+    .btn-delete-icon {
       background: #c44d3a;
       color: #fff;
     }
 
-    .btn-edit:hover {
-      background: #095b7f;
+    .btn-delete-icon:hover {
+      background: #a63e2d;
+      transform: translateY(-2px);
     }
 
-    .btn-delete:hover {
-      background: #a63e2d;
+    .btn-icon svg {
+      width: 16px;
+      height: 16px;
+      color: #fff;
     }
+
+    .badge-status {
+      display: inline-block;
+      padding: 0.35rem 0.6rem;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .badge-hadir { background: #198754; color: #fff; }
+    .badge-sakit { background: #0dcaf0; color: #0b2340; }
+    .badge-alpha { background: #dc3545; color: #fff; }
+    .badge-izin { background: #ffc107; color: #0b2340; }
+
+    .img-thumb { width: 56px; height: 42px; object-fit: cover; border-radius: 6px; border: 1px solid #e9ecef; }
 
     footer {
       text-align: center;
@@ -133,17 +149,20 @@
       padding: 1rem;
       margin-top: 2rem;
     }
+
+    /* small responsive adjustments */
+    @media (max-width: 720px) {
+      .img-thumb { width: 44px; height: 34px; }
+      .btn-icon { width: 30px; height: 30px; }
+    }
   </style>
 </head>
 
 <body>
+  <!-- fragments (navbar/sidebar) -->
   <div th:replace="~{layouts/fragments/navbar :: topbar}"></div>
   <div th:replace="~{layouts/fragments/sidebar :: sidebar}"></div>
 
-  <div id="pageOverlay" class="overlay" aria-hidden="true"></div>
-
-
-  <!-- Main Content -->
   <main class="container-main">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h2 class="title">
@@ -154,11 +173,13 @@
         </svg>
         Daftar Absensi
       </h2>
-      <a th:href="@{/attendances/create}" class="btn-add">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+
+      <a th:href="@{/attendances/create}" class="btn-add" title="Tambah Absensi">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
         </svg>
-        Tambah Absensi
+        Tambah
       </a>
     </div>
 
@@ -167,10 +188,10 @@
         <thead>
           <tr>
             <th>No</th>
+            <th>Foto</th>
             <th>Nama Siswa</th>
             <th>Tanggal</th>
-            <th>Jam Masuk</th>
-            <th>Jam Keluar</th>
+            <th>Waktu</th>
             <th>Status</th>
             <th>Aksi</th>
           </tr>
@@ -178,44 +199,73 @@
         <tbody>
           <tr th:each="att, iterStat : ${attend}">
             <td th:text="${iterStat.count}">1</td>
-            <td th:text="${att.placement.student != null ? att.placement.student.user.username : '—'}">John Doe</td>
-            <td th:text="${att.date != null ? #temporals.format(att.date, 'dd MMM yyyy') : '-'}">01 Nov 2025</td>
-            <td th:text="${att.checkInTime != null ? #temporals.format(att.checkInTime, 'HH:mm') : '-'}">07:45</td>
-            <td th:text="${att.checkOutTime != null ? #temporals.format(att.checkOutTime, 'HH:mm') : '-'}">16:10</td>
+
+            <!-- Foto thumbnail: tampilkan jika ada checkInPhotoUrl -->
             <td>
-              <span th:text="${att.presenceStatus}" 
-                      th:classappend="
-                           ${#strings.toString(att.presenceStatus) == 'PRESENT'} ? 'bg-success' :
-                          (${#strings.toString(att.presenceStatus) == 'PERMIT'} ? 'bg-warning text-dark' :
-                          (${#strings.toString(att.presenceStatus) == 'SICK'} ? 'bg-info text-dark' : 
-                          'bg-danger'))">
-                Hadir
-              </span>
-            </td>
-            <td>
-              <div class="d-flex gap-1">
-                <a th:href="@{'/attendances/edit/' + ${att.attendId}}" class="btn-action btn-edit">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor"
-                    stroke-width="1.8">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 4h6m-6 4h6M6 20h12" />
-                  </svg>
-                  Edit
-                </a>
-                <form th:action="@{/attendances/{id}(id=${att.attendId})}" method="post" style="display:inline;">
-                  <input type="hidden" name="_method" value="delete" />
-                  <button type="submit" class="btn-action btn-delete"
-                    onclick="return confirm('Yakin ingin menghapus data ini?')">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor"
-                      stroke-width="1.8">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M6 7h12M9 7v10a2 2 0 002 2h2a2 2 0 002-2V7" />
-                    </svg>
-                    Hapus
-                  </button>
-                </form>
+              <div th:if="${att.checkInPhotoUrl != null and att.checkInPhotoUrl != ''}">
+                <img th:src="@{${att.checkInPhotoUrl}}" alt="foto" class="img-thumb" />
+              </div>
+              <div th:if="${att.checkInPhotoUrl == null or att.checkInPhotoUrl == ''}">
+                <!-- fallback debug image: lokal path you uploaded -->
+                <img src="/mnt/data/16088cea-d59f-4e0d-bcde-e7e0d066cc34.png" alt="no-photo" class="img-thumb" />
               </div>
             </td>
+
+            <td th:text="${att.placement != null && att.placement.student != null ? att.placement.student.user.username : '—'}">John Doe</td>
+
+            <td th:text="${att.date != null ? #temporals.format(att.date, 'dd MMM yyyy') : '-'}">01 Nov 2025</td>
+
+            <td th:text="${att.checkInTime != null ? #temporals.format(att.checkInTime, 'HH:mm') : '-'}">07:45</td>
+
+            <!-- Status: tampilkan label Indonesia + kelas badge -->
+            <td>
+              <span th:switch="${att.presenceStatus}">
+                <span th:case="${T(com.sistem.monitoring.models.AttendanceModel.Presence).PRESENT}"
+                      class="badge-status badge-hadir">Hadir</span>
+                <span th:case="${T(com.sistem.monitoring.models.AttendanceModel.Presence).SICK}"
+                      class="badge-status badge-sakit">Sakit</span>
+                <span th:case="${T(com.sistem.monitoring.models.AttendanceModel.Presence).ABSENT}"
+                      class="badge-status badge-alpha">Alpha</span>
+                <span th:case="${T(com.sistem.monitoring.models.AttendanceModel.Presence).PERMISION}"
+                      class="badge-status badge-izin">Izin</span>
+                <span th:case="*"
+                      class="badge-status badge-alpha"
+                      th:text="${att.presenceStatus != null ? att.presenceStatus.name() : '—'}">—</span>
+              </span>
+            </td>
+
+            <td>
+              <div class="d-flex align-items-center gap-2">
+
+                <!-- Edit (icon only) -->
+                <a th:href="@{'/attendances/edit/' + ${att.attendId}}"
+                   class="btn-icon btn-edit-icon"
+                   title="Edit">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+                    stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/>
+                  </svg>
+                </a>
+
+                <!-- Delete (icon only) -->
+                <form th:action="@{/attendances/{id}(id=${att.attendId})}" method="post" style="display:inline;">
+                  <input type="hidden" name="_method" value="delete" />
+                  <button type="submit" class="btn-icon btn-delete-icon" title="Hapus"
+                          onclick="return confirm('Yakin ingin menghapus data ini?')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+                      stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M3 6h18M8 6v12a2 2 0 002 2h4a2 2 0 002-2V6M10 6V4a2 2 0 012-2h0a2 2 0 012 2v2"/>
+                    </svg>
+                  </button>
+                </form>
+
+              </div>
+            </td>
+
           </tr>
+
           <tr th:if="${#lists.isEmpty(attend)}">
             <td colspan="7" class="text-center text-muted py-4">
               <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="currentColor"
@@ -231,7 +281,7 @@
   </main>
 
   <footer>
-    &copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}">2025</span> Sistem Monitoring — Semua hak
+    &copy; <span th:text="${#temporals.format(#temporals.createNow(),'yyyy')}">2025</span> Sistem Monitoring — Semua hak
     dilindungi.
   </footer>
 
