@@ -29,7 +29,6 @@ public class StudentModel {
 
     @Column(nullable = true, length = 13)
     private String phoneNumber;
-
     private String studentFullName;
     private String studentAddress;
     private String studentMajor;

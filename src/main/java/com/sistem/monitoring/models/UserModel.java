@@ -33,6 +33,7 @@ public class UserModel {
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;

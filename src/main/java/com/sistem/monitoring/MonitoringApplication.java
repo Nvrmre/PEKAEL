@@ -16,6 +16,10 @@ public class MonitoringApplication {
 		System.setProperty("DB_URL", dotenv.get("DB_URL"));
 		System.setProperty("DB_USERNAME", dotenv.get("DB_USERNAME"));
 		System.setProperty("DB_PASSWORD", dotenv.get("DB_PASSWORD"));
+		System.setProperty("ADMIN_USERNAME", dotenv.get("ADMIN_USERNAME"));
+		System.setProperty("ADMIN_PASSWORD", dotenv.get("ADMIN_PASSWORD"));
+		System.setProperty("ADMIN_EMAIL", dotenv.get("ADMIN_EMAIL"));
+		System.setProperty("ADMIN_FULLNAME", dotenv.get("ADMIN_FULLNAME"));
 
 		SpringApplication.run(MonitoringApplication.class, args);
 	}

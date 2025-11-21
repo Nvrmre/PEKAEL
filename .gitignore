@@ -10,6 +10,9 @@ target/
 src/main/resources/static/uploads/absensi/*
 !src/main/resources/static/uploads/absensi/.gitkeep
 
+src/main/resources/static/uploads/report-submission/*
+!src/main/resources/static/uploads/report-submission/.gitkeep
+
 ### STS ###
 .apt_generated
 .classpath

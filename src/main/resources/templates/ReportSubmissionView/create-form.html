@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Upload Laporan PKL - Sistem Monitoring</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #0b2340;
+            --cream: #f7f3ee;
+            --accent: #b78b4a;
+            --muted: #6c757d;
+        }
+
+        body {
+            background: var(--cream);
+            color: var(--navy);
+            font-family: Inter, Arial, sans-serif;
+        }
+
+        .container-main {
+            max-width: 850px;
+            margin: 2rem auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 14px;
+            box-shadow: 0 6px 20px rgba(11, 35, 64, 0.08);
+        }
+
+        .title-box {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .title-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: rgba(183, 139, 74, 0.15);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .title-icon svg {
+            width: 22px;
+            height: 22px;
+            stroke: var(--accent);
+        }
+
+        .page-title {
+            font-size: 1.45rem;
+            font-weight: 700;
+        }
+
+        .form-label {
+            font-weight: 600;
+        }
+
+        .input-group-text {
+            background: #fff;
+            border-right: 0;
+        }
+
+        .input-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke: var(--accent);
+        }
+
+        .form-control, .form-select {
+            border-left: 0 !important;
+        }
+
+        .btn-save {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: .6rem 1.3rem;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .btn-save:hover {
+            background: #a5813f;
+            transform: translateY(-2px);
+        }
+
+        .btn-cancel {
+            background: #e9ecef;
+            color: var(--muted);
+            padding: .55rem 1.2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .btn-cancel:hover {
+            background: #d6d7d9;
+            color: var(--navy);
+        }
+    </style>
+</head>
+
+<body>
+
+<div th:replace="~{layouts/fragments/navbar :: topbar}"></div>
+<div th:replace="~{layouts/fragments/sidebar :: sidebar}"></div>
+
+<main class="container-main">
+
+    <div class="title-box">
+        <div class="title-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.7">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 16l4-4m0 0l-4-4m4 4H4m8 4v1a2 2 0 002 2h6a2 2 0 002-2V7a2 2 0 00-2-2h-6a2 2 0 00-2 2v1" />
+            </svg>
+        </div>
+        <h2 class="page-title">Upload Laporan PKL</h2>
+    </div>
+
+    <form th:action="@{/report-submissions}" th:object="${submission}" method="post" enctype="multipart/form-data">
+
+        <!-- Placement siswa (hidden) -->
+        <input type="hidden" th:field="*{placement}" />
+
+        <!-- Status default PENDING -->
+        <input type="hidden" th:field="*{status}" value="PENDING" />
+
+        <!-- Judul Laporan -->
+        <div class="mb-3">
+            <label class="form-label">Judul Laporan</label>
+            <div class="input-group">
+                <span class="input-group-text input-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke-width="1.6"
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M4 6h16M4 10h16M4 14h10" />
+                    </svg>
+                </span>
+                <input type="text" class="form-control" th:field="*{fileTitle}"
+                       placeholder="Masukkan judul laporan..." required>
+            </div>
+        </div>
+
+        <!-- Upload File -->
+        <div class="mb-3">
+            <label class="form-label">Upload File Laporan (PDF/Doc)</label>
+            <div class="input-group">
+                <span class="input-group-text input-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke-width="1.6"
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M12 4v16m8-8H4" />
+                    </svg>
+                </span>
+                <input type="file" class="form-control" name="fileUpload" accept=".pdf,.doc,.docx" required>
+            </div>
+        </div>
+
+        <!-- Catatan Siswa -->
+        <div class="mb-3">
+            <label class="form-label">Catatan Siswa (Opsional)</label>
+            <div class="input-group">
+                <span class="input-group-text input-icon" style="align-items:start;">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke-width="1.6"
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M15 12H9m12-2H3m14 6H7" />
+                    </svg>
+                </span>
+                <textarea th:field="*{studentNotes}" class="form-control" rows="4"
+                          placeholder="Tambahkan catatan jika perlu..."></textarea>
+            </div>
+        </div>
+
+        <!-- Tombol -->
+        <div class="d-flex justify-content-end gap-2 mt-4">
+            <a th:href="@{/reports}" class="btn-cancel">Batal</a>
+            <button type="submit" class="btn-save">
+                Upload Laporan
+            </button>
+        </div>
+
+    </form>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
