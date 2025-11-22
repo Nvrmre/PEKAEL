@@ -18,7 +18,7 @@
   <main class="container-main">
     <h3>Buat Jurnal Harian</h3>
     <p class="small-note">Isi ringkas kegiatan harian Anda. Tanggal akan diisi otomatis.</p>
-
+    
     <form th:action="@{/daily-journal}" th:object="${journal}" method="post">
       <!-- Kirim placement jika controller mengharapkan object/ID; sesuaikan -->
       <input type="hidden" th:field="*{placement}" />

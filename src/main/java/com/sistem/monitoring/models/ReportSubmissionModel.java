@@ -18,6 +18,10 @@ public class ReportSubmissionModel {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long submissionId;
+    
+    @ManyToOne
+    @JoinColumn(name = "studentId") 
+    private StudentModel student;
 
     @ManyToOne
     @JoinColumn(name = "placementId")
@@ -94,6 +98,14 @@ public class ReportSubmissionModel {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public StudentModel getStudent() {
+        return student;
+    }
+
+    public void setStudent(StudentModel student) {
+        this.student = student;
     }
 
     

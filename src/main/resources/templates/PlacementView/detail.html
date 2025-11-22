@@ -158,8 +158,8 @@
           </div>
         </div>
 
-        <div class="actions">
-          <a th:href="@{/placements}" class="btn-back">Kembali</a>
+        <div class="actions"  th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
+          <a th:href="@{/placements}" class="btn-back" >Kembali</a>
           <a th:if="${placement != null and placement.placementId != null}"
              th:href="@{/placements/edit/{id}(id=${placement.placementId})}" class="btn-edit">Ubah</a>
         </div>

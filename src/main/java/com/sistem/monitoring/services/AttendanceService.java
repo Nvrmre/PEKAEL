@@ -76,4 +76,11 @@ public class AttendanceService {
     public void deleteAttendance(Long id) {
         attendanceRepository.deleteById(id);
     }
+
+    public List<AttendanceModel> findAttendanceByStudentId(Long StudentId){
+        return attendanceRepository.findByPlacementStudentStudentId(StudentId);
+    }
+    public Long countAttendanceByStudentId(Long StudentId){
+        return attendanceRepository.countByPlacementStudentStudentId(StudentId);
+    }
 }

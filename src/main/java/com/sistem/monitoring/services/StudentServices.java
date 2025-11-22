@@ -3,7 +3,7 @@ package com.sistem.monitoring.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +21,7 @@ public class StudentServices {
     private final StudentRepository studentRepository;
 
     // Constructor Injection (Lebih disarankan daripada @Autowired di field)
-    @Autowired
+
     public StudentServices(UserRepository userRepository,
                            PlacementRepository placementRepository,
                            StudentRepository studentRepository) {

@@ -1,5 +1,7 @@
 package com.sistem.monitoring.controllers;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,8 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 import com.sistem.monitoring.models.DailyJournal;
+import com.sistem.monitoring.models.PlacementModel;
+import com.sistem.monitoring.models.UserModel;
 import com.sistem.monitoring.services.DailyJournalService;
 import com.sistem.monitoring.services.PlacementService;
+import com.sistem.monitoring.services.UserService;
+
+
+
 
 @Controller
 @RequestMapping("/daily-journal")
@@ -23,9 +31,12 @@ public class DailyJournalController {
 
     @Autowired
     private DailyJournalService dailyJournalService;
+
     @Autowired
     private PlacementService placementService;
 
+    @Autowired
+    private UserService userService;
     @GetMapping
     public String showAll (Model model){
         model.addAttribute("journal", dailyJournalService.getAllJournal());
@@ -33,10 +44,30 @@ public class DailyJournalController {
     }
 
     @GetMapping("/create")
-    public String showCreateForm(Model model){
+    public String showCreateForm(Model model, Principal principal){
         DailyJournal journal = new DailyJournal();
+      
+          if (principal != null) {
+            String username = principal.getName();
+            
+            // Cari user login
+            UserModel user = userService.getAllUser().stream()
+                    .filter(u -> u.getUsername().equals(username))
+                    .findFirst().orElse(null);
+
+            // Jika User = Student & Punya Data Student
+            if (user != null && user.getRole() == UserModel.Role.Student && user.getStudent() != null) {
+                Long studentId = user.getStudent().getStudentId();
+
+                PlacementModel myPlacement = placementService.getPlacementByStudentId(studentId)
+                        .orElse(null);
+
+                if (myPlacement != null) {
+                    journal.setPlacement(myPlacement);
+                }
+            }
+        }
         model.addAttribute("journal", journal);
-        model.addAttribute("placement", placementService.getAllPlacement());
         return "DailyJournalView/create-form";
 
     }

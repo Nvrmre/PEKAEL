@@ -13,9 +13,6 @@ import com.sistem.monitoring.models.CompanySupervisorModel;
 import com.sistem.monitoring.models.SchoolSupervisorModel;
 import com.sistem.monitoring.models.StudentModel;
 import com.sistem.monitoring.models.UserModel;
-import com.sistem.monitoring.repositories.CompanySupervisorRepository;
-import com.sistem.monitoring.repositories.SchoolSupervisorRepository;
-import com.sistem.monitoring.repositories.StudentRepository;
 import com.sistem.monitoring.repositories.UserRepository;
 
 @Service
@@ -26,20 +23,14 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     private final UserRepository userRepository;
-    private final StudentRepository studentRepository;
-    private final CompanySupervisorRepository companySupervisorRepository;
-    private final SchoolSupervisorRepository schoolSupervisorRepository;
+   
 
     // Constructor Injection
     public UserService(
-            UserRepository userRepository,
-            StudentRepository studentRepository,
-            CompanySupervisorRepository companySupervisorRepository,
-            SchoolSupervisorRepository schoolSupervisorRepository) {
+            UserRepository userRepository
+           ) {
         this.userRepository = userRepository;
-        this.studentRepository = studentRepository;
-        this.companySupervisorRepository = companySupervisorRepository;
-        this.schoolSupervisorRepository = schoolSupervisorRepository;
+        
     }
 
     public List<UserModel> getAllUser() {

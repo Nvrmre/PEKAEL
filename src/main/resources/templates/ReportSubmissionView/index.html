@@ -34,7 +34,7 @@
   <main class="container-main">
     <div class="d-flex justify-content-between align-items-center title">
       <h2>Daftar Pengumpulan Laporan</h2>
-      <a th:href="@{/report-submissions/create}" class="btn-add">+ Tambah Laporan</a>
+      <a th:href="@{/report-submissions/create}" class="btn-add"  th:if="${#authorization.expression('hasAnyAuthority(''STUDENT'', ''Student'')')}">+ Tambah Laporan</a>
     </div>
 
     <div class="table-responsive">
@@ -46,15 +46,14 @@
             <th>Nama Siswa</th>
             <th>Judul Laporan</th>
             <th style="width:140px;">Status</th>
-            <th style="width:120px;">Aksi</th>
+            <th style="width: 140px;">Catatan</th>
+            <th style="width:120px;"  th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">Aksi</th>
           </tr>
         </thead>
         <tbody>
           <!-- loop over the attribute your controller set: "submission" -->
           <tr th:each="sub, iterStat : ${submission}">
             <td th:text="${iterStat.count}">1</td>
-
-            <!-- thumbnail: prefer sub.filePath, fallback to local debug image -->
             <td>
               <div th:if="${sub.filePath != null and sub.filePath != ''}">
                 <a th:href="@{${sub.filePath}}" target="_blank" rel="noopener">
@@ -66,15 +65,9 @@
                 <img src="/mnt/data/16088cea-d59f-4e0d-bcde-e7e0d066cc34.png" alt="no-file" class="img-thumb"/>
               </div>
             </td>
-
-            <!-- safe navigation: placement may be null -->
-            <td th:text="${sub.placement != null && sub.placement.student != null && sub.placement.student.user != null ? sub.placement.student.user.username : '—'}">
-              Nama Siswa
-            </td>
+          <td th:text="${sub.student?.user?.username ?: '—'}">Nama Siswa</td>
 
             <td th:text="${sub.fileTitle != null ? sub.fileTitle : '-'}">Judul laporan</td>
-
-            <!-- status mapped to bahasa + soft badge -->
             <td>
               <span th:switch="${sub.status}">
                 <span th:case="${T(com.sistem.monitoring.models.ReportSubmissionModel.Status).PENDING}" class="badge-status badge-pending">Pending</span>
@@ -83,13 +76,12 @@
                 <span th:case="*" class="badge-status badge-pending" th:text="${sub.status != null ? sub.status.name() : '-'}">-</span>
               </span>
             </td>
-
+            <td th:text="${sub.studentNotes != null ? sub.studentNotes : '-'}">Catatan</td>
             <!-- actions: edit/delete -->
             <td>
               <div class="d-flex gap-2">
-                <a th:href="@{'/report-submissions/edit/' + ${sub.submissionId}}" class="icon-btn icon-edit" title="Edit"></a>
-
-                <form th:action="@{/report-submissions/{id}(id=${sub.submissionId})}" method="post" style="display:inline;">
+                <a th:href="@{'/report-submissions/edit/' + ${sub.submissionId}}" class="icon-btn icon-edit" title="Edit"  th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}"></a>
+                <form  th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}" th:action="@{/report-submissions/{id}(id=${sub.submissionId})}" method="post" style="display:inline;">
                   <input type="hidden" name="_method" value="delete"/>
                   <button type="submit" class="icon-btn icon-delete" title="Hapus" onclick="return confirm('Yakin ingin menghapus?')"></button>
                 </form>

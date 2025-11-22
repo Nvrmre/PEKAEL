@@ -1,22 +1,26 @@
 package com.sistem.monitoring.controllers;
 
 import java.security.Principal;
-import java.util.Optional;
+import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sistem.monitoring.models.PlacementModel;
 import com.sistem.monitoring.models.UserModel;
 import com.sistem.monitoring.services.UserService;
 import com.sistem.monitoring.services.SchoolSupervisorService;
+import com.sistem.monitoring.services.AttendanceService;
 import com.sistem.monitoring.services.CompanyService;
 import com.sistem.monitoring.services.CompanySupervisorService;
 import com.sistem.monitoring.services.DailyJournalService;
 import com.sistem.monitoring.services.GradeService;
 import com.sistem.monitoring.services.StudentServices;
 import com.sistem.monitoring.services.PlacementService;
+import com.sistem.monitoring.services.ReportSubmissionService;
 
 @Controller
 public class HomeController {
@@ -29,6 +33,8 @@ public class HomeController {
     private final DailyJournalService dailyJournalService;
     private final CompanyService companyService;
     private final GradeService gradeService;
+    private final ReportSubmissionService reportSubmissionService;
+    private final AttendanceService attendanceService;
 
     public HomeController(
             UserService userService,
@@ -38,7 +44,9 @@ public class HomeController {
             PlacementService placementService,
             DailyJournalService dailyJournalService,
             CompanyService companyService,
-            GradeService gradeService ) {
+            GradeService gradeService,
+            ReportSubmissionService reportSubmissionService,
+            AttendanceService attendanceService ) {
         this.userService = userService;
         this.studentServices = studentServices;
         this.companySupervisorService = companySupervisorService;
@@ -47,6 +55,9 @@ public class HomeController {
         this.dailyJournalService = dailyJournalService;
         this.companyService = companyService;
         this.gradeService = gradeService;
+        this.reportSubmissionService = reportSubmissionService;
+        this.attendanceService = attendanceService;
+
     }
 
     // Redirect root ke /index
@@ -57,7 +68,9 @@ public class HomeController {
 
     // Home page (Dashboard)
     @GetMapping("/index")
-    public String home(Model model, Principal principal) {
+    public String home(Model model, Principal principal, 
+                        @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                        @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
         model.addAttribute("totalGrade", gradeService.getAllGrade().size());
         model.addAttribute("totalUsers", userService.getAllUser().size());
         model.addAttribute("totalStudents", studentServices.getAllUserStudent().size());
@@ -66,14 +79,37 @@ public class HomeController {
         model.addAttribute("totalPlacements", placementService.getAllPlacement().size());
         model.addAttribute("totalJournal", dailyJournalService.getAllJournal().size());
         model.addAttribute("totalCompany", companyService.getAllCompanyData().size());
-
-        if (principal != null) {
-            model.addAttribute("username", principal.getName());
-            
-            // Tambahan: Kirim Role ke View Dashboard untuk kondisional tampilan (Opsional)
-            // model.addAttribute("userRole", ...); 
+        if (startDate == null) {
+            startDate = LocalDate.now().withDayOfMonth(1); // Tanggal 1 bulan ini
+        }
+        if (endDate == null) {
+            endDate = LocalDate.now(); // Hari ini
         }
 
+        // 3. Masukkan ke Model agar bisa dibaca di HTML
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+       
+        long studentReportTotal = 0; 
+        long studentAttendanceTotal = 0;
+
+        if (principal != null) {
+            String username = principal.getName();
+            model.addAttribute("username", username);
+
+            // 1. Cari User Login
+            UserModel user = userService.getAllUser().stream()
+                    .filter(u -> u.getUsername().equals(username))
+                    .findFirst().orElse(null);
+
+            if (user != null && user.getRole() == UserModel.Role.Student && user.getStudent() != null) {
+                Long studentId = user.getStudent().getStudentId();
+                studentReportTotal = reportSubmissionService.countReportsByStudentId(studentId);
+                studentAttendanceTotal = attendanceService.countAttendanceByStudentId(studentId);
+            }
+        }
+        model.addAttribute("attendanceTotal", studentAttendanceTotal);
+        model.addAttribute("reportTotal", studentReportTotal);
         return "index";
     }
 

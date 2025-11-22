@@ -187,7 +187,7 @@
                 Laporan Harian Siswa
             </h1>
 
-            <a th:href="@{/daily-journal/create}" class="btn-add">
+            <a th:href="@{/daily-journal/create}" class="btn-add"  th:if="${#authorization.expression('hasAnyAuthority(''STUDENT'', ''Student'')')}">
                 <!-- plus icon -->
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                     stroke="currentColor">
@@ -225,7 +225,7 @@
 
                         <td class="action-links d-flex align-items-center">
                             <!-- Edit -->
-                            <a th:href="@{'/journal/edit/' + ${j.journalId}}" class="btn-edit" title="Edit">
+                            <a th:href="@{'/daily-journal/edit/' + ${j.journalId}}" class="btn-edit" title="Edit" th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M4 20h4l10-10-4-4L4 16v4z" />
@@ -233,7 +233,7 @@
                             </a>
 
                             <!-- View -->
-                            <a th:href="@{'/journal/' + ${j.journalId}}" class="btn-view" title="Lihat">
+                            <a th:href="@{'/daily-journal/' + ${j.journalId}}" class="btn-view" title="Lihat">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M2.458 12C3.732 7.943 7.52 5 12 5c4.48 0 8.268 2.943 9.542 7-1.274 4.057-5.062 7-9.542 7-4.48 0-8.268-2.943-9.542-7z" />
@@ -242,8 +242,9 @@
                             </a>
 
                             <!-- Delete (tombol buka modal) -->
-                            <form th:action="@{/journal/{id}(id=${j.journalId})}" method="post"
-                                id="del-[[${j.journalId}]]" style="display:inline;">
+                            <form th:action="@{/daily-journal/{id}(id=${j.journalId})}" method="post"
+                                id="del-[[${j.journalId}]]" style="display:inline;"
+                                th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
                                 <input type="hidden" name="_method" value="delete" />
                                 <button type="button" class="btn-delete" title="Hapus"
                                     data-form-id="del-[[${j.journalId}]]"

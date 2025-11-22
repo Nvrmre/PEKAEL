@@ -41,6 +41,14 @@ public class ReportSubmissionService {
                                 return reportSubmissionRepository.save(report);
     }
 
+    public List<ReportSubmissionModel> getReportsByStudentId(Long studentId) {
+        return reportSubmissionRepository.findByStudentStudentId(studentId);
+    }
+
+    public long countReportsByStudentId(Long studentId) {
+        return reportSubmissionRepository.countByStudentStudentId(studentId);
+    }
+
     public void deleteReport(Long id){
         reportSubmissionRepository.deleteById(id);
     }

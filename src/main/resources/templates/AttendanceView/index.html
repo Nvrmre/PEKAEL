@@ -174,7 +174,7 @@
         Daftar Absensi
       </h2>
 
-      <a th:href="@{/attendances/create}" class="btn-add" title="Tambah Absensi">
+      <a th:href="@{/attendances/create}" class="btn-add" title="Tambah Absensi" th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
           stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
@@ -193,7 +193,7 @@
             <th>Tanggal</th>
             <th>Waktu</th>
             <th>Status</th>
-            <th>Aksi</th>
+            <th  th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">Aksi</th>
           </tr>
         </thead>
         <tbody>
@@ -238,7 +238,7 @@
               <div class="d-flex align-items-center gap-2">
 
                 <!-- Edit (icon only) -->
-                <a th:href="@{'/attendances/edit/' + ${att.attendId}}"
+                <a th:href="@{'/attendances/edit/' + ${att.attendId}}"  th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}"
                    class="btn-icon btn-edit-icon"
                    title="Edit">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
@@ -249,7 +249,7 @@
                 </a>
 
                 <!-- Delete (icon only) -->
-                <form th:action="@{/attendances/{id}(id=${att.attendId})}" method="post" style="display:inline;">
+                <form th:action="@{/attendances/{id}(id=${att.attendId})}" method="post" style="display:inline;"  th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
                   <input type="hidden" name="_method" value="delete" />
                   <button type="submit" class="btn-icon btn-delete-icon" title="Hapus"
                           onclick="return confirm('Yakin ingin menghapus data ini?')">
