@@ -3,7 +3,6 @@ package com.sistem.monitoring;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
-
 import io.github.cdimascio.dotenv.Dotenv;
 
 @SpringBootApplication
@@ -11,17 +10,33 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class MonitoringApplication {
 
 	public static void main(String[] args) {
-		Dotenv dotenv = Dotenv.load();
+		Dotenv dotenv = Dotenv.configure()
+				.ignoreIfMissing()  
+				.ignoreIfMalformed()
+				.load();
 
-		System.setProperty("DB_URL", dotenv.get("DB_URL"));
-		System.setProperty("DB_USERNAME", dotenv.get("DB_USERNAME"));
-		System.setProperty("DB_PASSWORD", dotenv.get("DB_PASSWORD"));
-		System.setProperty("ADMIN_USERNAME", dotenv.get("ADMIN_USERNAME"));
-		System.setProperty("ADMIN_PASSWORD", dotenv.get("ADMIN_PASSWORD"));
-		System.setProperty("ADMIN_EMAIL", dotenv.get("ADMIN_EMAIL"));
-		System.setProperty("ADMIN_FULLNAME", dotenv.get("ADMIN_FULLNAME"));
+		setPropFromEnvOrDotenv(dotenv, "DB_URL");
+		setPropFromEnvOrDotenv(dotenv, "DB_USERNAME");
+		setPropFromEnvOrDotenv(dotenv, "DB_PASSWORD");
+		setPropFromEnvOrDotenv(dotenv, "ADMIN_USERNAME");
+		setPropFromEnvOrDotenv(dotenv, "ADMIN_PASSWORD");
+		setPropFromEnvOrDotenv(dotenv, "ADMIN_EMAIL");
+		setPropFromEnvOrDotenv(dotenv, "ADMIN_FULLNAME");
 
 		SpringApplication.run(MonitoringApplication.class, args);
 	}
 
+	private static void setPropFromEnvOrDotenv(Dotenv dotenv, String key) {
+
+		String value = System.getenv(key);
+
+		if ( (value == null || value.isEmpty()) && dotenv != null ) {
+			value = dotenv.get(key);
+		}
+
+	
+		if (value != null && !value.isEmpty()) {
+			System.setProperty(key, value);
+		}
+	}
 }
