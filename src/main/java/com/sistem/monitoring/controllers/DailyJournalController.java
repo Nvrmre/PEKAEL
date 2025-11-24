@@ -2,6 +2,7 @@ package com.sistem.monitoring.controllers;
 
 import java.security.Principal;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +38,7 @@ public class DailyJournalController {
 
     @Autowired
     private UserService userService;
+
     @GetMapping
     public String showAll (Model model){
         model.addAttribute("journal", dailyJournalService.getAllJournal());
@@ -95,5 +97,12 @@ public class DailyJournalController {
     public String deleteData(@PathVariable Long id){
         dailyJournalService.deleteJournal(id);
         return "redirect:/daily-journal";
+    }
+
+    @GetMapping("/{id}")
+    public String getJournalById(@PathVariable Long id, Model model){
+        DailyJournal journal = dailyJournalService.getJournalById(id).orElseThrow(()-> new RuntimeException("Not Journal Found"));
+        model.addAttribute("journal", journal);
+        return "DailyJournalView/detail";
     }
 }

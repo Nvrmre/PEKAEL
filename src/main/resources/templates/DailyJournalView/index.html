@@ -204,6 +204,7 @@
                         <th>No</th>
                         <th>Tempat PKL</th>
                         <th>Deskripsi Kegiatan</th>
+                        <th>Nama Penulis</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -211,15 +212,14 @@
                     <!-- gunakan stat.count untuk nomor urut -->
                     <tr th:each="j, stat : ${journal}">
                         <td th:text="${stat.count}">1</td>
-
-                        <!-- kalau placement referensi object, tampilkan nama perusahaan jika ada;
-                 jika hanya id, tampilkan id (sesuaikan atribut model jika beda) -->
                         <td
                             th:text="${j.placement != null ? (j.placement.company != null ? j.placement.company.companyName : j.placement.id) : '—'}">
                             Tempat PKL
                         </td>
-
                         <td th:text="${j.activityDesc}">Deskripsi kegiatan...</td>
+                        <td th:text="${j.placement?.student?.user?.username ?: '—'}">
+                            Username Siswa
+                        </td>
                         <!-- <td th:text="${j.supervisorNotes}">Catatan pembimbing...</td>
                         <td th:text="${j.validationStatus}">Pending</td> -->
 
