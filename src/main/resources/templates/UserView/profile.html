@@ -195,7 +195,7 @@
           <div th:if="${user.student != null}">
             <div class="field-group">
                 <div class="field-label">Nama Lengkap</div>
-                <div class="field-value" th:text="${user.student.studentFullName}">-</div>
+                <div class="field-value" th:text="${user.username}">-</div>
             </div>
             <div class="field-group">
                 <div class="field-label">NISN / Nomor Induk</div>
@@ -230,7 +230,7 @@
           <div th:if="${user.schoolSupervisor != null}">
             <div class="field-group">
                 <div class="field-label">Nama Lengkap</div>
-                <div class="field-value" th:text="${user.schoolSupervisor.schoolSupervisorFullName}">-</div>
+                <div class="field-value" th:text="${user.username}">-</div>
             </div>
             <div class="field-group">
                 <div class="field-label">NIP / ID Pegawai</div>
@@ -262,7 +262,7 @@
           <div th:if="${user.companySupervisor != null}">
             <div class="field-group">
                 <div class="field-label">Nama Lengkap</div>
-                <div class="field-value" th:text="${user.companySupervisor.companySupervisorFullName}">-</div>
+                <div class="field-value" th:text="${user.username}">-</div>
             </div>
             <div class="field-group">
                 <div class="field-label">Jabatan</div>

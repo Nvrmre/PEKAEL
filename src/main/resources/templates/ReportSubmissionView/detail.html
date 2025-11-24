@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Detail Laporan - Sistem Monitoring</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    :root { --navy: #0b2340; --cream: #f2ece3; --accent: #b78b4a; --muted: #6c757d; }
+    body { background-color: var(--cream); color: var(--navy); font-family: 'Segoe UI', system-ui, sans-serif; }
+
+    .container-main { max-width: 850px; margin: 2rem auto; padding: 1rem; }
+    
+    .card-detail {
+      background: #fff; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 6px 20px rgba(11, 35, 64, 0.08);
+    }
+
+    /* Header Laporan */
+    .detail-header {
+      background: linear-gradient(135deg, var(--navy), #163b63);
+      padding: 2.5rem 2rem; color: white; position: relative;
+    }
+    
+    .report-title { font-weight: 700; font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .report-meta { opacity: 0.9; font-size: 0.95rem; display: flex; gap: 1.5rem; align-items: center; }
+    .report-meta svg { width: 18px; height: 18px; margin-right: 5px; }
+
+    /* Badge Status Custom */
+    .status-badge {
+      position: absolute; top: 2rem; right: 2rem;
+      padding: 0.5rem 1rem; border-radius: 30px;
+      font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15); background: rgba(255,255,255,0.2); backdrop-filter: blur(5px);
+    }
+    
+    .status-pending { background-color: #ffc107; color: #333; }
+    .status-approved { background-color: #198754; color: white; }
+    .status-rejected { background-color: #dc3545; color: white; }
+
+    .detail-body { padding: 2.5rem; }
+
+    /* Info Siswa Section */
+    .student-card {
+      display: flex; align-items: center; gap: 1rem;
+      background: #f8f9fa; padding: 1rem 1.5rem; border-radius: 12px;
+      border-left: 4px solid var(--accent); margin-bottom: 2rem;
+    }
+    .avatar-small {
+      width: 45px; height: 45px; background: var(--navy); color: white;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;
+    }
+    .student-info h6 { margin: 0; font-weight: 700; color: var(--navy); }
+    .student-info small { color: var(--muted); }
+
+    /* Label & Value */
+    .label-field { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+    .value-text { font-size: 1.05rem; line-height: 1.6; color: var(--navy); margin-bottom: 1.5rem; }
+    .value-box { background: #fdfdfd; padding: 1rem; border: 1px solid #eee; border-radius: 8px; font-size: 0.95rem; }
+
+    /* File Attachment */
+    .file-card {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem; border: 1px solid #e0e0e0; border-radius: 10px;
+      transition: 0.2s; background: #fff;
+    }
+    .file-card:hover { border-color: var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .file-icon { width: 40px; height: 40px; background: #eee; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--navy); }
+    
+    .btn-back {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: var(--muted); font-weight: 600; text-decoration: none;
+      transition: 0.2s; background: #e9ecef; padding: 0.6rem 1.2rem; border-radius: 8px;
+    }
+    .btn-back:hover { background: #dee2e6; color: var(--navy); }
+  </style>
+</head>
+
+<body>
+
+<div th:replace="~{layouts/fragments/navbar :: topbar}"></div>
+<div th:replace="~{layouts/fragments/sidebar :: sidebar}"></div>
+<div id="pageOverlay" class="overlay"></div>
+
+<main class="container-main">
+    
+    <div class="mb-4">
+        <a th:href="@{/report-submissions}" class="btn-back">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Kembali ke Daftar
+        </a>
+    </div>
+
+    <div class="card-detail">
+        <div class="detail-header">
+            <div class="status-badge" 
+                 th:classappend="${#strings.toString(report.status) == 'APPROVED'} ? 'status-approved' : 
+                                (${#strings.toString(report.status) == 'REJECTED'} ? 'status-rejected' : 'status-pending')"
+                 th:text="${report.status}">
+                 PENDING
+            </div>
+
+            <h1 class="report-title" th:text="${report.fileTitle}">Judul Laporan</h1>
+            
+            <div class="report-meta">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                    <span th:text="${report.createdAt != null ? #temporals.format(report.createdAt, 'dd MMMM yyyy') : 'Tanggal tidak tersedia'}">12 Januari 2025</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-body">
+            
+           <div class="student-card">
+                <div class="avatar-small">
+                    <span th:text="${report.student?.user?.username != null && report.student.user.username.length() > 0 
+                                    ? #strings.substring(report.student.user.username, 0, 1).toUpperCase() 
+                                    : '?'}">S</span>
+                </div>
+                
+                <div class="student-info">
+                    <h6 th:text="${report.student?.user?.username ?: 'Nama Siswa Tidak Ditemukan'}">Username Siswa</h6>
+                    
+                    <small>
+                        NISN: <span th:text="${report.student?.studentNumber ?: '-'}">12345</span> • 
+                        Kelas: <span th:text="${report.student?.studentClass ?: '-'}">XII RPL</span>
+                    </small>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <div class="label-field">Catatan / Keterangan</div>
+                <div class="value-text">
+                    <span th:text="${report.studentNotes != null && report.studentNotes != '' ? report.studentNotes : 'Tidak ada catatan tambahan.'}">-</span>
+                </div>
+            </div>
+
+            <div class="mb-2">
+                <div class="label-field">Lampiran Dokumen</div>
+                
+                <div th:if="${report.filePath != null}" class="file-card">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="file-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                        </div>
+                        <div>
+                            <div style="font-weight:600; color:var(--navy)">File Laporan Akhir</div>
+                            <small class="text-muted">Klik tombol di kanan untuk mengunduh</small>
+                        </div>
+                    </div>
+                    <a th:href="@{${report.filePath}}" target="_blank" class="btn btn-sm btn-primary" style="background:var(--navy); border:none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="me-1"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                        Download / Lihat
+                    </a>
+                </div>  
+                <div class="card p-3 mb-4 border-0 bg-light" 
+                    style="border-left: 4px solid #0b2340 !important;"
+                    th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''SCHOOL_SUPERVISOR'', ''ROLE_ADMINISTRATOR'', ''ROLE_SCHOOL_SUPERVISOR'')')}">
+                    
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-1 fw-bold text-navy">Validasi Laporan</h6>
+                            <small class="text-muted">Tentukan status laporan ini:</small>
+                        </div>
+                        
+                        <div class="d-flex gap-2">
+                            
+                            <form th:action="@{/report-submissions/{id}/update-status(id=${report.submissionId})}" method="post">
+                                <input type="hidden" name="status" value="REVISION">
+                                <button type="submit" class="btn btn-warning btn-sm d-flex align-items-center gap-2 text-dark"
+                                        onclick="return confirm('Minta siswa merevisi laporan ini?')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                                    Revisi
+                                </button>
+                            </form>
+
+                            <form th:action="@{/report-submissions/{id}/update-status(id=${report.submissionId})}" method="post">
+                                <input type="hidden" name="status" value="REJECTED">
+                                <button type="submit" class="btn btn-danger btn-sm d-flex align-items-center gap-2"
+                                        onclick="return confirm('Yakin ingin menolak laporan ini?')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    Tolak
+                                </button>
+                            </form>
+
+                            <form th:action="@{/report-submissions/{id}/update-status(id=${report.submissionId})}" method="post">
+                                <input type="hidden" name="status" value="APPROVED">
+                                <button type="submit" class="btn btn-success btn-sm d-flex align-items-center gap-2"
+                                        onclick="return confirm('Yakin ingin menyetujui laporan ini?')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    Setujui
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div th:if="${report.filePath == null}" class="alert alert-warning mt-2">
+                    <small>Tidak ada file yang dilampirkan pada laporan ini.</small>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

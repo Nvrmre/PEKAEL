@@ -179,11 +179,11 @@
           <div class="stat-text">
             <h5>PKL Berlangsung Selama</h5>
            <p class="fw-bold text-navy" style="font-size: 1.1rem;">
-              <span th:text="${startDate != null ? #temporals.format(startDate, 'dd MMMM') : '-'}">11 November</span>
+              <span th:text="${startDate != null ? #temporals.format(startDate, 'dd MMMM yyyy') : '-'}"></span>
               
               &nbsp;-&nbsp;
               
-              <span th:text="${endDate != null ? #temporals.format(endDate, 'dd MMMM yyyy') : '-'}">1 Desember 2025</span>
+              <span th:text="${endDate != null ? #temporals.format(endDate, 'dd MMMM yyyy') : '-'}"></span>
           </p>
           
           </div>

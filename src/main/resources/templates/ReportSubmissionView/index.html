@@ -13,13 +13,24 @@
     .title h2{ margin:0; font-size:1.2rem; font-weight:700; }
     .btn-add{ background:var(--accent); color:#fff; padding:.4rem .7rem; border-radius:8px; text-decoration:none; font-weight:600; }
     .img-thumb{ width:64px; height:46px; object-fit:cover; border-radius:6px; border:1px solid #e9ecef; }
-    .icon-btn{ width:36px; height:36px; border-radius:8px; display:inline-grid; place-items:center; border:0; cursor:pointer; }
-    .icon-edit{ background:linear-gradient(180deg,#0b74a4,#095b7f); color:#fff; }
-    .icon-delete{ background:linear-gradient(180deg,#c44d3a,#a63e2d); color:#fff; }
+    
+    /* Styling Tombol Aksi Kecil */
+    .icon-btn{ width:32px; height:32px; border-radius:6px; display:inline-flex; align-items:center; justify-content:center; border:0; cursor:pointer; transition:0.2s; }
+    .icon-btn svg { width:18px; height:18px; }
+    
+    .icon-view { background:#e9ecef; color:var(--navy); }
+    .icon-view:hover { background:#dee2e6; }
+    
+    .icon-edit { background:#0b74a4; color:#fff; }
+    .icon-edit:hover { background:#095b7f; }
+    
+    .icon-delete { background:#c44d3a; color:#fff; }
+    .icon-delete:hover { background:#a63e2d; }
+
     .badge-status{ padding:.28rem .55rem; border-radius:999px; font-weight:700; font-size:.82rem; }
     .badge-pending{ background:#fff3cd; color:#664d03; }
-    .badge-review{ background:#e6f8fb; color:var(--navy); }
-    .badge-revision{ background:#fdecea; color:#8a1f2e; }
+    .badge-approved{ background:#198754; color:#fff; }
+    .badge-rejected{ background:#dc3545; color:#fff; }
 
     @media(max-width:720px){
       .img-thumb{ width:48px; height:36px; }
@@ -34,63 +45,82 @@
   <main class="container-main">
     <div class="d-flex justify-content-between align-items-center title">
       <h2>Daftar Pengumpulan Laporan</h2>
-      <a th:href="@{/report-submissions/create}" class="btn-add"  th:if="${#authorization.expression('hasAnyAuthority(''STUDENT'', ''Student'')')}">+ Tambah Laporan</a>
+      <a th:href="@{/report-submissions/create}" class="btn-add" th:if="${#authorization.expression('hasAnyAuthority(''STUDENT'', ''Student'')')}">+ Tambah Laporan</a>
     </div>
 
     <div class="table-responsive">
       <table class="table align-middle mb-0">
         <thead>
           <tr>
-            <th style="width:56px;">No</th>
+            <th style="width:50px;">No</th>
             <th style="width:80px;">File</th>
             <th>Nama Siswa</th>
             <th>Judul Laporan</th>
-            <th style="width:140px;">Status</th>
-            <th style="width: 140px;">Catatan</th>
-            <th style="width:120px;"  th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">Aksi</th>
+            <th style="width:120px;">Status</th>
+            <th>Catatan</th>
+            <th style="width:140px;">Aksi</th>
           </tr>
         </thead>
         <tbody>
-          <!-- loop over the attribute your controller set: "submission" -->
-          <tr th:each="sub, iterStat : ${submission}">
-            <td th:text="${iterStat.count}">1</td>
+          <tr th:each="sub, iterStat : ${submission}"> <td th:text="${iterStat.count}">1</td>
+            
             <td>
-              <div th:if="${sub.filePath != null and sub.filePath != ''}">
-                <a th:href="@{${sub.filePath}}" target="_blank" rel="noopener">
-                  <img th:src="@{${sub.filePath}}" alt="file" class="img-thumb"/>
+              <div th:if="${sub.filePath != null and sub.filePath!= ''}">
+                <a th:href="@{${sub.filePath}}" target="_blank">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="#b78b4a" stroke-width="1.5">
+                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                   </svg>
                 </a>
               </div>
-              <div th:if="${sub.filePath == null or sub.filePath == ''}">
-                <!-- fallback debug image (local path you provided earlier) -->
-                <img src="/mnt/data/16088cea-d59f-4e0d-bcde-e7e0d066cc34.png" alt="no-file" class="img-thumb"/>
-              </div>
+              <span th:if="${sub.filePath == null}">-</span>
             </td>
-          <td th:text="${sub.student?.user?.username ?: '—'}">Nama Siswa</td>
 
-            <td th:text="${sub.fileTitle != null ? sub.fileTitle : '-'}">Judul laporan</td>
+            <td th:text="${sub.student?.user?.username ?: '—'}">Nama Siswa</td>
+
+            <td th:text="${sub.fileTitle}">Judul</td>
+            
             <td>
-              <span th:switch="${sub.status}">
-                <span th:case="${T(com.sistem.monitoring.models.ReportSubmissionModel.Status).PENDING}" class="badge-status badge-pending">Pending</span>
-                <span th:case="${T(com.sistem.monitoring.models.ReportSubmissionModel.Status).REVIEW}" class="badge-status badge-review">Review</span>
-                <span th:case="${T(com.sistem.monitoring.models.ReportSubmissionModel.Status).REVISION}" class="badge-status badge-revision">Revisi</span>
-                <span th:case="*" class="badge-status badge-pending" th:text="${sub.status != null ? sub.status.name() : '-'}">-</span>
-              </span>
+              <span class="badge-status" 
+                    th:classappend="${#strings.toString(sub.status) == 'APPROVED'} ? 'badge-approved' : 
+                                   (${#strings.toString(sub.status) == 'REJECTED'} ? 'badge-rejected' : 'badge-pending')"
+                    th:text="${sub.status}">Pending</span>
             </td>
-            <td th:text="${sub.studentNotes != null ? sub.studentNotes : '-'}">Catatan</td>
-            <!-- actions: edit/delete -->
+            
+            <td th:text="${sub.studentNotes ?: '-'}">Catatan</td>
+
             <td>
-              <div class="d-flex gap-2">
-                <a th:href="@{'/report-submissions/edit/' + ${sub.submissionId}}" class="icon-btn icon-edit" title="Edit"  th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}"></a>
-                <form  th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}" th:action="@{/report-submissions/{id}(id=${sub.submissionId})}" method="post" style="display:inline;">
+              <div class="d-flex gap-1">
+                
+                <a th:href="@{'/report-submissions/' + ${sub.submissionId}}" class="icon-btn icon-view" title="Lihat Detail">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                </a>
+
+                <a th:href="@{'/report-submissions/edit/' + ${sub.submissionId}}" class="icon-btn icon-edit" title="Edit"
+                   th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
+                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                     <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                   </svg>
+                </a>
+
+                <form th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}" 
+                      th:action="@{/report-submissions/{id}(id=${sub.submissionId})}" method="post">
                   <input type="hidden" name="_method" value="delete"/>
-                  <button type="submit" class="icon-btn icon-delete" title="Hapus" onclick="return confirm('Yakin ingin menghapus?')"></button>
+                  <button type="submit" class="icon-btn icon-delete" title="Hapus" onclick="return confirm('Yakin ingin menghapus?')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
                 </form>
+
               </div>
             </td>
           </tr>
 
           <tr th:if="${#lists.isEmpty(submission)}">
-            <td colspan="6" class="text-center text-muted py-4">Belum ada laporan yang diupload.</td>
+            <td colspan="7" class="text-center text-muted py-4">Belum ada laporan yang diupload.</td>
           </tr>
         </tbody>
       </table>

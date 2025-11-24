@@ -21,7 +21,6 @@
       background: var(--cream);
       color: var(--navy);
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
-      -webkit-font-smoothing: antialiased;
     }
 
     .container-main {
@@ -38,11 +37,7 @@
     }
 
     .form-title {
-      display: flex;
-      gap: .6rem;
-      align-items: center;
-      font-weight: 700;
-      color: var(--navy);
+      display: flex; gap: .6rem; align-items: center; font-weight: 700; color: var(--navy);
     }
 
     .card-section {
@@ -53,64 +48,19 @@
       border: 1px solid rgba(11, 35, 64, 0.04);
     }
 
-    .input-icon svg {
-      width: 18px;
-      height: 18px;
-      stroke: var(--navy);
-    }
-
-    .btn-primary-accent {
-      background: var(--accent);
-      border: none;
-      color: #fff;
-      padding: .5rem .9rem;
-      border-radius: 6px;
-    }
-
-    .btn-secondary-ghost {
-      border: 1px solid rgba(11, 35, 64, .08);
-      background: transparent;
-      color: var(--navy);
-      padding: .45rem .9rem;
-      border-radius: 6px;
-    }
-
-    .small-note {
-      color: var(--muted);
-      font-size: .92rem;
-      margin-top: .35rem;
-    }
+    .input-icon svg { width: 18px; height: 18px; stroke: var(--navy); }
 
     .btn-save {
-      background: var(--accent);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: .55rem 1rem;
-      font-weight: 700;
-      display: inline-flex;
-      gap: .5rem;
-      align-items: center;
+      background: var(--accent); color: white; border: none; border-radius: 8px;
+      padding: .55rem 1rem; font-weight: 700; display: inline-flex; gap: .5rem; align-items: center;
     }
-
-    .btn-save:hover {
-      background: #a5793e;
-      transform: translateY(-2px);
-    }
+    .btn-save:hover { background: #a5793e; transform: translateY(-2px); }
 
     .btn-cancel {
-      background: transparent;
-      border: 1px solid rgba(11, 35, 64, 0.08);
-      color: var(--navy);
-      border-radius: 8px;
-      padding: .45rem .9rem;
-      font-weight: 600;
+      background: transparent; border: 1px solid rgba(11, 35, 64, 0.08); color: var(--navy);
+      border-radius: 8px; padding: .45rem .9rem; font-weight: 600; display: flex; align-items: center;
     }
-    @media(max-width:576px) {
-      .container-main {
-        padding: .6rem
-      }
-    }
+    .btn-cancel:hover { background: #eee; }
   </style>
 </head>
 
@@ -123,150 +73,131 @@
     <div class="card-page">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <div class="form-title">
-          <!-- icon building -->
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" width="26"
-            height="26" style="stroke:var(--accent)">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 21V7a1 1 0 011-1h4v6h6V6h3v15H4z" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 21v-4h6v4" />
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" width="26" height="26" style="stroke:var(--accent)">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
           </svg>
-          <h4 class="mb-0">Edit Placement</h4>
+          <h4 class="mb-0">Edit Data Penempatan</h4>
         </div>
 
         <div>
-          <a th:href="@{/placements}" class="btn-cancel" hover="transform:translateY(-2px)">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-              stroke="currentColor" class="size-3" width="18px" height="18px">
+          <a th:href="@{/placements}" class="btn-cancel">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="18" height="18">
               <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
             </svg>
+            Kembali
           </a>
         </div>
       </div>
 
-      <!-- form: POST to /placements/{id} (controller uses @PostMapping("/{id}")) -->
-      <form th:action="@{/placements/{id}(id=${placement.placementId})}" th:object="${placement}" method="post"
-        novalidate>
+      <form th:action="@{/placements/{id}(id=${placement.placementId})}" th:object="${placement}" method="post">
+        
+        <input type="hidden" name="_method" value="put" />
+
         <div class="card-section">
           <div class="row g-3">
 
-            <!-- Student -->
             <div class="col-12 col-md-6">
               <label class="form-label">Siswa <span class="text-danger">*</span></label>
               <div class="input-group">
-                <span class="input-group-text bg-white input-icon" aria-hidden="true">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                    <path d="M15.75 7.5a3.75 3.75 0 11-7.5 0zM4.5 20.25a8.25 8.25 0 0115 0" />
-                  </svg>
+                <span class="input-group-text bg-white input-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                 </span>
                 <select class="form-select" name="studentId" required>
-                  <option value="" disabled>— Pilih siswa —</option>
-                  <option th:each="s : ${students}" th:value="${s.studentId}"
-                    th:text="${s.user != null ? s.user.username + ' — ' + (s.studentNumber != null ? s.studentNumber : '') : s.studentId}"
-                    th:selected="${placement.student != null ? (placement.student.studentId == s.studentId) : false}">
+                  <option value="" disabled>— Pilih Siswa —</option>
+                  <option th:each="s : ${students}" 
+                          th:value="${s.studentId}"
+                          th:text="${s.user.username + ' (' + (s.studentNumber ?: '-') + ')'}"
+                          th:selected="${placement.student?.studentId == s.studentId}">
                   </option>
                 </select>
               </div>
             </div>
 
-            <!-- Company -->
             <div class="col-12 col-md-6">
               <label class="form-label">Perusahaan <span class="text-danger">*</span></label>
               <div class="input-group">
-                <span class="input-group-text bg-white input-icon" aria-hidden="true">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                    <path d="M3 21h18M9 8h6m-6 4h6M4 21V7h16v14z" />
-                  </svg>
+                <span class="input-group-text bg-white input-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
                 </span>
                 <select class="form-select" name="companyId" required>
-                  <option value="" disabled>— Pilih perusahaan —</option>
-                  <option th:each="c : ${companies}" th:value="${c.companyId}" th:text="${c.companyName}"
-                    th:selected="${placement.company != null ? (placement.company.companyId == c.companyId) : false}">
+                  <option value="" disabled>— Pilih Perusahaan —</option>
+                  <option th:each="c : ${companies}" 
+                          th:value="${c.companyId}" 
+                          th:text="${c.companyName}"
+                          th:selected="${placement.company?.companyId == c.companyId}">
                   </option>
                 </select>
               </div>
             </div>
 
-            <!-- School Supervisor -->
             <div class="col-12 col-md-6">
-              <label class="form-label">Pembimbing Sekolah (opsional)</label>
+              <label class="form-label">Pembimbing Sekolah</label>
               <div class="input-group">
-                <span class="input-group-text bg-white input-icon" aria-hidden="true">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 3l9 4-9 4-9-4 9-4z" />
-                  </svg>
+                <span class="input-group-text bg-white input-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
                 </span>
                 <select class="form-select" name="schoolSupervisorId">
-                  <option value="">— Tidak ada —</option>
-                  <option th:each="s : ${schoolSupervisors}" th:value="${s.sSupervisorId}"
-                    th:text="${s.user != null ? s.user.username + ' — ' + (s.position != null ? s.position : '') : s.sSupervisorId}"
-                    th:selected="${placement.schoolSupervisor != null ? (placement.schoolSupervisor.sSupervisorId == s.sSupervisorId) : false}">
+                  <option value="">— Tidak Ada —</option>
+                  <option th:each="s : ${schoolSupervisors}" 
+                          th:value="${s.sSupervisorId}"
+                          th:text="${s.schoolSupervisorFullName ?: s.user.username}"
+                          th:selected="${placement.schoolSupervisor?.sSupervisorId == s.sSupervisorId}">
                   </option>
                 </select>
               </div>
             </div>
 
-            <!-- Company Supervisor -->
             <div class="col-12 col-md-6">
-              <label class="form-label">Pembimbing Perusahaan (opsional)</label>
+              <label class="form-label">Pembimbing Lapangan</label>
               <div class="input-group">
-                <span class="input-group-text bg-white input-icon" aria-hidden="true">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 14l9-5-9-5-9 5 9 5z" />
-                  </svg>
+                <span class="input-group-text bg-white input-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                 </span>
                 <select class="form-select" name="companySupervisorId">
-                  <option value="">— Tidak ada —</option>
-                  <option th:each="cs : ${companySupervisors}" th:value="${cs.cSupervisorId}"
-                    th:text="${cs.user != null ? cs.user.username + ' — ' + (cs.jobTitle != null ? cs.jobTitle : '') : cs.cSupervisorId}"
-                    th:selected="${placement.companySupervisor != null ? (placement.companySupervisor.cSupervisorId == cs.cSupervisorId) : false}">
+                  <option value="">— Tidak Ada —</option>
+                  <option th:each="cs : ${companySupervisors}" 
+                          th:value="${cs.cSupervisorId}"
+                          th:text="${cs.companySupervisorFullName ?: cs.user.username}"
+                          th:selected="${placement.companySupervisor?.cSupervisorId == cs.cSupervisorId}">
                   </option>
                 </select>
               </div>
             </div>
 
-            <!-- Start Date -->
             <div class="col-12 col-md-6">
               <label class="form-label">Tanggal Mulai <span class="text-danger">*</span></label>
               <div class="input-group">
-                <span class="input-group-text bg-white input-icon" aria-hidden="true">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                    <path d="M3 8h18M7 4v4M17 4v4M5 20h14a1 1 0 001-1V8H4v11a1 1 0 001 1z" />
-                  </svg>
+                <span class="input-group-text bg-white input-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                 </span>
                 <input type="datetime-local" class="form-control" name="startDate"
-                  th:value="${placement.startDate != null ? placement.startDate.format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy-MM-dd''T''HH:mm')) : ''}"
-                  required />
-
+                       th:value="${placement.startDate != null ? #temporals.format(placement.startDate, 'yyyy-MM-dd''T''HH:mm') : ''}"
+                       required />
               </div>
-              <div class="small-note">Gunakan format tanggal dan jam.</div>
             </div>
 
-            <!-- End Date -->
             <div class="col-12 col-md-6">
-              <label class="form-label">Tanggal Selesai <span class="text-muted">(opsional)</span></label>
+              <label class="form-label">Tanggal Selesai</label>
               <div class="input-group">
-                <span class="input-group-text bg-white input-icon" aria-hidden="true">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                    <path d="M3 8h18M7 4v4M17 4v4M5 20h14a1 1 0 001-1V8H4v11a1 1 0 001 1z" />
-                  </svg>
+                <span class="input-group-text bg-white input-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                 </span>
                 <input type="datetime-local" class="form-control" name="endDate"
-                  th:value="${placement.endDate != null ? placement.endDate.format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy-MM-dd''T''HH:mm')) : ''}" />
+                       th:value="${placement.endDate != null ? #temporals.format(placement.endDate, 'yyyy-MM-dd''T''HH:mm') : ''}" />
               </div>
             </div>
 
-            <!-- Status -->
             <div class="col-12 col-md-6">
-              <label class="form-label">Status</label>
+              <label class="form-label">Status <span class="text-danger">*</span></label>
               <div class="input-group">
-                <span class="input-group-text bg-white input-icon" aria-hidden="true">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 4v4M12 20v-4M4 12h4M20 12h-4" />
-                  </svg>
+                <span class="input-group-text bg-white input-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 </span>
                 <select class="form-select" name="status" required>
-                  <option value="">— Pilih status —</option>
-                  <option th:each="st : ${statuses}" th:value="${st.name()}" th:text="${st.name()}"
-                    th:selected="${placement.status != null ? (placement.status.name() == st.name()) : false}">
+                  <option th:each="st : ${statuses}" 
+                          th:value="${st}" 
+                          th:text="${st}"
+                          th:selected="${placement.status == st}">
                   </option>
                 </select>
               </div>
@@ -277,15 +208,11 @@
 
         <div class="col-12 d-flex justify-content-end gap-2 mt-3">
           <button type="submit" class="btn-save">
-            <!-- save icon -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-              class="bi bi-folder-check" viewBox="0 0 16 16">
-              <path
-                d="m.5 3 .04.87a2 2 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2m5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19q-.362.002-.683.12L1.5 2.98a1 1 0 0 1 1-.98z" />
-              <path
-                d="M15.854 10.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.707 0l-1.5-1.5a.5.5 0 0 1 .707-.708l1.146 1.147 2.646-2.647a.5.5 0 0 1 .708 0" />
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder-check" viewBox="0 0 16 16">
+              <path d="m.5 3 .04.87a2 2 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2m5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19q-.362.002-.683.12L1.5 2.98a1 1 0 0 1 1-.98z" />
+              <path d="M15.854 10.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.707 0l-1.5-1.5a.5.5 0 0 1 .707-.708l1.146 1.147 2.646-2.647a.5.5 0 0 1 .708 0" />
             </svg>
-            Simpan
+            Simpan Perubahan
           </button>
         </div>
       </form>

@@ -145,7 +145,7 @@ public class PlacementController {
     }
 
     // HANDLE UPDATE
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public String updatePlacement(
             @PathVariable Long id,
             @ModelAttribute("placement") PlacementModel formPlacement,

@@ -1,5 +1,7 @@
 package com.sistem.monitoring.models;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -32,14 +34,19 @@ public class ReportSubmissionModel {
     private String studentNotes;
     private String supervisorNotes;
 
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
 
     public enum Status{
-        PENDING,
-        REVIEW,
-        REVISION
+        PENDING,  
+        REVIEW,    
+        REVISION,   
+        APPROVED,   
+        REJECTED
     }
 
     public ReportSubmissionModel(){}
@@ -106,6 +113,22 @@ public class ReportSubmissionModel {
 
     public void setStudent(StudentModel student) {
         this.student = student;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     
