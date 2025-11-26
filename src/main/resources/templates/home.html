@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>TERAWASI— Sistem Monitoring PKL</title>
+  <title>TERAWASI - Sistem Monitoring PKL</title>
 
   <!-- Font + Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -219,15 +219,15 @@
       <div class="brand">
         <div class="logo">SYN</div>
         <div>
-          <div style="font-size:14px">TER-AWASI</div>
-          <!-- <div style="font-size:12px; color:var(--cream); opacity:0.9; margin-top:-4px">Monitoring PKL</div> -->
+          <div style="font-size:19px">SIPEK</div>
+          <div style="font-size:12px; color:var(--cream); opacity:0.9; margin-top:-4px">Sistem PKL</div> 
         </div>
       </div>
 
       <nav class="nav-right" aria-label="Utama">
-        <a class="nav-link fade delay-1" href="#fitur"><i class="fa-solid fa-star" style="margin-right:8px"></i>Fitur</a>
-        <a class="nav-link fade delay-2" href="#tentang"><i class="fa-solid fa-circle-info" style="margin-right:8px"></i>Tentang</a>
-        <a class="btn-login fade delay-3" href="/login" title="Login">Masuk</a>
+        <!-- <a class="nav-link fade delay-1" href="#fitur"><i class="fa-solid fa-star" style="margin-right:8px"></i>Fitur</a>
+        <a class="nav-link fade delay-2" href="#tentang"><i class="fa-solid fa-circle-info" style="margin-right:8px"></i>Tentang</a> -->
+        <a class="btn-login fade delay-3" th:href="@{/Auth/login}" title="Login">Masuk</a>
       </nav>
     </div>
   </header>
@@ -238,34 +238,40 @@
     <!-- HERO -->
     <section class="hero">
       <div class="card fade delay-1" aria-labelledby="hero-title">
-        <span class="kicker">Terpercaya • Sekolah & Industri</span>
-        <h1 id="hero-title">Pantau aktivitas PKL dengan mudah — dari jurnal hingga laporan</h1>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-check-icon lucide-check-check"><path d="M18 6 7 17l-5-5"/><path d="m22 10-7.5 7.5L13 16"/>
+        </svg>
+        Terpercaya Sekolah & Industri
+        <h1 id="hero-title">Pantau aktivitas PKL dengan mudah dari jurnal hingga laporan</h1>
         <p class="lead">Platform terintegrasi untuk guru, pembimbing industri, dan siswa. Fokus pada pengalaman yang bersih, alur kerja yang cepat, dan laporan profesional siap cetak.</p>
 
         <div class="hero-ctas">
-          <button class="btn-primary" onclick="location.href='/login'"><i class="fa-solid fa-right-to-bracket" style="margin-right:8px"></i> Mulai Sekarang</button>
+          <button class="btn-primary" th:onclick="|location.href='@{/Auth/login}'|">
+            <!-- <i class="fa-solid fa-right-to-bracket" style="margin-right:8px"></i> -->
+             Mulai Sekarang</button>
           <!-- <button class="btn-ghost" onclick="location.href='/demo'"><i class="fa-solid fa-desktop" style="margin-right:8px"></i> Lihat Demo</button> -->
         </div>
 
         <div class="roles" style="margin-top:18px">
-          <div class="role" onclick="location.href='/login?role=admin'">
-            <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
+          <div class="role" th:onclick="|location.href='@{/Auth/login}'|">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-star-icon lucide-user-star"><path d="M16.051 12.616a1 1 0 0 1 1.909.024l.737 1.452a1 1 0 0 0 .737.535l1.634.256a1 1 0 0 1 .588 1.806l-1.172 1.168a1 1 0 0 0-.282.866l.259 1.613a1 1 0 0 1-1.541 1.134l-1.465-.75a1 1 0 0 0-.912 0l-1.465.75a1 1 0 0 1-1.539-1.133l.258-1.613a1 1 0 0 0-.282-.866l-1.156-1.153a1 1 0 0 1 .572-1.822l1.633-.256a1 1 0 0 0 .737-.535z"/><path d="M8 15H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/></svg>
             <div>
               <div style="font-weight:700">Administrator</div>
-              <div class="small muted">Kelola user & seting</div>
+              <div class="small muted">Kelola user & setting</div>
             </div>
           </div>
 
-          <div class="role" onclick="location.href='/login?role=teacher'">
-            <i class="fa-solid fa-chalkboard-user" aria-hidden="true"></i>
+          <div class="role" th:onclick="|location.href='@{/Auth/login}'|">
+            <!-- <i class="fa-solid fa-chalkboard-user" aria-hidden="true"></i> -->
+             <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             <div>
               <div style="font-weight:700">Pengawas</div>
               <div class="small muted">Pantau</div>
             </div>
           </div>
 
-          <div class="role" onclick="location.href='/login?role=student'">
-            <i class="fa-solid fa-user-graduate" aria-hidden="true"></i>
+          <div class="role" th:onclick="|location.href='@{/Auth/login}'|">
+            <!-- <i class="fa-solid fa-user-graduate" aria-hidden="true"></i> -->
+             <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-graduation-cap-icon lucide-graduation-cap"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
             <div>
               <div style="font-weight:700">Siswa</div>
               <div class="small muted">Isi jurnal harian</div>
@@ -316,7 +322,8 @@
     <section id="fitur" style="margin-top:10px">
       <div class="features">
         <div class="feature fade delay-1">
-          <div class="ico"><i class="fa-solid fa-book"></i></div>
+          <!-- <div class="ico"><i class="fa-solid fa-book"></i></div> -->
+         <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-text-icon lucide-book-text"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/><path d="M8 11h8"/><path d="M8 7h6"/></svg>
           <div>
             <h4>Jurnal Harian</h4>
             <p>Form singkat, dan catatan tugas yang mudah diisi siswa.</p>
@@ -324,7 +331,8 @@
         </div>
 
         <div class="feature fade delay-2">
-          <div class="ico"><i class="fa-solid fa-chart-line"></i></div>
+          <!-- <div class="ico"><i class="fa-solid fa-chart-line"></i></div> -->
+           <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard-icon lucide-layout-dashboard"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
           <div>
             <h4>Dashboard Ringkas</h4>
             <p>Ringkasan progres</p>
@@ -332,7 +340,8 @@
         </div>
 
         <div class="feature fade delay-3">
-          <div class="ico"><i class="fa-solid fa-file-signature"></i></div>
+          <!-- <div class="ico"><i class="fa-solid fa-file-signature"></i></div> -->
+           <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-notebook-pen-icon lucide-notebook-pen"><path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4"/><path d="M2 6h4"/><path d="M2 10h4"/><path d="M2 14h4"/><path d="M2 18h4"/><path d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/></svg>
           <div>
             <h4>Laporan </h4>
             <p>Hasil Laporan Siap unduh</p>
@@ -344,12 +353,12 @@
         <div style="flex:1">
           <div class="strip">
             <div>
-              <!-- <div style="font-weight:800; color:var(--navy)">Dipakai >120 sekolah</div>
-              <div class="small muted">Stabil, aman, dan mendukung integrasi SSO / LDAP</div> -->
+              <div style="font-weight:800; color:var(--navy)">Dipakai >120 sekolah</div>
+              <div class="small muted">Stabil, aman, dan mendukung integrasi SSO / LDAP</div>
             </div>
             <div style="display:flex; gap:10px; align-items:center">
-              <!-- <a class="btn-ghost" href="/kontak">Hubungi Sales</a>
-              <a class="btn-primary" href="/trial">Minta Trial</a> -->
+              <a class="btn-ghost" href="https://wa.me/085158245221">Hubungi Sales</a>
+              <!-- <a class="btn-primary" href="/trial">Minta Trial</a> -->
             </div>
           </div>
         </div>
@@ -361,7 +370,7 @@
       <div class="foot-inner">
         <div>
           <div style="font-weight:800">Ter-Awasi</div>
-          <div class="small muted">© <span id="yr"></span> Dibuat untuk sekolah, semua hak dilindungi</div>
+          <div class="small muted">© <span id="yr"></span> Dibuat untuk sekolah, oleh <a href="https://synkrn.biz.id/">synkrn</a></div>
         </div>
 
         <div style="display:flex; gap:12px; align-items:center">

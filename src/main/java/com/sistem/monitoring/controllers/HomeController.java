@@ -34,7 +34,7 @@ public class HomeController {
     private final CompanyService companyService;
     private final GradeService gradeService;
     private final ReportSubmissionService reportSubmissionService;
-    private final AttendanceService attendanceService;
+    
 
     public HomeController(
             UserService userService,
@@ -56,7 +56,6 @@ public class HomeController {
         this.companyService = companyService;
         this.gradeService = gradeService;
         this.reportSubmissionService = reportSubmissionService;
-        this.attendanceService = attendanceService;
 
     }
 
