@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TERAWASI— Sistem Monitoring PKL</title>
+
+  <!-- Font + Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/yourkitid.js" crossorigin="anonymous"></script>
+  <!-- If you don't have a kit, use the free CDN below instead:
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  -->
+
+  <style>
+    :root{
+      --navy:#0b2340;
+      --cream:#f2ece3;
+      --muted:#6c757d;
+      --accent:#b78b4a;
+      --topbar-h:56px;
+      --sidebar-w:260px;
+      --shadow:0 6px 20px rgba(11,35,64,0.06);
+
+      --radius:12px;
+      --glass: rgba(255,255,255,0.6);
+    }
+
+    /* Reset & base */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg, var(--cream) 0%, #efe9df 100%);
+      color: var(--navy);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding-top: var(--topbar-h);
+    }
+
+    a { color:inherit; text-decoration:none; }
+
+    /* NAV */
+    .nav {
+      height: var(--topbar-h);
+      width:100%;
+      position:fixed;
+      left:0; top:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: linear-gradient(180deg, rgba(11,35,64,0.98), rgba(11,35,64,0.95));
+      box-shadow: var(--shadow);
+      z-index:50;
+    }
+    .nav .inner {
+      width:min(1180px,94%); display:flex; align-items:center; justify-content:space-between;
+    }
+    .brand {
+      display:flex; gap:12px; align-items:center;
+      color:var(--cream);
+      font-weight:700; letter-spacing:0.6px; font-size:18px;
+    }
+    .brand .logo {
+      width:44px; height:44px; border-radius:10px;
+      background: linear-gradient(180deg, rgba(183,139,74,0.12), rgba(183,139,74,0.04));
+      display:grid; place-items:center; color:var(--accent); font-weight:800;
+      border:1px solid rgba(183,139,74,0.08);
+    }
+
+    .nav-right { display:flex; gap:12px; align-items:center; }
+    .nav-link {
+      color:rgba(242,236,227,0.92);
+      font-weight:600; font-size:14px; padding:8px 12px; border-radius:10px;
+    }
+    .nav-link:hover{ background: rgba(255,255,255,0.02) }
+
+    .btn-login {
+      background:var(--accent);
+      color:var(--navy);
+      padding:9px 16px;
+      border-radius:10px;
+      font-weight:700;
+      box-shadow: 0 8px 30px rgba(183,139,74,0.12);
+      border: none;
+      cursor:pointer;
+    }
+
+    /* HERO */
+    .wrap { width:min(1180px,94%); margin:0 auto; }
+    .hero {
+      margin-top:36px;
+      display:grid;
+      grid-template-columns: 1fr 460px;
+      gap:32px;
+      align-items:center;
+    }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.96));
+      border-radius: var(--radius);
+      padding:26px;
+      box-shadow: var(--shadow);
+      border:1px solid rgba(11,35,64,0.03);
+    }
+    .kicker {
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      background: rgba(183,139,74,0.12);
+      color:var(--accent);
+      font-weight:700;
+      font-size:12px;
+      margin-bottom:12px;
+    }
+    h1 {
+      margin:6px 0 12px;
+      font-size:36px;
+      line-height:1.02;
+      color:var(--navy);
+    }
+    p.lead {
+      margin:0 0 18px;
+      color:var(--muted);
+      font-size:15px;
+      max-width:64ch;
+    }
+
+    .hero-ctas { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    .btn-primary {
+      background: linear-gradient(90deg, var(--navy), #0d2a4b);
+      color: #fff; border:none; padding:12px 18px; border-radius:10px; font-weight:700; cursor:pointer;
+      box-shadow: 0 12px 36px rgba(11,35,64,0.12);
+    }
+    .btn-ghost {
+      background:transparent; border:1px solid rgba(11,35,64,0.08); color:var(--navy); padding:10px 16px; border-radius:10px; font-weight:700; cursor:pointer;
+    }
+
+    .roles { display:flex; gap:10px; margin-top:16px; flex-wrap:wrap; }
+    .role {
+      display:flex; gap:12px; align-items:center; padding:10px 12px; border-radius:10px;
+      background: linear-gradient(180deg, rgba(11,35,64,0.02), rgba(11,35,64,0.01));
+      border: 1px solid rgba(11,35,64,0.03);
+      cursor:pointer;
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .role:hover{ transform: translateY(-6px); box-shadow: 0 14px 30px rgba(11,35,64,0.06); }
+    .role i { color:var(--navy); width:28px; height:28px; display:grid; place-items:center; font-size:14px; }
+
+    /* Illustration card */
+    .preview {
+      display:flex; flex-direction:column; gap:14px; align-items:stretch;
+    }
+    .preview .art {
+      height:300px; border-radius:10px; overflow:hidden; background:
+      linear-gradient(180deg, rgba(11,35,64,0.95), rgba(7,18,36,0.92));
+      display:flex; align-items:center; justify-content:center;
+      color: rgba(242,236,227,0.9); font-weight:700; font-size:14px;
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .stats {
+      display:flex; gap:10px;
+    }
+    .stat {
+      flex:1; background:rgba(11,35,64,0.02); padding:10px; border-radius:8px; text-align:center;
+    }
+    .stat .num { font-weight:800; color:var(--navy); font-size:18px; }
+    .stat .label { color:var(--muted); font-size:13px; margin-top:4px; }
+
+    /* FEATURES */
+    .features { margin-top:28px; display:grid; grid-template-columns: repeat(3,1fr); gap:16px; }
+    .feature {
+      display:flex; gap:12px; align-items:flex-start; padding:18px; border-radius:10px;
+      background: linear-gradient(180deg, #fff, #fbfbfb);
+      border:1px solid rgba(11,35,64,0.03); box-shadow: var(--shadow);
+    }
+    .feature .ico {
+      width:56px; height:56px; border-radius:10px; display:grid; place-items:center; font-size:20px;
+      background: linear-gradient(180deg, rgba(11,35,64,0.06), rgba(11,35,64,0.02));
+      color:var(--navy);
+    }
+    .feature h4 { margin:0 0 6px; font-size:16px; color:var(--navy); }
+    .feature p { margin:0; color:var(--muted); font-size:14px; }
+
+    /* STRIP CTA */
+    .strip {
+      margin-top:34px; border-radius:12px; padding:16px; display:flex; align-items:center; justify-content:space-between;
+      background: linear-gradient(90deg, rgba(183,139,74,0.06), rgba(11,35,64,0.02));
+      border:1px solid rgba(11,35,64,0.03);
+    }
+
+    /* FOOTER */
+    footer { margin-top:48px; padding:30px 0; color:var(--navy); }
+    .foot-inner { width:min(1180px,94%); margin:auto; display:flex; justify-content:space-between; align-items:center; gap:12px; }
+
+    /* small helpers */
+    .muted { color:var(--muted) }
+    .small { font-size:13px }
+
+    /* responsiveness */
+    @media (max-width:1000px){
+      .hero { grid-template-columns:1fr; gap:20px; }
+      .features { grid-template-columns:1fr; }
+      .preview .art { height:220px; }
+    }
+
+    /* subtle fade-in */
+    .fade { opacity:0; transform:translateY(10px); animation:fadeIn .5s ease forwards; }
+    .fade.delay-1{ animation-delay:.08s } .fade.delay-2{ animation-delay:.16s } .fade.delay-3{ animation-delay:.24s }
+    @keyframes fadeIn { to { opacity:1; transform:none } }
+
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav" role="banner">
+    <div class="inner wrap">
+      <div class="brand">
+        <div class="logo">SYN</div>
+        <div>
+          <div style="font-size:14px">TER-AWASI</div>
+          <!-- <div style="font-size:12px; color:var(--cream); opacity:0.9; margin-top:-4px">Monitoring PKL</div> -->
+        </div>
+      </div>
+
+      <nav class="nav-right" aria-label="Utama">
+        <a class="nav-link fade delay-1" href="#fitur"><i class="fa-solid fa-star" style="margin-right:8px"></i>Fitur</a>
+        <a class="nav-link fade delay-2" href="#tentang"><i class="fa-solid fa-circle-info" style="margin-right:8px"></i>Tentang</a>
+        <a class="btn-login fade delay-3" href="/login" title="Login">Masuk</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="wrap" role="main">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="card fade delay-1" aria-labelledby="hero-title">
+        <span class="kicker">Terpercaya • Sekolah & Industri</span>
+        <h1 id="hero-title">Pantau aktivitas PKL dengan mudah — dari jurnal hingga laporan</h1>
+        <p class="lead">Platform terintegrasi untuk guru, pembimbing industri, dan siswa. Fokus pada pengalaman yang bersih, alur kerja yang cepat, dan laporan profesional siap cetak.</p>
+
+        <div class="hero-ctas">
+          <button class="btn-primary" onclick="location.href='/login'"><i class="fa-solid fa-right-to-bracket" style="margin-right:8px"></i> Mulai Sekarang</button>
+          <!-- <button class="btn-ghost" onclick="location.href='/demo'"><i class="fa-solid fa-desktop" style="margin-right:8px"></i> Lihat Demo</button> -->
+        </div>
+
+        <div class="roles" style="margin-top:18px">
+          <div class="role" onclick="location.href='/login?role=admin'">
+            <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
+            <div>
+              <div style="font-weight:700">Administrator</div>
+              <div class="small muted">Kelola user & seting</div>
+            </div>
+          </div>
+
+          <div class="role" onclick="location.href='/login?role=teacher'">
+            <i class="fa-solid fa-chalkboard-user" aria-hidden="true"></i>
+            <div>
+              <div style="font-weight:700">Pengawas</div>
+              <div class="small muted">Pantau</div>
+            </div>
+          </div>
+
+          <div class="role" onclick="location.href='/login?role=student'">
+            <i class="fa-solid fa-user-graduate" aria-hidden="true"></i>
+            <div>
+              <div style="font-weight:700">Siswa</div>
+              <div class="small muted">Isi jurnal harian</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="preview fade delay-2">
+        <div class="card art" aria-hidden="true">
+          <!-- simple illustrative mockup (replace with real screenshot or SVG) -->
+          <div style="text-align:center; padding:18px;">
+            <div style="font-size:13px; color:rgba(242,236,227,0.9); margin-bottom:6px">Preview Dashboard</div>
+            <svg width="260" height="160" viewBox="0 0 520 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustrasi dashboard">
+              <defs>
+                <linearGradient id="g1" x1="0" x2="1">
+                  <stop offset="0" stop-color="#b78b4a"/>
+                  <stop offset="1" stop-color="#0b2340"/>
+                </linearGradient>
+              </defs>
+              <rect x="12" y="12" rx="12" width="496" height="296" fill="#071726" />
+              <rect x="36" y="36" rx="8" width="200" height="34" fill="#0b3450"/>
+              <rect x="36" y="86" rx="8" width="420" height="10" fill="#0b2d43"/>
+              <rect x="36" y="106" rx="8" width="300" height="12" fill="#0b2d43"/>
+              <rect x="36" y="132" rx="8" width="180" height="12" fill="#0b2d43"/>
+              <g transform="translate(260,60)">
+                <rect x="0" y="0" rx="8" width="220" height="140" fill="#071726"/>
+                <polyline points="10,120 40,80 80,96 120,40 160,66 200,22" stroke="url(#g1)" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="stats" aria-hidden="true">
+          <div class="stat card">
+            <div class="num">+1.250</div>
+            <div class="label small">Laporan / bln</div>
+          </div>
+          <div class="stat card">
+            <div class="num">98%</div>
+            <div class="label small">Siswa aktif</div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="fitur" style="margin-top:10px">
+      <div class="features">
+        <div class="feature fade delay-1">
+          <div class="ico"><i class="fa-solid fa-book"></i></div>
+          <div>
+            <h4>Jurnal Harian</h4>
+            <p>Form singkat, dan catatan tugas yang mudah diisi siswa.</p>
+          </div>
+        </div>
+
+        <div class="feature fade delay-2">
+          <div class="ico"><i class="fa-solid fa-chart-line"></i></div>
+          <div>
+            <h4>Dashboard Ringkas</h4>
+            <p>Ringkasan progres</p>
+          </div>
+        </div>
+
+        <div class="feature fade delay-3">
+          <div class="ico"><i class="fa-solid fa-file-signature"></i></div>
+          <div>
+            <h4>Laporan </h4>
+            <p>Hasil Laporan Siap unduh</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:20px; display:flex; gap:12px; align-items:center">
+        <div style="flex:1">
+          <div class="strip">
+            <div>
+              <!-- <div style="font-weight:800; color:var(--navy)">Dipakai >120 sekolah</div>
+              <div class="small muted">Stabil, aman, dan mendukung integrasi SSO / LDAP</div> -->
+            </div>
+            <div style="display:flex; gap:10px; align-items:center">
+              <!-- <a class="btn-ghost" href="/kontak">Hubungi Sales</a>
+              <a class="btn-primary" href="/trial">Minta Trial</a> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer role="contentinfo">
+      <div class="foot-inner">
+        <div>
+          <div style="font-weight:800">Ter-Awasi</div>
+          <div class="small muted">© <span id="yr"></span> Dibuat untuk sekolah, semua hak dilindungi</div>
+        </div>
+
+        <div style="display:flex; gap:12px; align-items:center">
+          <!-- <a class="small muted" href="#fitur">Fitur</a>
+          <a class="small muted" href="#tentang">Tentang</a>
+          <a class="small muted" href="/login">Login</a> -->
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    // set year
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // reduce animations for users who prefer reduced motion
+    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      document.querySelectorAll('.fade').forEach(e=>{
+        e.style.animation='none'; e.style.opacity=1; e.style.transform='none';
+      });
+    }
+  </script>
+</body>
+</html>

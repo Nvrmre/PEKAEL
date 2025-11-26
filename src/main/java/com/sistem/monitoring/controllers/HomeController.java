@@ -63,7 +63,7 @@ public class HomeController {
     // Redirect root ke /index
     @GetMapping("/")
     public String root() {
-        return "redirect:/index";
+        return "home";
     }
 
     // Home page (Dashboard)
