@@ -7,34 +7,128 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <style>
     :root{ --navy:#0b2340; --cream:#f7f3ee; --accent:#b78b4a; --muted:#6c757d; }
-    body{ background:var(--cream); color:var(--navy); font-family:Inter,system-ui,Arial; }
-    .container-main{ max-width:1100px; margin:2rem auto; background:#fff; padding:1.25rem; border-radius:12px; box-shadow:0 8px 20px rgba(11,35,64,0.06); }
-    .title { display:flex; align-items:center; gap:.75rem; margin-bottom:1rem; }
-    .title h2{ margin:0; font-size:1.2rem; font-weight:700; }
-    .btn-add{ background:var(--accent); color:#fff; padding:.4rem .7rem; border-radius:8px; text-decoration:none; font-weight:600; }
-    .img-thumb{ width:64px; height:46px; object-fit:cover; border-radius:6px; border:1px solid #e9ecef; }
+    body{ background:var(--cream); color:var(--navy); font-family:Inter,system-ui,Arial; font-size: 1rem; }
     
-    /* Styling Tombol Aksi Kecil */
-    .icon-btn{ width:32px; height:32px; border-radius:6px; display:inline-flex; align-items:center; justify-content:center; border:0; cursor:pointer; transition:0.2s; }
+    .container-main{ 
+      max-width:1100px; 
+      margin:2rem auto; 
+      background:#fff; 
+      padding:1.5rem; 
+      border-radius:12px; 
+      box-shadow:0 8px 20px rgba(11,35,64,0.06); 
+    }
+
+    .title { display:flex; align-items:center; gap:.75rem; margin-bottom:1.5rem; flex-wrap: wrap; }
+    .title h2{ margin:0; font-size:1.35rem; font-weight:700; color: var(--navy); }
+    
+    .btn-add{ 
+      background:var(--accent); 
+      color:#fff; 
+      padding:.5rem .9rem; 
+      border-radius:8px; 
+      text-decoration:none; 
+      font-weight:600; 
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .btn-add:hover { background: #9e763a; color: white; transform: translateY(-2px); }
+
+    /* Styling Table Desktop */
+    .table thead th {
+      background-color: var(--navy);
+      color: white;
+      font-weight: 500;
+      text-align: center;
+      border: none;
+    }
+    .table tbody td {
+      text-align: center;
+      vertical-align: middle;
+      font-size: 0.95rem;
+    }
+    
+    /* Tombol Aksi */
+    .icon-btn{ width:34px; height:34px; border-radius:6px; display:inline-flex; align-items:center; justify-content:center; border:0; cursor:pointer; transition:0.2s; }
     .icon-btn svg { width:18px; height:18px; }
     
     .icon-view { background:#e9ecef; color:var(--navy); }
-    .icon-view:hover { background:#dee2e6; }
+    .icon-view:hover { background:#dee2e6; transform: scale(1.05); }
     
     .icon-edit { background:#0b74a4; color:#fff; }
-    .icon-edit:hover { background:#095b7f; }
+    .icon-edit:hover { background:#095b7f; transform: scale(1.05); }
     
     .icon-delete { background:#c44d3a; color:#fff; }
-    .icon-delete:hover { background:#a63e2d; }
+    .icon-delete:hover { background:#a63e2d; transform: scale(1.05); }
 
-    .badge-status{ padding:.28rem .55rem; border-radius:999px; font-weight:700; font-size:.82rem; }
-    .badge-pending{ background:#fff3cd; color:#664d03; }
-    .badge-approved{ background:#198754; color:#fff; }
-    .badge-rejected{ background:#dc3545; color:#fff; }
+    .badge-status{ padding:.35rem .65rem; border-radius:6px; font-weight:600; font-size:.8rem; letter-spacing: 0.5px; }
+    .badge-pending{ background:#fff3cd; color:#856404; }
+    .badge-approved{ background:#d1e7dd; color:#0f5132; }
+    .badge-rejected{ background:#f8d7da; color:#842029; }
 
-    @media(max-width:720px){
-      .img-thumb{ width:48px; height:36px; }
-      td, th{ font-size:.92rem; }
+    /* --- MOBILE RESPONSIVE (Card View) --- */
+    @media(max-width:768px){
+      .container-main { margin: 1rem 0.5rem; padding: 1rem; }
+      .title h2 { font-size: 1.25rem; }
+      
+      /* Sembunyikan Header Tabel */
+      .table thead { display: none; }
+
+      /* Baris menjadi Kartu */
+      .table tbody tr {
+        display: block;
+        background: #fff;
+        border: 1px solid #e2e2e2;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+        padding: 0.5rem;
+      }
+      
+      /* Cell menjadi baris flex */
+      .table tbody td {
+        display: flex;
+        justify-content: space-between; /* Label Kiri, Isi Kanan */
+        align-items: center;
+        text-align: right;
+        padding: 0.75rem 0.5rem;
+        border-bottom: 1px solid #f0f0f0;
+        border-top: none; /* Reset border bootstrap */
+      }
+      
+      .table tbody td:last-child { border-bottom: none; }
+
+      /* Menggunakan attribute data-label untuk judul kolom */
+      .table tbody td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        color: var(--muted);
+        font-size: 0.85rem;
+        text-align: left;
+        margin-right: 1rem;
+        flex-shrink: 0;
+      }
+
+      /* Khusus kolom No (Opsional: styling beda biar jadi header kartu) */
+      .table tbody td[data-label="No"] {
+        background: var(--navy);
+        color: white;
+        border-radius: 6px;
+        margin: -0.5rem -0.5rem 0.5rem -0.5rem; /* Negatif margin agar full width di atas */
+        padding: 0.5rem 1rem;
+        justify-content: flex-start;
+      }
+      .table tbody td[data-label="No"]::before {
+        color: var(--accent);
+        content: "#";
+        margin-right: 5px;
+      }
+
+      /* Empty State adjustment */
+      .table tbody tr.empty-row td {
+        display: block;
+        text-align: center;
+      }
+      .table tbody tr.empty-row td::before { content: none; }
     }
   </style>
 </head>
@@ -45,53 +139,57 @@
   <main class="container-main">
     <div class="d-flex justify-content-between align-items-center title">
       <h2>Daftar Pengumpulan Laporan</h2>
-      <a th:href="@{/report-submissions/create}" class="btn-add" th:if="${#authorization.expression('hasAnyAuthority(''STUDENT'', ''Student'')')}">+ Tambah Laporan</a>
+      <a th:href="@{/report-submissions/create}" class="btn-add" th:if="${#authorization.expression('hasAnyAuthority(''STUDENT'', ''Student'')')}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="margin-bottom:2px;">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+        </svg>
+        Tambah Laporan
+      </a>
     </div>
 
-    <div class="table-responsive">
-      <table class="table align-middle mb-0">
+    <div class="table-responsive-md">
+      <table class="table mb-0">
         <thead>
           <tr>
             <th style="width:50px;">No</th>
             <th style="width:80px;">File</th>
             <th>Nama Siswa</th>
             <th>Judul Laporan</th>
-            <th style="width:120px;">Status</th>
+            <th style="width:130px;">Status</th>
             <th>Catatan</th>
             <th style="width:140px;">Aksi</th>
           </tr>
         </thead>
         <tbody>
-          <tr th:each="sub, iterStat : ${submission}"> <td th:text="${iterStat.count}">1</td>
+          <tr th:each="sub, iterStat : ${submission}"> 
+            <td data-label="No" th:text="${iterStat.count}">1</td>
             
-            <td>
+            <td data-label="File">
               <div th:if="${sub.filePath != null and sub.filePath!= ''}">
                 <a th:href="@{${sub.filePath}}" target="_blank">
-                   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="#b78b4a" stroke-width="1.5">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#b78b4a" stroke-width="1.8">
                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                    </svg>
                 </a>
               </div>
-              <span th:if="${sub.filePath == null}">-</span>
+              <span th:if="${sub.filePath == null}" class="text-muted">-</span>
             </td>
 
-            <td th:text="${sub.student?.user?.username ?: '—'}">Nama Siswa</td>
+            <td data-label="Nama Siswa" th:text="${sub.student?.user?.username ?: '—'}">Nama Siswa</td>
 
-            <td th:text="${sub.fileTitle}">Judul</td>
+            <td data-label="Judul Laporan" th:text="${sub.fileTitle}" style="font-weight: 500;">Judul</td>
             
-            <td>
+            <td data-label="Status">
               <span class="badge-status" 
                     th:classappend="${#strings.toString(sub.status) == 'APPROVED'} ? 'badge-approved' : 
                                    (${#strings.toString(sub.status) == 'REJECTED'} ? 'badge-rejected' : 'badge-pending')"
                     th:text="${sub.status}">Pending</span>
             </td>
             
-            <td th:text="${sub.studentNotes ?: '-'}">Catatan</td>
+            <td data-label="Catatan" th:text="${sub.studentNotes ?: '-'}">Catatan</td>
 
-            <td>
-              <div class="d-flex gap-1">
-                
-                <a th:href="@{'/report-submissions/' + ${sub.submissionId}}" class="icon-btn icon-view" title="Lihat Detail">
+            <td data-label="Aksi">
+              <div class="d-flex gap-2 justify-content-end justify-content-md-center"> <a th:href="@{'/report-submissions/' + ${sub.submissionId}}" class="icon-btn icon-view" title="Lihat Detail">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -106,7 +204,7 @@
                 </a>
 
                 <form th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}" 
-                      th:action="@{/report-submissions/{id}(id=${sub.submissionId})}" method="post">
+                      th:action="@{/report-submissions/{id}(id=${sub.submissionId})}" method="post" style="margin:0;">
                   <input type="hidden" name="_method" value="delete"/>
                   <button type="submit" class="icon-btn icon-delete" title="Hapus" onclick="return confirm('Yakin ingin menghapus?')">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -119,15 +217,22 @@
             </td>
           </tr>
 
-          <tr th:if="${#lists.isEmpty(submission)}">
-            <td colspan="7" class="text-center text-muted py-4">Belum ada laporan yang diupload.</td>
+          <tr th:if="${#lists.isEmpty(submission)}" class="empty-row">
+            <td colspan="7" class="text-center text-muted py-5">
+               <div class="d-flex flex-column align-items-center gap-2">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="#dee2e6" stroke-width="1.5">
+                   <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                 </svg>
+                 <span>Belum ada laporan yang diupload.</span>
+               </div>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
   </main>
 
-  <footer style="text-align:center; color:var(--muted); padding:1rem;">
+  <footer style="text-align:center; color:var(--muted); padding:1.5rem; font-size: 0.9rem;">
     &copy; <span th:text="${#temporals.format(#temporals.createNow(),'yyyy')}">2025</span> Sistem Monitoring
   </footer>
 

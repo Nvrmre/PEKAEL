@@ -1,13 +1,14 @@
 package com.sistem.monitoring.controllers;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 
 import com.sistem.monitoring.models.CompanyModel;
 import com.sistem.monitoring.models.CompanySupervisorModel;
@@ -48,9 +49,48 @@ public class PlacementController {
     }
 
     @GetMapping
-    public String listPlacements(Model model) {
-        List<PlacementModel> list = placementService.getAllPlacement();
+    public String listPlacements(Model model, Principal principal) {
+        List<PlacementModel> list;
+        boolean isSupervisor = false;
+        String currentUserName = "";
+
+        try {
+            if (principal != null) {
+                String username = principal.getName(); // username/email dari Spring Security
+
+                // user ini adalah School Supervisor
+                Optional<SchoolSupervisorModel> maybeSupervisor = schoolSupervisorService.findByUserUsername(username);
+
+                if (maybeSupervisor.isPresent()) {
+                    SchoolSupervisorModel supervisor = maybeSupervisor.get();
+                    // tampilkan hanya placement milik supervisor ini
+                    list = placementService.getBySchoolSupervisorId(supervisor.getsSupervisorId());
+                    isSupervisor = true;
+                    // prefer full name jika tersedia, fallback ke user.username
+                    if (supervisor.getSchoolSupervisorFullName() != null && !supervisor.getSchoolSupervisorFullName().isBlank()) {
+                        currentUserName = supervisor.getSchoolSupervisorFullName();
+                    } else if (supervisor.getUser() != null) {
+                        currentUserName = supervisor.getUser().getUsername();
+                    } else {
+                        currentUserName = username;
+                    }
+                } else {
+                    // bukan guru -> tampilkan semua (atau ubah sesuai kebijakan: redirect/forbidden)
+                    list = placementService.getAllPlacement();
+                    currentUserName = username;
+                }
+            } else {
+                // anonymous user -> tampil semua atau redirect ke login
+                list = placementService.getAllPlacement();
+            }
+        } catch (Exception ex) {
+            // fallback: tampil semua agar tidak crash
+            list = placementService.getAllPlacement();
+        }
+
         model.addAttribute("placements", list);
+        model.addAttribute("isSupervisor", isSupervisor);
+        model.addAttribute("currentUserName", currentUserName);
         return "PlacementView/index";
     }
 
@@ -156,49 +196,50 @@ public class PlacementController {
             @RequestParam("startDate") String startDateStr,
             @RequestParam("endDate") String endDateStr,
             @RequestParam("status") String statusStr) {
-        PlacementModel placement = placementService.getPlacementById(id)
-                .orElseThrow(() -> new RuntimeException("Placement not found: " + id));
 
+        // pastikan student & company valid
         StudentModel student = studentServices.getUserStudentById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found: " + studentId));
         CompanyModel company = companyService.getCompanyById(companyId)
                 .orElseThrow(() -> new RuntimeException("Company not found: " + companyId));
 
-        placement.setStudent(student);
-        placement.setCompany(company);
+        formPlacement.setStudent(student);
+        formPlacement.setCompany(company);
 
         if (schoolSupervisorId != null) {
             SchoolSupervisorModel sspv = schoolSupervisorService.getSchoolsupervisorById(schoolSupervisorId)
                     .orElseThrow(() -> new RuntimeException("SchoolSupervisor not found: " + schoolSupervisorId));
-            placement.setSchoolSupervisor(sspv);
+            formPlacement.setSchoolSupervisor(sspv);
         } else {
-            placement.setSchoolSupervisor(null);
+            formPlacement.setSchoolSupervisor(null);
         }
 
         if (companySupervisorId != null) {
             CompanySupervisorModel cspv = companySupervisorService.getCompanysupervisorById(companySupervisorId)
                     .orElseThrow(() -> new RuntimeException("CompanySupervisor not found: " + companySupervisorId));
-            placement.setCompanySupervisor(cspv);
+            formPlacement.setCompanySupervisor(cspv);
         } else {
-            placement.setCompanySupervisor(null);
+            formPlacement.setCompanySupervisor(null);
         }
 
         try {
             LocalDateTime start = LocalDateTime.parse(startDateStr, DT_FORMAT);
             LocalDateTime end = LocalDateTime.parse(endDateStr, DT_FORMAT);
-            placement.setStartDate(start);
-            placement.setEndDate(end);
+            formPlacement.setStartDate(start);
+            formPlacement.setEndDate(end);
         } catch (Exception ex) {
             throw new RuntimeException("Invalid date format. Expected: yyyy-MM-dd'T'HH:mm", ex);
         }
 
         try {
-            placement.setStatus(Status.valueOf(statusStr));
+            formPlacement.setStatus(Status.valueOf(statusStr));
         } catch (Exception ex) {
-           
+            // keep existing or set default
+            formPlacement.setStatus(Status.PENDING);
         }
 
-        placementService.createPlacement(placement);
+        // gunakan service update (service akan mencari existing entity dan menyimpan perubahan)
+        placementService.updatePlacement(id, formPlacement);
         return "redirect:/placements";
     }
 

@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Daftar Laporan Harian - Sistem Monitoring</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -21,7 +20,7 @@
             background-color: var(--cream);
             color: var(--navy);
             font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-            font-size: 1.03rem;
+            font-size: 1rem;
         }
 
         /* Topbar */
@@ -35,19 +34,6 @@
             justify-content: space-between;
         }
 
-        .brand {
-            display: flex;
-            gap: .5rem;
-            align-items: center;
-            font-weight: 600;
-        }
-
-        .brand svg {
-            width: 20px;
-            height: 20px;
-            stroke: var(--accent);
-        }
-
         .container-main {
             max-width: 1100px;
             margin: 1.8rem auto;
@@ -55,6 +41,16 @@
             border-radius: 12px;
             padding: 1.6rem;
             box-shadow: 0 2px 10px rgba(11, 35, 64, 0.06);
+        }
+
+        /* Header Responsif */
+        .page-header {
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap; /* Agar tombol turun jika layar sempit */
+            gap: 1rem;
         }
 
         h1 {
@@ -84,11 +80,13 @@
             display: flex;
             align-items: center;
             gap: 6px;
+            white-space: nowrap;
         }
 
         .btn-add:hover {
             background: #a5793e;
             transform: translateY(-2px);
+            color: #fff;
         }
 
         .btn-add svg {
@@ -97,53 +95,128 @@
             stroke: white;
         }
 
-        /* table */
+        /* --- TABLE STYLES --- */
         .table thead {
             background: var(--navy);
             color: #fff;
+            text-align: center;
         }
 
         .table tbody tr:hover {
             background: rgba(183, 139, 74, 0.06);
         }
-
-        .small-muted {
-            color: var(--muted);
-            font-size: .92rem;
+        
+        .table tbody td {
+            vertical-align: middle;
         }
 
-        /* action icons */
+        /* --- ACTION ICONS --- */
         .action-links a,
         .action-links button {
             background: none;
             border: 0;
             padding: 0;
-            margin-right: .5rem;
+            margin-right: .6rem;
             cursor: pointer;
+            display: inline-flex; /* Agar icon center */
         }
 
         .action-links svg {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
+            stroke-width: 1.5;
             stroke: currentColor;
             transition: transform .15s ease;
         }
 
-        .btn-edit {
-            color: #0b74a4;
-        }
-
-        .btn-view {
-            color: #2b8f4a;
-        }
-
-        .btn-delete {
-            color: #c44d3a;
-        }
+        .btn-edit { color: #0b74a4; }
+        .btn-view { color: #2b8f4a; }
+        .btn-delete { color: #c44d3a; }
 
         .action-links a:hover svg,
         .action-links button:hover svg {
-            transform: scale(1.12);
+            transform: scale(1.15);
+        }
+
+        /* --- MOBILE RESPONSIVE (Card View) --- */
+        @media(max-width:768px) {
+            .container-main {
+                margin: 1rem 0.5rem;
+                padding: 1rem;
+            }
+
+            /* Sembunyikan Header Tabel */
+            .table thead { display: none; }
+
+            /* Ubah baris jadi kartu */
+            .table tbody tr {
+                display: block;
+                background: #fff;
+                border: 1px solid #e0e0e0;
+                border-radius: 8px;
+                margin-bottom: 1rem;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+                padding: 0.5rem;
+            }
+
+            /* Ubah sel jadi flex row */
+            .table tbody td {
+                display: flex;
+                justify-content: space-between; /* Label kiri, isi kanan */
+                align-items: flex-start; /* Agar teks panjang rapi */
+                text-align: right;
+                padding: 0.6rem 0.5rem;
+                border-bottom: 1px solid #f0f0f0;
+                border-top: none;
+                font-size: 0.95rem;
+            }
+
+            .table tbody td:last-child {
+                border-bottom: none;
+                justify-content: flex-end; /* Aksi di kanan bawah */
+                padding-top: 1rem;
+            }
+
+            /* Pseudo element untuk label kolom */
+            .table tbody td::before {
+                content: attr(data-label);
+                font-weight: 700;
+                color: var(--muted);
+                text-align: left;
+                margin-right: 1.5rem;
+                font-size: 0.85rem;
+                flex-shrink: 0; /* Label tidak mengecil */
+            }
+
+            /* Styling khusus kolom NO agar jadi header kartu */
+            .table tbody td[data-label="No"] {
+                background: var(--navy);
+                color: white;
+                margin: -0.5rem -0.5rem 0.5rem -0.5rem;
+                border-radius: 8px 8px 0 0;
+                padding: 0.5rem 1rem;
+                justify-content: flex-start;
+                font-weight: bold;
+            }
+            .table tbody td[data-label="No"]::before {
+                content: "#";
+                color: var(--accent);
+                margin-right: 4px;
+            }
+
+            /* Tombol aksi diperbesar sedikit areanya di HP */
+            .action-links a, .action-links button {
+                padding: 0.4rem;
+                margin-left: 0.2rem;
+            }
+            
+            /* Empty state handling */
+            .table tbody tr.empty-row td {
+                display: block;
+                text-align: center;
+                border: none;
+            }
+            .table tbody tr.empty-row td::before { display: none; }
         }
 
         footer.footer {
@@ -151,22 +224,7 @@
             color: var(--muted);
             padding: 1rem 0;
             margin-top: 1.2rem;
-        }
-
-        /* responsive */
-        @media(max-width:640px) {
-            .container-main {
-                padding: 1rem;
-            }
-
-            .btn-add {
-                padding: .45rem .6rem;
-                font-size: .95rem;
-            }
-
-            .table thead {
-                font-size: .92rem;
-            }
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -177,9 +235,8 @@
 
     <div id="pageOverlay" class="overlay" aria-hidden="true"></div>
 
-    <!-- Main -->
     <main class="container-main">
-        <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="page-header">
             <h1>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 5h16v14H4zM8 5v14" />
@@ -188,7 +245,6 @@
             </h1>
 
             <a th:href="@{/daily-journal/create}" class="btn-add"  th:if="${#authorization.expression('hasAnyAuthority(''STUDENT'', ''Student'')')}">
-                <!-- plus icon -->
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
@@ -197,75 +253,75 @@
             </a>
         </div>
 
-        <div class="table-responsive">
-            <table class="table table-hover align-middle">
+        <div class="table-responsive-md"> <table class="table table-hover align-middle">
                 <thead>
                     <tr>
-                        <th>No</th>
+                        <th style="width: 60px;">No</th>
                         <th>Tempat PKL</th>
                         <th>Deskripsi Kegiatan</th>
                         <th>Nama Penulis</th>
-                        <th>Aksi</th>
+                        <th style="width: 140px;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- gunakan stat.count untuk nomor urut -->
                     <tr th:each="j, stat : ${journal}">
-                        <td th:text="${stat.count}">1</td>
-                        <td
+                        <td data-label="No" th:text="${stat.count}">1</td>
+                        
+                        <td data-label="Tempat PKL"
                             th:text="${j.placement != null ? (j.placement.company != null ? j.placement.company.companyName : j.placement.id) : '—'}">
                             Tempat PKL
                         </td>
-                        <td th:text="${j.activityDesc}">Deskripsi kegiatan...</td>
-                        <td th:text="${j.placement?.student?.user?.username ?: '—'}">
+                        
+                        <td data-label="Deskripsi" th:text="${j.activityDesc}">Deskripsi kegiatan...</td>
+                        
+                        <td data-label="Penulis" th:text="${j.placement?.student?.user?.username ?: '—'}">
                             Username Siswa
                         </td>
-                        <!-- <td th:text="${j.supervisorNotes}">Catatan pembimbing...</td>
-                        <td th:text="${j.validationStatus}">Pending</td> -->
 
-                        <td class="action-links d-flex align-items-center">
-                            <!-- Edit -->
-                            <a th:href="@{'/daily-journal/edit/' + ${j.journalId}}" class="btn-edit" title="Edit" th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M4 20h4l10-10-4-4L4 16v4z" />
-                                </svg>
-                            </a>
-
-                            <!-- View -->
-                            <a th:href="@{'/daily-journal/' + ${j.journalId}}" class="btn-view" title="Lihat">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M2.458 12C3.732 7.943 7.52 5 12 5c4.48 0 8.268 2.943 9.542 7-1.274 4.057-5.062 7-9.542 7-4.48 0-8.268-2.943-9.542-7z" />
-                                    <circle cx="12" cy="12" r="3" />
-                                </svg>
-                            </a>
-
-                            <!-- Delete (tombol buka modal) -->
-                            <form th:action="@{/daily-journal/{id}(id=${j.journalId})}" method="post"
-                                id="del-[[${j.journalId}]]" style="display:inline;"
-                                th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
-                                <input type="hidden" name="_method" value="delete" />
-                                <button type="button" class="btn-delete" title="Hapus"
-                                    data-form-id="del-[[${j.journalId}]]"
-                                    data-name="[[${j.placement != null ? (j.placement.company != null ? j.placement.company.companyName : j.placement.id) : 'Laporan'}]]">
+                        <td data-label="Aksi" class="action-links">
+                            <div class="d-flex align-items-center justify-content-end justify-content-md-center">
+                                <a th:href="@{'/daily-journal/edit/' + ${j.journalId}}" class="btn-edit" title="Edit" th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M6 7h12M9 7v10a2 2 0 002 2h2a2 2 0 002-2V7M10 11h4" />
+                                            d="M4 20h4l10-10-4-4L4 16v4z" />
                                     </svg>
-                                </button>
-                            </form>
+                                </a>
+
+                                <a th:href="@{'/daily-journal/' + ${j.journalId}}" class="btn-view" title="Lihat">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M2.458 12C3.732 7.943 7.52 5 12 5c4.48 0 8.268 2.943 9.542 7-1.274 4.057-5.062 7-9.542 7-4.48 0-8.268-2.943-9.542-7z" />
+                                        <circle cx="12" cy="12" r="3" />
+                                    </svg>
+                                </a>
+
+                                <form th:action="@{/daily-journal/{id}(id=${j.journalId})}" method="post"
+                                    id="del-[[${j.journalId}]]" style="display:inline; margin:0;"
+                                    th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
+                                    <input type="hidden" name="_method" value="delete" />
+                                    <button type="button" class="btn-delete" title="Hapus"
+                                        data-form-id="del-[[${j.journalId}]]"
+                                        data-name="[[${j.placement != null ? (j.placement.company != null ? j.placement.company.companyName : j.placement.id) : 'Laporan'}]]">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M6 7h12M9 7v10a2 2 0 002 2h2a2 2 0 002-2V7M10 11h4" />
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
 
-                    <tr th:if="${#lists.isEmpty(journal)}">
-                        <td colspan="7" class="text-center text-muted py-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none"
-                                stroke="currentColor" stroke-width="1.8" class="me-1">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M9 17v-2m0-4v-2m6 8v-2m0-4v-2M4 4h16v16H4z" />
-                            </svg>
-                            <div>Tidak ada data laporan harian</div>
+                    <tr th:if="${#lists.isEmpty(journal)}" class="empty-row">
+                        <td colspan="5" class="text-center text-muted py-5">
+                            <div class="d-flex flex-column align-items-center justify-content-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"
+                                    stroke="currentColor" stroke-width="1.5" class="mb-2 text-secondary">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9 17v-2m0-4v-2m6 8v-2m0-4v-2M4 4h16v16H4z" />
+                                </svg>
+                                <div>Tidak ada data laporan harian</div>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -273,10 +329,9 @@
         </div>
     </main>
 
-    <!-- Modal Konfirmasi Hapus -->
     <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel"
         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered px-3">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="confirmDeleteLabel">Konfirmasi Hapus</h5>
@@ -309,17 +364,25 @@
 
             document.querySelectorAll('button[data-form-id]').forEach(btn => {
                 btn.addEventListener('click', (e) => {
+                    // Mencegah klik tembus jika tombol ada di dalam link (defensive coding)
+                    e.preventDefault(); 
+                    
                     const formId = btn.getAttribute('data-form-id');
                     const name = btn.getAttribute('data-name') || '';
                     formToSubmit = document.getElementById(formId);
-                    msgEl.textContent = name ? `Yakin ingin menghapus laporan pada "${name}"?` : 'Yakin ingin menghapus?';
+                    
+                    if(name && name !== 'Laporan') {
+                         msgEl.textContent = `Yakin ingin menghapus laporan di "${name}"?`;
+                    } else {
+                         msgEl.textContent = 'Yakin ingin menghapus laporan ini?';
+                    }
+                    
                     confirmModal.show();
                 });
             });
 
             document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
                 if (!formToSubmit) return;
-                // Prevent double click UX
                 const btn = document.getElementById('confirmDeleteBtn');
                 btn.disabled = true;
                 btn.textContent = 'Menghapus...';

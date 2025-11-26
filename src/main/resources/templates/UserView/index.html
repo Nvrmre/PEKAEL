@@ -15,29 +15,16 @@
       --cream: #f2ece3;
       --muted: #6c757d;
       --accent: #b78b4a;
+      --shadow: 0 6px 18px rgba(11, 35, 64, 0.06);
     }
 
     body {
       background-color: var(--cream);
       color: var(--navy);
       font-size: 1.05rem;
-    }
-
-    /* Navbar */
-    .topbar {
-      background: linear-gradient(180deg, rgba(11, 35, 64, 0.98), rgba(11, 35, 64, 0.95));
-      color: white;
-      padding: 0.75rem 1rem;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
-    }
-
-    .brand {
-      font-weight: 600;
-      font-size: 1.25rem;
-    }
-
-    .nav-small {
-      font-size: .95rem;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     /* Container */
@@ -46,14 +33,14 @@
       margin: 2rem auto;
       background: #fff;
       border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(11, 35, 64, 0.08);
-      padding: 2rem;
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
     }
 
     h1 {
       font-weight: 700;
-      font-size: 1.6rem;
-      margin-bottom: 1.5rem;
+      font-size: 1.4rem;
+      margin: 0;
       color: var(--navy);
       display: flex;
       align-items: center;
@@ -61,93 +48,117 @@
     }
 
     h1 svg {
-      width: 28px;
-      height: 28px;
+      width: 26px;
+      height: 26px;
       stroke: var(--accent);
     }
 
-    /* Tombol Tambah */
     .btn-add {
       background-color: var(--accent);
       color: #fff;
       font-weight: 600;
       border: none;
       border-radius: 6px;
-      padding: 0.55rem 1rem;
-      transition: all 0.25s ease;
-      display: flex;
+      padding: 0.48rem 0.9rem;
+      transition: all 0.18s ease;
+      display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      white-space: nowrap;
     }
 
-    .btn-add:hover {
-      background-color: #a5793e;
-      transform: translateY(-2px);
+    .btn-add svg { width: 18px; height: 18px; color: white; }
+
+    .btn-add:hover { transform: translateY(-2px); background-color: #a5793e; }
+
+    /* table */
+    .table-custom thead th {
+      background-color: rgba(11, 35, 64, 0.04);
+      font-weight: 700;
+      color: var(--navy);
+      text-align: center;
+      vertical-align: middle;
     }
 
-    .btn-add svg {
-      width: 18px;
-      height: 18px;
-      color: white;
+    .table-custom tbody td {
+      vertical-align: middle;
+      text-align: center;
     }
 
-    /* Tabel */
-    .table-custom thead tbody{
-      background-color: var(--navy);
-      color: white;
+    /* force single-line & ellipsis for name/email to avoid breaks */
+    .nowrap {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
     }
 
-    .table-custom tbody tr:hover {
-      background-color: rgba(183, 139, 74, 0.07);
-      transition: background-color 0.25s ease;
-    }
+    .col-name .nowrap { max-width: 220px; text-align: left; }
+    .col-email .nowrap { max-width: 240px; text-align: left; }
 
-    /* Tombol aksi */
-    .action-links a,
-    .action-links button {
+    /* action icons */
+    .action-links a, .action-links button {
       border: none;
       background: none;
       padding: 0;
-      margin-right: 0.6rem;
+      margin-right: 0.5rem;
       cursor: pointer;
-      transition: all 0.2s ease;
       color: inherit;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    /* SVG use currentColor so CSS color applies */
-    .action-links svg {
-      width: 28px;
-      height: 28px;
-      stroke-width: 1.2;
-      stroke: currentColor;
-      fill: none;
+    .action-links svg { width: 22px; height: 22px; stroke: currentColor; fill: none; }
+
+    .btn-edit { color: #0b74a4; }
+    .btn-view { color: #2b8f4a; }
+    .btn-delete { color: #c44d3a; }
+
+    /* mobile: stacked card layout for readability */
+    @media (max-width: 767px) {
+      .table-custom thead { display: none; }
+      .table-custom tbody tr {
+        display: block;
+        background:var(--navy);
+        border-radius: 10px;
+        box-shadow: 0 6px 12px rgba(11,35,64,0.04);
+        padding: .65rem;
+        margin-bottom: .6rem;
+      }
+      .table-custom tbody td {
+        display: flex;
+        justify-content: space-between;
+        padding: .35rem .5rem;
+        border: none;
+        text-align: left;
+      }
+      .table-custom tbody td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        color: var(--navy);
+        min-width: 95px;
+        display: inline-block;
+        margin-right: .6rem;
+      }
+
+      /* make name & email ellipsis use more width */
+      .col-name .nowrap { max-width: calc(100vw - 180px); }
+      .col-email .nowrap { max-width: calc(100vw - 180px); }
+
+      /* compact action icons on mobile */
+      .action-links svg { width: 18px; height: 18px; }
+      .action-links a, .action-links button { margin-right: .4rem; }
+
+      /* reduce container padding on small screens */
+      .container-main { padding: 1rem; margin: 1rem; }
+      body { font-size: 0.98rem; }
     }
 
-    .btn-edit {
-      color: #0b74a4;
-    }
-
-    .btn-view {
-      color: #2b8f4a;
-    }
-
-    .btn-delete {
-      color: #c44d3a;
-    }
-
-    .btn-edit:hover {
-      color: #095b7c;
-      transform: scale(1.05);
-    }
-
-    .btn-view:hover {
-      color: #20763c;
-      transform: scale(1.05);
-    }
-
-    .btn-delete:hover {
-      color: #a63d2c;
-      transform: scale(1.05);
+    /* small accessibility tweak: focus ring for keyboard users */
+    .action-links a:focus, .action-links button:focus, .btn-add:focus {
+      outline: 3px solid rgba(11,35,64,0.12);
+      outline-offset: 3px;
     }
 
     footer.footer {
@@ -163,25 +174,20 @@
   <div th:replace="~{layouts/fragments/navbar :: topbar}"></div>
   <div th:replace="~{layouts/fragments/sidebar :: sidebar}"></div>
 
-  <div id="pageOverlay" class="overlay" aria-hidden="true"></div>
-
-  <!-- Main Content -->
-  <main class="container-main">
+  <main class="container-main" role="main">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h1>
-        <!-- User List Icon -->
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
-          stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M16 12a4 4 0 10-8 0 4 4 0 008 0zM12 14v8m-6-4a9 9 0 1118 0" />
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zM12 14v8m-6-4a9 9 0 1118 0" />
         </svg>
         Daftar Pengguna
       </h1>
 
-      <a th:href="@{/users/create}" class="btn-add">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <a th:href="@{/users/create}" class="btn-add" title="Tambah Pengguna">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
         </svg>
+        <span>Tambah</span>
       </a>
     </div>
 
@@ -189,7 +195,7 @@
       <table class="table table-hover align-middle table-custom">
         <thead>
           <tr>
-            <th>NO</th>
+            <th style="width:56px">NO</th>
             <th>Nama</th>
             <th>Email</th>
             <th>Role</th>
@@ -198,48 +204,50 @@
         </thead>
         <tbody>
           <tr th:each="user,stats : ${users}">
-            <td th:text="${stats.index + 1}">1</td>
-            <td th:text="${user.username}">nama pengguna</td>
-            <td th:text="${user.email}">a@b.c</td>
-            <td th:text="${user.role}">Student</td>
-            <td class="action-links d-flex align-items-center">
+            <td th:text="${stats.index + 1}" data-label="#">1</td>
+
+            <td class="col-name" th:attr="data-label='Nama'">
+              <span class="nowrap" th:text="${user.username}">nama pengguna</span>
+            </td>
+
+            <td class="col-email" th:attr="data-label='Email'">
+              <span class="nowrap" th:text="${user.email}">a@b.c</span>
+            </td>
+
+            <td th:attr="data-label='Role'" th:text="${user.role}">Student</td>
+
+            <td class="action-links" data-label="Aksi">
               <!-- Edit -->
-              <a th:href="@{'/users/edit/' + ${user.userId}}" class="btn-edit" title="Edit">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none">
+              <a th:href="@{'/users/edit/' + ${user.userId}}" class="btn-edit" title="Edit" aria-label="Edit pengguna">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M4 20h4l10-10-4-4L4 16v4z" />
                 </svg>
               </a>
 
               <!-- View -->
-              <a th:href="@{'/users/' + ${user.userId}}" class="btn-view" title="Lihat Detail">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M2.458 12C3.732 7.943 7.52 5 12 5c4.48 0 8.268 2.943 9.542 7-1.274 4.057-5.062 7-9.542 7-4.48 0-8.268-2.943-9.542-7z" />
+              <a th:href="@{'/users/' + ${user.userId}}" class="btn-view" title="Lihat Detail" aria-label="Lihat detail pengguna">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.52 5 12 5c4.48 0 8.268 2.943 9.542 7-1.274 4.057-5.062 7-9.542 7-4.48 0-8.268-2.943-9.542-7z" />
                   <circle cx="12" cy="12" r="3" />
                 </svg>
               </a>
 
               <!-- Delete -->
-              <form th:action="@{/users/{id}(id=${user.userId})}" method="post" class="delete-form"
-                style="display:inline;">
+              <form th:action="@{/users/{id}(id=${user.userId})}" method="post" class="delete-form" style="display:inline;">
                 <input type="hidden" name="_method" value="delete" />
-
-                <!-- gunakan th:attr untuk binding Thymeleaf atribut data & aria -->
                 <button type="button" class="btn btn-sm btn-delete" title="Hapus"
                   th:attr="data-username=${user.username}, aria-label='Hapus pengguna ' + ${user.username}">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none"
-                    width="16" height="16" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M6 7h12M9 7v10a2 2 0 002 2h2a2 2 0 002-2V7M10 11h4m-4 4h4" />
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" width="16" height="16" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 7h12M9 7v10a2 2 0 002 2h2a2 2 0 002-2V7M10 11h4m-4 4h4" />
                   </svg>
                 </button>
               </form>
             </td>
           </tr>
+
           <tr th:if="${#lists.isEmpty(users)}">
-            <td colspan="7" class="text-center text-muted py-4">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="currentColor"
-                stroke-width="1.8" class="me-1">
+            <td colspan="5" class="text-center text-muted py-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" class="me-1" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m0-4v-2m6 8v-2m0-4v-2M4 4h16v16H4z" />
               </svg>
               <div>Tidak ada data pengguna.</div>
@@ -260,8 +268,7 @@
         </div>
         <div class="modal-body">
           <p id="confirmDeleteMessage" class="mb-0">Apakah Anda yakin ingin menghapus pengguna ini?</p>
-          <small class="text-muted">Tindakan ini tidak bisa dibatalkan. data yang telah dihapus tidak dapat
-            dikembalikan</small>
+          <small class="text-muted">Tindakan ini tidak bisa dibatalkan. data yang telah dihapus tidak dapat dikembalikan</small>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>

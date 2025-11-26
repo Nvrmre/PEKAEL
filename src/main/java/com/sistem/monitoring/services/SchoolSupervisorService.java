@@ -38,4 +38,8 @@ public class SchoolSupervisorService {
     public void deleteSchoolSupervisor(Long id){
         schoolSupervisorRepository.deleteById(id);
     }
+ 
+    public Optional<SchoolSupervisorModel> findByUserUsername(String username) {
+        return schoolSupervisorRepository.findByUser_Username(username);
+    }
 }

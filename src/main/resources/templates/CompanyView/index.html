@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Daftar Perusahaan - Sistem Monitoring</title>
 
-  <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <style>
@@ -20,7 +19,7 @@
     body {
       background-color: var(--cream);
       color: var(--navy);
-      font-size: 1.05rem;
+      font-size: 1rem; /* Sedikit disesuaikan agar pas di mobile */
     }
 
     .topbar {
@@ -30,11 +29,7 @@
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
     }
 
-    .brand {
-      font-weight: 600;
-      font-size: 1.25rem;
-    }
-
+    /* Container Responsif */
     .container-main {
       max-width: 1100px;
       margin: 2rem auto;
@@ -44,10 +39,21 @@
       padding: 2rem;
     }
 
+    @media (max-width: 768px) {
+      .container-main {
+        margin: 1rem 0.5rem; /* Margin lebih kecil di mobile */
+        padding: 1.25rem; /* Padding dalam lebih kecil */
+      }
+      
+      h1 {
+        font-size: 1.35rem !important; /* Judul lebih kecil */
+      }
+    }
+
     h1 {
       font-weight: 700;
       font-size: 1.6rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 0; /* Margin dihandle oleh parent flex gap */
       color: var(--navy);
       display: flex;
       align-items: center;
@@ -66,11 +72,13 @@
       font-weight: 600;
       border: none;
       border-radius: 6px;
-      padding: 0.55rem 1rem;
+      padding: 0.5rem 0.9rem;
       transition: all 0.25s ease;
       display: flex;
       align-items: center;
       gap: 6px;
+      font-size: 0.95rem;
+      white-space: nowrap; /* Agar teks tidak turun */
     }
 
     .btn-add:hover {
@@ -84,12 +92,10 @@
       stroke: white;
     }
 
+    /* --- TABLE STYLES --- */
     .table-custom thead {
       background-color: var(--navy);
       color: white;
-      text-align: center;
-    }
-    tbody{
       text-align: center;
     }
 
@@ -97,57 +103,122 @@
       background-color: rgba(183, 139, 74, 0.07);
       transition: background-color 0.25s ease;
     }
+    
+    .table-custom tbody {
+       text-align: center;
+    }
 
+    /* --- RESPONSIF TABLE KE CARD (MOBILE VIEW) --- */
+    @media (max-width: 768px) {
+      /* Sembunyikan Header Tabel Asli */
+      .table-custom thead {
+        display: none;
+      }
+
+      /* Ubah Baris (TR) menjadi Kartu */
+      .table-custom tbody, 
+      .table-custom tr, 
+      .table-custom td {
+        display: block;
+        width: 100%;
+      }
+
+      .table-custom tr {
+        margin-bottom: 1.5rem;
+        background-color: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        padding: 0.5rem;
+      }
+
+      /* Styling Isi Cell (TD) */
+      .table-custom td {
+        text-align: right; /* Konten di kanan */
+        padding: 0.75rem 0.5rem;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        display: flex;
+        justify-content: space-between; /* Label di kiri, Isi di kanan */
+        align-items: center;
+      }
+
+      .table-custom td:last-child {
+        border-bottom: none;
+        justify-content: flex-end; /* Tombol aksi di kanan */
+      }
+
+      /* Membuat Label Pseudo-Element dari attribute data-label */
+      .table-custom td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        color: var(--navy);
+        text-align: left;
+        margin-right: 1rem;
+        font-size: 0.9rem;
+        flex-shrink: 0; /* Agar label tidak terhimpit */
+      }
+      
+      /* Khusus kolom No */
+      .table-custom td[data-label="No"] {
+         background-color: var(--navy);
+         color: white;
+         justify-content: flex-start;
+         border-radius: 4px;
+         margin-bottom: 0.5rem;
+         padding: 0.25rem 0.5rem;
+         display: inline-block;
+         width: auto;
+         font-size: 0.85rem;
+      }
+      .table-custom td[data-label="No"]::before {
+         content: "#";
+         margin-right: 4px;
+         color: var(--accent);
+      }
+    }
+
+    /* Action buttons styles */
     .action-links a,
     .action-links button {
       border: none;
       background: none;
       padding: 0;
-      margin-right: 0.6rem;
+      margin-left: 0.8rem; /* Ubah margin-right jadi left untuk mobile align right */
       cursor: pointer;
       color: inherit;
     }
+    
+    /* Balikin margin untuk desktop */
+    @media(min-width: 769px) {
+        .action-links a,
+        .action-links button {
+            margin-left: 0;
+            margin-right: 0.6rem;
+        }
+         .action-links.d-flex {
+            justify-content: center; /* Center buttons on desktop */
+        }
+    }
 
     .action-links svg {
-      width: 28px;
-      height: 28px;
-      stroke-width: 1.2;
+      width: 26px;
+      height: 26px;
+      stroke-width: 1.5;
       stroke: currentColor;
       fill: none;
     }
 
-    .btn-edit {
-      color: #0b74a4;
-    }
+    .btn-edit { color: #0b74a4; }
+    .btn-delete { color: #c44d3a; }
 
-    .btn-delete {
-      color: #c44d3a;
-    }
-
-    .btn-edit:hover {
-      color: #095b7c;
-      transform: scale(1.05);
-    }
-
-    .btn-delete:hover {
-      color: #a63d2c;
-      transform: scale(1.05);
-    }
-
+    .btn-edit:hover, .btn-delete:hover { transform: scale(1.1); }
+    
     footer.footer {
       text-align: center;
       color: var(--muted);
       padding: 1rem 0;
-      font-size: .95rem;
-    }
-
-    .btn-outline-danger svg {
-      transition: transform 0.25s ease, stroke 0.25s ease;
-    }
-
-    .btn-outline:hover svg {
-      transform: scale(1.15);
-      stroke: #a52834;
+      font-size: .9rem;
     }
   </style>
 </head>
@@ -158,11 +229,9 @@
 
   <div id="pageOverlay" class="overlay" aria-hidden="true"></div>
 
-  <!-- Main Container -->
   <main class="container-main">
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
       <h1>
-        <!-- building icon -->
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8">
           <path stroke-linecap="round" stroke-linejoin="round"
             d="M3 21h18M9 8h6m-6 4h6M4 21V7a1 1 0 011-1h14a1 1 0 011 1v14" />
@@ -177,8 +246,7 @@
       </a>
     </div>
 
-    <div class="table-responsive">
-      <table class="table table-hover align-middle table-custom">
+    <div class="table-responsive-md"> <table class="table table-hover align-middle table-custom">
         <thead>
           <tr>
             <th>No</th>
@@ -191,28 +259,25 @@
         </thead>
         <tbody>
           <tr th:each="comp, stat : ${companies}">
-            <td th:text="${stat.count}">1</td>
-            <td th:text="${comp.companyName}">Nama Perusahaan</td>
-            <td th:text="${comp.companyAddress}">Alamat</td>
-            <td th:text="${comp.companyPhone}">Telepon</td>
-            <td th:text="${comp.contactPerson}">Kontak</td>
-            <td class="action-links d-flex align-items-center">
+            <td data-label="No" th:text="${stat.count}">1</td>
+            <td data-label="Nama Perusahaan" th:text="${comp.companyName}">Nama Perusahaan</td>
+            <td data-label="Alamat" th:text="${comp.companyAddress}">Alamat</td>
+            <td data-label="Telepon" th:text="${comp.companyPhone}">Telepon</td>
+            <td data-label="Kontak Person" th:text="${comp.contactPerson}">Kontak</td>
+            <td data-label="Aksi" class="action-links d-flex align-items-center">
               <a th:href="@{'/companies/edit/' + ${comp.companyId}}" class="btn-edit" title="Edit">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M4 20h4l10-10-4-4L4 16v4z" />
                 </svg>
               </a>
               <form th:action="@{/companies/{id}(id=${comp.companyId})}" method="post"
-                th:id="${'del-' + comp.companyId}" class="delete-form">
-                <input type="hidden" name="_method" value="delete" />
+                th:id="${'del-' + comp.companyId}" class="delete-form m-0"> <input type="hidden" name="_method" value="delete" />
                 <button type="button"
-                  class="btn btn-sm btn-outline btn-open-delete d-flex align-items-center gap-1"
+                  class="btn btn-sm btn-outline btn-open-delete d-flex align-items-center gap-1 p-0 border-0"
                   th:attr="data-form-id=${'del-' + comp.companyId}, data-name=${comp.companyName}"
                   title="Hapus">
-                  <!-- trash icon -->
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
-                    stroke="currentColor" width="18" height="18">
-                    <path stroke-linecap="round" stroke-linejoin="round"
+                    stroke="currentColor" class="btn-delete"> <path stroke-linecap="round" stroke-linejoin="round"
                       d="M6 7h12M9 7v10a2 2 0 002 2h2a2 2 0 002-2V7M10 11h4m-4 4h4M4 7h16" />
                   </svg>
                 </button>
@@ -224,10 +289,8 @@
     </div>
   </main>
 
-  <!-- Modal Konfirmasi Hapus -->
   <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
+    <div class="modal-dialog modal-dialog-centered px-3"> <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="confirmDeleteLabel">Konfirmasi Hapus</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
@@ -258,14 +321,12 @@
       const msgEl = document.getElementById('confirmDeleteMessage');
       const confirmBtn = document.getElementById('confirmDeleteBtn');
 
-      // open modal when any .btn-open-delete clicked
       document.querySelectorAll('.btn-open-delete').forEach(btn => {
         btn.addEventListener('click', function () {
-          const formId = btn.dataset.formId;     // already rendered by Thymeleaf
-          const name = btn.dataset.name || '';   // already rendered by Thymeleaf
+          const formId = btn.dataset.formId;     
+          const name = btn.dataset.name || '';   
           formToSubmit = document.getElementById(formId);
 
-          // safe text insertion (no HTML)
           if (name.trim().length > 0) {
             msgEl.textContent = `Yakin ingin menghapus "${name}"?`;
           } else {
@@ -276,7 +337,6 @@
         });
       });
 
-      // confirm delete
       confirmBtn.addEventListener('click', function () {
         if (!formToSubmit) return;
         confirmBtn.disabled = true;
@@ -284,7 +344,6 @@
         formToSubmit.submit();
       });
 
-      // reset when modal hides
       modalEl.addEventListener('hidden.bs.modal', function () {
         formToSubmit = null;
         confirmBtn.disabled = false;
@@ -294,5 +353,4 @@
   </script>
 
 </body>
-
 </html>

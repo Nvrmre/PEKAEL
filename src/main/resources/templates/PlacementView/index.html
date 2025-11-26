@@ -9,220 +9,135 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <style>
-    :root {
-      --navy: #0b2340;
-      --cream: #f2ece3;
-      --accent: #b78b4a;
-      --muted: #6c757d;
-      --success: #1f7a35;
-      --info: #0b5b9a;
-      --info-light: #4b86c6;
-      --danger: #c44d3a;
-      --pending-gold: #b78b4a;
-      --shadow: 0 6px 18px rgba(11, 35, 64, 0.06);
+    :root{
+      --navy:#0b2340;
+      --cream:#f2ece3;
+      --accent:#b78b4a;
+      --muted:#6c757d;
+      --shadow:0 6px 18px rgba(11,35,64,0.06);
     }
 
-    body {
-      background: var(--cream);
-      color: var(--navy);
-      font-size: 1rem;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
-      -webkit-font-smoothing: antialiased;
+    body{
+      background:var(--cream);
+      color:var(--navy);
+      font-family:system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      -webkit-font-smoothing:antialiased;
     }
 
-    .container-main {
-      max-width: 1100px;
-      margin: 1.8rem auto;
-      padding: 1.25rem;
+    .container-main{
+      max-width:1100px;
+      margin:1.8rem auto;
+      padding:1.25rem;
     }
 
-    .card-page {
-      background: #fff;
-      border-radius: 12px;
-      padding: 1.25rem;
-      box-shadow: var(--shadow);
+    .card-page{
+      background:#fff;
+      border-radius:12px;
+      padding:1.25rem;
+      box-shadow:var(--shadow);
     }
 
-    .title {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-weight: 700;
-      font-size: 1.25rem;
-      color: var(--navy);
+    /* ===== HEADER FIX =====
+       Remove column layout so title doesn't break into multiple lines.
+    */
+    .title-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      margin-bottom:.75rem;
     }
 
-    .title svg {
-      stroke: var(--accent);
-      width: 26px;
-      height: 26px;
+    .title-left{
+      display:flex;
+      align-items:center;
+      gap:.6rem;
+      min-width:0; /* allow ellipsis if needed */
     }
 
-    .btn-add {
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: .45rem .8rem;
-      display: inline-flex;
-      gap: .4rem;
-      align-items: center;
-      font-weight: 700;
-      transition: transform .14s ease, box-shadow .14s ease;
+    .title-left svg{
+      stroke:var(--accent);
+      width:28px;
+      height:28px;
+      flex:0 0 auto;
     }
 
-    .btn-add svg {
-      width: 18px;
-      height: 18px;
-      color: white;
+    .title-text{
+      font-weight:700;
+      font-size:1.25rem;
+      color:var(--navy);
+      white-space:nowrap; /* keep title on single line if possible */
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
 
-    .btn-add:hover {
-      background: #a5793e;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(183, 139, 74, 0.12);
+    .title-sub{
+      font-weight:600;
+      font-size:.95rem;
+      color:var(--muted);
+      margin-top:4px;
     }
 
-    table thead {
-      background: rgba(11, 35, 64, 0.03);
+    .btn-add{
+      background:var(--accent);
+      color:#fff;
+      border:none;
+      border-radius:8px;
+      padding:.45rem .8rem;
+      display:inline-flex;
+      gap:.4rem;
+      align-items:center;
+      font-weight:700;
+      transition:transform .14s ease, box-shadow .14s ease;
+      white-space:nowrap;
     }
 
-    th {
-      font-weight: 600;
-      color: var(--navy);
+    .btn-add svg{ width:18px; height:18px; color:white; }
+
+    /* TABLE & CONTENT */
+    .table thead th{
+      background:rgba(11,35,64,0.03);
+      text-align:center;
+      vertical-align:middle;
+      font-weight:600;
     }
 
-    thead th {
-      text-align: center;
-      vertical-align: middle;
+    .table tbody td{ vertical-align:middle; text-align:center; }
+
+    .col-name .nowrap{
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      display:block;
+      max-width:220px;
+      text-align:left;
     }
 
-    tbody td {
-      text-align: center;
-    }
+    .col-company .nowrap{ max-width:260px; text-align:left; }
+    .col-supervisor .nowrap{ max-width:180px; text-align:left; }
 
-    table tbody td:first-child,
-    table thead th:first-child,
-    table thead th:last-child,
-    table tbody td:last-child {
-      text-align: center;
-    }
+    .actions .btn{ width:30px; height:30px; padding:0; margin-right:.2rem; display:inline-flex; align-items:center; justify-content:center; background:none; border:none; cursor:pointer; }
 
-    .actions {
-      text-align: center;
-      /* cell centering fallback */
-    }
+    .badge-status{ font-weight:700; border-radius:8px; padding:.32rem .6rem; display:inline-flex; gap:.45rem; align-items:center; font-size:.9rem; }
 
-    .actions>.d-flex {
-      justify-content: center;
-      align-items: center;
-      gap: .5rem;
-    }
-
-    /* STATUS BADGES */
-    .badge-status {
-      font-weight: 700;
-      border-radius: 8px;
-      padding: .32rem .6rem;
-      display: inline-flex;
-      gap: .45rem;
-      align-items: center;
-      font-size: .9rem;
-    }
-
-    .status-PENDING {
-      background: rgba(255, 187, 0, 0.06);
-      color: var(--pending-gold);
-      border-left: 3px solid var(--accent);
-    }
-
-    .status-ACTIVE {
-      background: rgba(15, 201, 61, 0.06);
-      color: var(--success);
-    }
-
-    .status-COMPLETED {
-      background: rgba(11, 91, 154, 0.06);
-      color: var(--info-light);
-    }
-
-    .status-CANCELLED {
-      background: rgba(196, 77, 58, 0.06);
-      color: var(--danger);
-    }
-
-    /* ACTION BUTTONS — besar 50x50, navy default, hover -> color */
-    .actions .btn {
-      width: 30px;
-      height: 30px;
-      padding: 0;
-      margin-right: 0.1rem;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: none;
-      color: inherit;
-      border: none;
-      cursor: pointer;
-      transition: transform .12s ease, box-shadow .12s ease;
-
-    }
-
-    .actions .btn:focus {
-      outline: none;
-    }
-
-    .actions .btn-edit:hover,
-    .actions a.btn-edit:hover {
-      transform: translateY(-4px) scale(1.02);
-      color: #0e2070;
-    }
-
-    .actions .btn-delete:hover,
-    .actions button.btn-delete:hover {
-      transform: translateY(-4px) scale(1.02);
-      color: #ff0000;
-    }
-
-    .actions svg {
-      width: 28px;
-      height: 28px;
-      stroke: currentColor;
-      fill: none;
-    }
-
-    .status-icon {
-      width: 16px;
-      height: 16px;
-    }
-
-    .empty-state {
-      color: var(--muted);
-      padding: 2.2rem;
-      text-align: center;
-    }
-
-    footer {
-      text-align: center;
-      color: var(--muted);
-      padding: 1rem;
-      margin-top: 1rem;
-    }
-
-    @media (max-width: 767px) {
-      .actions .btn {
-        width: 44px;
-        height: 44px;
+    /* mobile: stacked cards */
+    @media (max-width:767px){
+      .table thead { display:none; }
+      .table tbody tr {
+        display:block;
+        background:#fff;
+        border-radius:10px;
+        box-shadow:0 6px 12px rgba(11,35,64,0.04);
+        padding:.75rem;
+        margin-bottom:.6rem;
       }
-
-      .actions svg {
-        width: 24px;
-        height: 24px;
-      }
-
-      .title {
-        font-size: 1.05rem;
-      }
+      .table tbody td{ display:flex; justify-content:space-between; padding:.25rem .5rem; text-align:left; border:none; }
+      .table tbody td::before{ content:attr(data-label); font-weight:700; color:var(--muted); min-width:95px; display:inline-block; margin-right:.6rem; }
+      .col-name .nowrap { max-width: calc(100vw - 170px); }
+      .col-company .nowrap { max-width: calc(100vw - 170px); }
+      .col-supervisor .nowrap { max-width: calc(100vw - 170px); }
+      .title-text{ font-size:1.05rem; white-space:normal; } /* allow wrap on really small screens */
+      body{ font-size:.95rem; }
     }
   </style>
 </head>
@@ -233,21 +148,26 @@
 
   <div class="container-main">
     <div class="card-page">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <div class="title">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round"
-              d="M3 7h18M8 7v4m8-4v4M4 21h16a2 2 0 002-2V7a2 2 0 00-2-2H4a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          Daftar Tempat PKL
+      <div class="title-row">
+        <div>
+          <div class="title-left">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M8 7v4m8-4v4M4 21h16a2 2 0 002-2V7a2 2 0 00-2-2H4a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            <div>
+              <div class="title-text">Daftar Tempat PKL</div>
+              <div th:if="${isSupervisor}" class="title-sub">Menampilkan penempatan untuk: <span th:text="${currentUserName}">Nama Guru</span></div>
+            </div>
+          </div>
         </div>
 
-        <div class="d-flex gap-2">
-          <a th:href="@{/placements/create}" class="btn-add" title="Tambah Placement" th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-              stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+        <div>
+          <a th:href="@{/placements/create}" class="btn-add" title="Tambah Placement"
+             th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
             </svg>
+            <span>Tambah</span>
           </a>
         </div>
       </div>
@@ -256,139 +176,101 @@
         <table class="table table-hover align-middle">
           <thead>
             <tr>
-              <th style="width:56px">#</th>
+              <th style="width:56px" th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">#</th>
               <th>Nama</th>
               <th>Tempat</th>
               <th>Pembimbing</th>
               <th>Periode</th>
               <th>Status</th>
-              <th style="width:180px">Aksi</th>
+              <th style="width:180px" th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">Aksi</th>
             </tr>
           </thead>
 
           <tbody>
             <tr th:each="p, stat : ${placements}">
-              <td th:text="${stat.count}">1</td>
+              <td th:text="${stat.count}" data-label="#" th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">1</td>
 
-              <td>
-                <div><strong
-                    th:text="${p.student != null && p.student.user != null ? p.student.user.username : '-'}">Nama
-                    Siswa</strong></div>
-                <div class="text-muted small"
-                  th:text="${p.student != null ? (p.student.studentNumber != null ? 'NIS: ' + p.student.studentNumber : '') : ''}">
-                  NIS: 123</div>
+              <td class="col-name" th:attr="data-label='Nama'">
+                  <!-- Ambil username dari relasi user. Jika ingin menampilkan nama lengkap dari student model ganti expression sesuai field. -->
+                  <div class="nowrap"
+                      th:text="${p.student != null && p.student.user != null ? p.student.user.username : '-'}">
+                    Nama Siswa
+                  </div>
+
+                  <div class="text-muted small"
+                      th:text="${p.student != null && p.student.studentNumber != null ? 'NIS: ' + p.student.studentNumber : ''}">
+                    NIS
+                  </div>
               </td>
 
-              <td>
-                <div th:text="${p.company != null ? p.company.companyName : '-'}">PT Contoh</div>
-                <div class="text-muted small"
-                  th:text="${p.company != null ? (p.company.companyAddress != null ? p.company.companyAddress : '') : ''}">
-                  Alamat</div>
+
+              <td class="col-company" th:attr="data-label='Tempat'">
+                <div class="nowrap" th:text="${p.company != null ? p.company.companyName : '-'}">PT Contoh</div>
+                <div class="text-muted small" th:text="${p.company != null ? (p.company.companyAddress != null ? p.company.companyAddress : '') : ''}">Alamat</div>
               </td>
 
-              <td>
-                <div
-                  th:text="${p.companySupervisor != null && p.companySupervisor.user != null ? p.companySupervisor.user.username : (p.schoolSupervisor != null && p.schoolSupervisor.user != null ? p.schoolSupervisor.user.username : '-')}">
-                  Supervisor</div>
+              <td class="col-supervisor" th:attr="data-label='Pembimbing'">
+                <div class="nowrap"
+                     th:text="${p.schoolSupervisor != null && p.schoolSupervisor.user != null 
+                                ? (p.schoolSupervisor.schoolSupervisorFullName != null && p.schoolSupervisor.schoolSupervisorFullName != '' 
+                                    ? p.schoolSupervisor.schoolSupervisorFullName 
+                                    : p.schoolSupervisor.user.username)
+                                : (p.companySupervisor != null && p.companySupervisor.user != null 
+                                    ? p.companySupervisor.user.username 
+                                    : '-')}">Supervisor</div>
                 <div class="text-muted small"
-                  th:text="${p.companySupervisor != null ? (p.companySupervisor.jobTitle != null ? p.companySupervisor.jobTitle : '') : (p.schoolSupervisor != null ? (p.schoolSupervisor.schoolSupervisorPosition != null ? p.schoolSupervisor.schoolSupervisorPosition : '') : '')}">
-                  Jabatan</div>
+                     th:text="${p.schoolSupervisor != null && p.schoolSupervisor.schoolSupervisorPosition != null 
+                                ? p.schoolSupervisor.schoolSupervisorPosition
+                                : (p.companySupervisor != null && p.companySupervisor.jobTitle != null 
+                                    ? p.companySupervisor.jobTitle 
+                                    : '')}">Jabatan</div>
               </td>
 
-              <td>
+              <td data-label="Periode">
                 <div th:if="${p.startDate != null and p.endDate != null}">
-                  <span th:text="${#temporals.format(p.startDate, 'dd MMM yyyy')}">01 Jan 2025 08:00</span>
+                  <span th:text="${#temporals.format(p.startDate, 'dd MMM yyyy')}">01 Jan 2025</span>
                   <span class="text-muted"> - </span>
-                  <span th:text="${#temporals.format(p.endDate, 'dd MMM yyyy')}">31 Mar 2025 17:00</span>
+                  <span th:text="${#temporals.format(p.endDate, 'dd MMM yyyy')}">31 Mar 2025</span>
                 </div>
                 <div th:if="${p.startDate != null and p.endDate == null}">
-                  <span th:text="${#temporals.format(p.startDate, 'dd MMM yyyy')}">01 Jan 2025 08:00</span>
+                  <span th:text="${#temporals.format(p.startDate, 'dd MMM yyyy')}">01 Jan 2025</span>
                 </div>
                 <div th:if="${p.startDate == null and p.endDate != null}">
-                  <span th:text="${#temporals.format(p.endDate, 'dd MMM yyyy')}">31 Mar 2025 17:00</span>
+                  <span th:text="${#temporals.format(p.endDate, 'dd MMM yyyy')}">31 Mar 2025</span>
                 </div>
                 <div th:if="${p.startDate == null and p.endDate == null}" class="text-muted">-</div>
               </td>
 
-              <td>
+              <td data-label="Status" style="min-width:120px;">
                 <span th:switch="${p.status}">
                   <span th:case="'ACTIVE'" class="badge-status status-ACTIVE">
-                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
-                      aria-hidden="true">
-                      <path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <span>ACTIVE</span>
+                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>ACTIVE</span>
                   </span>
-
-                  <span th:case="'COMPLETED'" class="badge-status status-COMPLETED">
-                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
-                      aria-hidden="true">
-                      <path d="M8 2v2M16 2v2M3 8h18M21 20H3a1 1 0 01-1-1V8a1 1 0 011-1h18a1 1 0 011 1v11a1 1 0 01-1 1z"
-                        stroke-linecap="round" stroke-linejoin="round" />
-                      <path d="M9 13l2 2 4-4" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <span>COMPLETED</span>
-                  </span>
-
-                  <span th:case="'PENDING'" class="badge-status status-PENDING">
-                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
-                      aria-hidden="true">
-                      <circle cx="12" cy="12" r="9" stroke-linecap="round" stroke-linejoin="round" />
-                      <path d="M12 7v6l3 2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <span>PENDING</span>
-                  </span>
-
-                  <span th:case="'CANCELLED'" class="badge-status status-CANCELLED">
-                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
-                      aria-hidden="true">
-                      <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <span>CANCELLED</span>
-                  </span>
-
-                  <span th:case="*" class="badge-status status-PENDING">
-                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
-                      aria-hidden="true">
-                      <path d="M12 7v6l3 2" stroke-linecap="round" stroke-linejoin="round" />
-                      <circle cx="12" cy="12" r="9" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <span th:text="${p.status != null ? p.status.name() : 'PENDING'}">PENDING</span>
-                  </span>
+                  <span th:case="'COMPLETED'" class="badge-status status-COMPLETED"><span>COMPLETED</span></span>
+                  <span th:case="'PENDING'" class="badge-status status-PENDING"><span>PENDING</span></span>
+                  <span th:case="'CANCELLED'" class="badge-status status-CANCELLED"><span>CANCELLED</span></span>
+                  <span th:case="*" class="badge-status status-PENDING"><span th:text="${p.status != null ? p.status.name() : 'PENDING'}">PENDING</span></span>
                 </span>
               </td>
 
-              <td class="actions">
+              <td class="actions" data-label="Aksi">
                 <div class="d-flex align-items-center">
-                  <!-- EDIT (icon-only, big 50x50) -->
                   <a th:href="@{/placements/edit/{id}(id=${p.placementId})}" class="btn btn-edit" title="Edit"
-                    role="button"
                     th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none"
-                      width="28" height="28" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M4 20h4l10-10-4-4L4 16v4z" />
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" width="20" height="20" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4 20h4l10-10-4-4L4 16v4z"/></svg>
                   </a>
+
                   <a th:href="@{/placements/detail/{id}(id=${p.placementId})}" class="btn-view" title="Lihat Detail">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M2.458 12C3.732 7.943 7.52 5 12 5c4.48 0 8.268 2.943 9.542 7-1.274 4.057-5.062 7-9.542 7-4.48 0-8.268-2.943-9.542-7z" />
-                      <circle cx="12" cy="12" r="3" />
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" width="20" height="20" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.52 5 12 5c4.48 0 8.268 2.943 9.542 7-1.274 4.057-5.062 7-9.542 7-4.48 0-8.268-2.943-9.542-7z"/><circle cx="12" cy="12" r="3"/></svg>
                   </a>
-                  <!-- DELETE (icon-only, big 50x50) - form has id so JS can submit it -->
-                  <form th:action="@{/placements/{id}(id=${p.placementId})}" method="post"
-                    th:attr="id='del-' + ${p.placementId}" style="display:inline;"
-                     th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
+
+                  <form th:action="@{/placements/{id}(id=${p.placementId})}" method="post" th:attr="id='del-' + ${p.placementId}" style="display:inline;" th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
                     <input type="hidden" name="_method" value="delete" />
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                     <button type="button" class="btn btn-delete" th:attr="data-form-id='del-' + ${p.placementId}"
-                      th:attrappend="data-name=${p.company != null ? p.company.companyName : (p.student != null && p.student.user != null ? p.student.user.username : 'Placement')}"
-                      title="Hapus">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none"
-                        width="26" height="26" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M6 7h12M9 7v10a2 2 0 002 2h2a2 2 0 002-2V7M10 11h4m-4 4h4" />
-                      </svg>
+                            th:attrappend="data-name=${p.company != null ? p.company.companyName : (p.student != null && p.student.user != null ? p.student.user.username : 'Placement')}"
+                            title="Hapus" aria-label="Hapus">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" width="18" height="18" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 7h12M9 7v10a2 2 0 002 2h2a2 2 0 002-2V7M10 11h4m-4 4h4"/></svg>
                     </button>
                   </form>
                 </div>
@@ -398,11 +280,8 @@
 
             <tr th:if="${#lists.isEmpty(placements)}">
               <td colspan="7" class="text-center text-muted py-4">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="currentColor"
-                  stroke-width="1.8" class="me-1" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m0-4v-2m6 8v-2m0-4v-2M4 4h16v16H4z" />
-                </svg>
-                <div>Tidak ada data placement.</div>
+                <div th:if="${isSupervisor}">Tidak ada placement yang terkait dengan Anda.</div>
+                <div th:if="${!isSupervisor}">Tidak ada data placement.</div>
               </td>
             </tr>
 
@@ -412,7 +291,7 @@
     </div>
   </div>
 
-  <!-- Modal konfirmasi hapus -->
+  <!-- modal delete (sama seperti sebelumnya) -->
   <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -422,8 +301,7 @@
         </div>
         <div class="modal-body">
           <p id="confirmDeleteMessage" class="mb-0">Apakah Anda yakin ingin menghapus item ini?</p>
-          <small class="text-muted">Tindakan ini tidak bisa dibatalkan. Data yang terhapus tidak dapat
-            dikembalikan.</small>
+          <small class="text-muted">Tindakan ini tidak bisa dibatalkan. Data yang terhapus tidak dapat dikembalikan.</small>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -433,7 +311,7 @@
     </div>
   </div>
 
-  <footer>
+  <footer style="text-align:center; color:var(--muted); padding:1rem; margin-top:1rem;">
     &copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}">2025</span> Sistem Monitoring
   </footer>
 
@@ -441,44 +319,31 @@
 
   <script>
     (function () {
-      // current form to submit when modal confirmed
       let formToSubmit = null;
       const modalEl = document.getElementById('confirmDeleteModal');
       const confirmBtn = document.getElementById('confirmDeleteBtn');
       const msgEl = document.getElementById('confirmDeleteMessage');
-
-      // bootstrap Modal instance
       const bsModal = new bootstrap.Modal(modalEl, { backdrop: 'static', keyboard: false });
 
-      // attach click to all delete buttons (buttons created by thymeleaf)
       document.querySelectorAll('button[data-form-id]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
+        btn.addEventListener('click', () => {
           const formId = btn.getAttribute('data-form-id');
           const name = btn.getAttribute('data-name') || 'item ini';
           const form = document.getElementById(formId);
-
-          if (!form) {
-            console.warn('Form not found for id', formId);
-            return;
-          }
-
+          if (!form) return console.warn('Form not found for id', formId);
           formToSubmit = form;
-          // set message (escape-ish by textContent)
           msgEl.textContent = `Yakin ingin menghapus "${name}"?`;
           bsModal.show();
         });
       });
 
-      // when confirm pressed, submit stored form
       confirmBtn.addEventListener('click', () => {
         if (!formToSubmit) return;
-        // optional: disable button to avoid double submit
         confirmBtn.disabled = true;
         confirmBtn.textContent = 'Menghapus...';
         formToSubmit.submit();
       });
 
-      // reset modal state when hidden
       modalEl.addEventListener('hidden.bs.modal', () => {
         formToSubmit = null;
         confirmBtn.disabled = false;
@@ -488,5 +353,4 @@
     })();
   </script>
 </body>
-
 </html>

@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Data Absensi - Sistem Monitoring</title>
 
-  <!-- Bootstrap CDN -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 
   <style>
@@ -21,6 +20,7 @@
       background: var(--cream);
       color: var(--navy);
       font-size: 1rem;
+      font-family: system-ui, -apple-system, sans-serif;
     }
 
     .container-main {
@@ -32,13 +32,24 @@
       padding: 2rem;
     }
 
+    /* Header Title Responsif */
+    .header-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap; /* Agar tombol turun jika layar sempit */
+      gap: 1rem;
+    }
+
     h2.title {
       display: flex;
       align-items: center;
       gap: 0.6rem;
       font-weight: 700;
       font-size: 1.4rem;
-      margin-bottom: 1.5rem;
+      margin: 0;
+      color: var(--navy);
     }
 
     h2.title svg {
@@ -47,51 +58,42 @@
       stroke: var(--accent);
     }
 
-    /* smaller add button */
     .btn-add {
       background: var(--accent);
       color: white;
       border: none;
       border-radius: 6px;
-      padding: 0.35rem 0.7rem;
+      padding: 0.4rem 0.9rem;
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
+      gap: 0.4rem;
       font-weight: 600;
       font-size: 0.95rem;
       transition: all 0.2s ease;
       text-decoration: none;
-    }
-
-    .btn-add svg {
-      width: 14px;
-      height: 14px;
+      white-space: nowrap;
     }
 
     .btn-add:hover {
       background: #a5793e;
       transform: translateY(-2px);
+      color: #fff;
     }
+    
+    .btn-add svg { width: 16px; height: 16px; }
 
+    /* --- TABLE DESKTOP --- */
     table thead {
       background: rgba(11, 35, 64, 0.05);
     }
-
-    th {
-      color: var(--navy);
-      font-weight: 600;
-    }
-
-    td,
-    th {
-      vertical-align: middle;
-    }
-
-    /* Icon-only action buttons */
+    th { color: var(--navy); font-weight: 600; text-align: center; }
+    td { vertical-align: middle; text-align: center; }
+    
+    /* Tombol Aksi */
     .btn-icon {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px; /* Kotak rounded sedikit lebih modern */
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -101,70 +103,131 @@
       padding: 0;
     }
 
-    .btn-edit-icon {
-      background: #0b74a4;
-      color: #fff;
-    }
+    .btn-edit-icon { background: #0b74a4; color: #fff; }
+    .btn-edit-icon:hover { background: #095b7f; transform: scale(1.1); }
 
-    .btn-edit-icon:hover {
-      background: #095b7f;
-      transform: translateY(-2px);
-    }
+    .btn-delete-icon { background: #c44d3a; color: #fff; }
+    .btn-delete-icon:hover { background: #a63e2d; transform: scale(1.1); }
 
-    .btn-delete-icon {
-      background: #c44d3a;
-      color: #fff;
-    }
+    .btn-icon svg { width: 16px; height: 16px; }
 
-    .btn-delete-icon:hover {
-      background: #a63e2d;
-      transform: translateY(-2px);
-    }
-
-    .btn-icon svg {
-      width: 16px;
-      height: 16px;
-      color: #fff;
-    }
-
+    /* Badge Status */
     .badge-status {
       display: inline-block;
-      padding: 0.35rem 0.6rem;
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: 0.85rem;
+      padding: 0.4rem 0.75rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.5px;
     }
 
-    .badge-hadir { background: #198754; color: #fff; }
-    .badge-sakit { background: #0dcaf0; color: #0b2340; }
-    .badge-alpha { background: #dc3545; color: #fff; }
-    .badge-izin { background: #ffc107; color: #0b2340; }
+    .badge-hadir { background: #d1e7dd; color: #0f5132; }
+    .badge-sakit { background: #cff4fc; color: #055160; }
+    .badge-alpha { background: #f8d7da; color: #842029; }
+    .badge-izin { background: #fff3cd; color: #664d03; }
 
-    .img-thumb { width: 56px; height: 42px; object-fit: cover; border-radius: 6px; border: 1px solid #e9ecef; }
+    .img-thumb { 
+      width: 50px; 
+      height: 50px; 
+      object-fit: cover; 
+      border-radius: 50%; /* Foto bulat lebih modern untuk profil */
+      border: 2px solid #e9ecef; 
+    }
+
+    /* --- MOBILE RESPONSIVE (Card View) --- */
+    @media (max-width: 768px) {
+      .container-main {
+        margin: 1rem 0.5rem;
+        padding: 1.25rem;
+      }
+      
+      h2.title { font-size: 1.25rem; }
+
+      /* Sembunyikan Header Tabel */
+      table thead { display: none; }
+
+      /* Baris jadi Kartu */
+      table tbody tr {
+        display: block;
+        background: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        padding: 0.5rem;
+      }
+
+      /* Sel jadi Flex Row */
+      table tbody td {
+        display: flex;
+        justify-content: space-between; /* Label kiri, isi kanan */
+        align-items: center;
+        text-align: right;
+        padding: 0.75rem 0.5rem;
+        border-bottom: 1px solid #f1f1f1;
+      }
+
+      table tbody td:last-child {
+        border-bottom: none;
+        justify-content: flex-end; /* Tombol aksi di kanan */
+      }
+
+      /* Tampilkan Label Kolom via attribute data-label */
+      table tbody td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        color: var(--muted);
+        font-size: 0.9rem;
+        text-align: left;
+        margin-right: 1rem;
+      }
+
+      /* Styling khusus kolom NO agar jadi Header Kartu */
+      table tbody td[data-label="No"] {
+        background: var(--navy);
+        color: white;
+        margin: -0.5rem -0.5rem 0.5rem -0.5rem;
+        border-radius: 10px 10px 0 0;
+        padding: 0.5rem 1rem;
+        justify-content: flex-start;
+        font-weight: bold;
+      }
+      table tbody td[data-label="No"]::before {
+        content: "#";
+        color: var(--accent);
+        margin-right: 5px;
+      }
+
+      /* Styling Foto di Mobile */
+      table tbody td[data-label="Foto"] {
+        justify-content: flex-end;
+      }
+      
+      /* Empty State adjustment */
+      table tbody tr.empty-row td {
+         display: block;
+         text-align: center;
+         border: none;
+      }
+      table tbody tr.empty-row td::before { display: none; }
+    }
 
     footer {
       text-align: center;
       color: var(--muted);
       font-size: 0.9rem;
       padding: 1rem;
-      margin-top: 2rem;
-    }
-
-    /* small responsive adjustments */
-    @media (max-width: 720px) {
-      .img-thumb { width: 44px; height: 34px; }
-      .btn-icon { width: 30px; height: 30px; }
+      margin-top: 1rem;
     }
   </style>
 </head>
 
 <body>
-  <!-- fragments (navbar/sidebar) -->
   <div th:replace="~{layouts/fragments/navbar :: topbar}"></div>
   <div th:replace="~{layouts/fragments/sidebar :: sidebar}"></div>
 
   <main class="container-main">
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="header-wrapper">
       <h2 class="title">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
           stroke-width="1.6">
@@ -183,42 +246,40 @@
       </a>
     </div>
 
-    <div class="table-responsive">
-      <table class="table table-striped align-middle">
+    <div class="table-responsive-md"> <table class="table align-middle mb-0">
         <thead>
           <tr>
-            <th>No</th>
-            <th>Foto</th>
+            <th width="50">No</th>
+            <th width="80">Foto</th>
             <th>Nama Siswa</th>
             <th>Tanggal</th>
             <th>Waktu</th>
             <th>Status</th>
-            <th  th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">Aksi</th>
+            <th width="100" th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">Aksi</th>
           </tr>
         </thead>
         <tbody>
           <tr th:each="att, iterStat : ${attend}">
-            <td th:text="${iterStat.count}">1</td>
+            <td data-label="No" th:text="${iterStat.count}">1</td>
 
-            <!-- Foto thumbnail: tampilkan jika ada checkInPhotoUrl -->
-            <td>
+            <td data-label="Foto">
               <div th:if="${att.checkInPhotoUrl != null and att.checkInPhotoUrl != ''}">
                 <img th:src="@{${att.checkInPhotoUrl}}" alt="foto" class="img-thumb" />
               </div>
               <div th:if="${att.checkInPhotoUrl == null or att.checkInPhotoUrl == ''}">
-                <!-- fallback debug image: lokal path you uploaded -->
-                <img src="/mnt/data/16088cea-d59f-4e0d-bcde-e7e0d066cc34.png" alt="no-photo" class="img-thumb" />
+                 <div class="d-flex align-items-center justify-content-center bg-light rounded-circle" style="width:50px; height:50px; border: 1px solid #ddd;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="#ccc" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+                </div>
               </div>
             </td>
 
-            <td th:text="${att.placement != null && att.placement.student != null ? att.placement.student.user.username : '—'}">John Doe</td>
+            <td data-label="Nama Siswa" th:text="${att.placement != null && att.placement.student != null ? att.placement.student.user.username : '—'}" style="font-weight:500;">John Doe</td>
 
-            <td th:text="${att.date != null ? #temporals.format(att.date, 'dd MMM yyyy') : '-'}">01 Nov 2025</td>
+            <td data-label="Tanggal" th:text="${att.date != null ? #temporals.format(att.date, 'dd MMM yyyy') : '-'}">01 Nov 2025</td>
 
-            <td th:text="${att.checkInTime != null ? #temporals.format(att.checkInTime, 'HH:mm') : '-'}">07:45</td>
+            <td data-label="Waktu" th:text="${att.checkInTime != null ? #temporals.format(att.checkInTime, 'HH:mm') : '-'}">07:45</td>
 
-            <!-- Status: tampilkan label Indonesia + kelas badge -->
-            <td>
+            <td data-label="Status">
               <span th:switch="${att.presenceStatus}">
                 <span th:case="${T(com.sistem.monitoring.models.AttendanceModel.Presence).PRESENT}"
                       class="badge-status badge-hadir">Hadir</span>
@@ -234,11 +295,10 @@
               </span>
             </td>
 
-            <td>
-              <div class="d-flex align-items-center gap-2">
+            <td data-label="Aksi" th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
+              <div class="d-flex align-items-center justify-content-end justify-content-md-center gap-2">
 
-                <!-- Edit (icon only) -->
-                <a th:href="@{'/attendances/edit/' + ${att.attendId}}"  th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}"
+                <a th:href="@{'/attendances/edit/' + ${att.attendId}}" 
                    class="btn-icon btn-edit-icon"
                    title="Edit">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
@@ -248,8 +308,7 @@
                   </svg>
                 </a>
 
-                <!-- Delete (icon only) -->
-                <form th:action="@{/attendances/{id}(id=${att.attendId})}" method="post" style="display:inline;"  th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
+                <form th:action="@{/attendances/{id}(id=${att.attendId})}" method="post" style="display:inline; margin:0;">
                   <input type="hidden" name="_method" value="delete" />
                   <button type="submit" class="btn-icon btn-delete-icon" title="Hapus"
                           onclick="return confirm('Yakin ingin menghapus data ini?')">
@@ -266,13 +325,15 @@
 
           </tr>
 
-          <tr th:if="${#lists.isEmpty(attend)}">
-            <td colspan="7" class="text-center text-muted py-4">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="currentColor"
-                stroke-width="1.8" class="me-1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m0-4v-2m6 8v-2m0-4v-2M4 4h16v16H4z" />
-              </svg>
-              Belum ada data absensi.
+          <tr th:if="${#lists.isEmpty(attend)}" class="empty-row">
+            <td colspan="7" class="text-center text-muted py-5">
+              <div class="d-flex flex-column align-items-center justify-content-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" stroke="#dee2e6"
+                    stroke-width="1.5" class="mb-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m0-4v-2m6 8v-2m0-4v-2M4 4h16v16H4z" />
+                  </svg>
+                  <span>Belum ada data absensi.</span>
+              </div>
             </td>
           </tr>
         </tbody>

@@ -9,7 +9,7 @@
 
   <style>
     :root { --navy: #0b2340; --cream: #f2ece3; --accent: #b78b4a; --muted: #6c757d; }
-    body { background-color: var(--cream); color: var(--navy); font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { background-color: var(--cream); color: var(--navy); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 1rem; }
 
     .container-main { max-width: 850px; margin: 2rem auto; padding: 1rem; }
     
@@ -24,7 +24,7 @@
       padding: 2.5rem 2rem; color: white; position: relative;
     }
     
-    .report-title { font-weight: 700; font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .report-title { font-weight: 700; font-size: 1.5rem; margin-bottom: 0.5rem; padding-right: 1rem; }
     .report-meta { opacity: 0.9; font-size: 0.95rem; display: flex; gap: 1.5rem; align-items: center; }
     .report-meta svg { width: 18px; height: 18px; margin-right: 5px; }
 
@@ -50,7 +50,7 @@
     }
     .avatar-small {
       width: 45px; height: 45px; background: var(--navy); color: white;
-      border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;
     }
     .student-info h6 { margin: 0; font-weight: 700; color: var(--navy); }
     .student-info small { color: var(--muted); }
@@ -67,7 +67,7 @@
       transition: 0.2s; background: #fff;
     }
     .file-card:hover { border-color: var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-    .file-icon { width: 40px; height: 40px; background: #eee; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--navy); }
+    .file-icon { width: 40px; height: 40px; background: #eee; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--navy); flex-shrink: 0; }
     
     .btn-back {
       display: inline-flex; align-items: center; gap: 0.5rem;
@@ -75,6 +75,55 @@
       transition: 0.2s; background: #e9ecef; padding: 0.6rem 1.2rem; border-radius: 8px;
     }
     .btn-back:hover { background: #dee2e6; color: var(--navy); }
+
+    /* --- RESPONSIVE MEDIA QUERIES --- */
+    @media (max-width: 768px) {
+      .container-main { margin: 1rem auto; padding: 0.5rem; }
+      .detail-header { padding: 1.5rem; }
+      .detail-body { padding: 1.5rem; }
+
+      /* Judul & Badge di Mobile */
+      .status-badge {
+        position: static; /* Tidak lagi absolute */
+        display: inline-block;
+        margin-bottom: 1rem;
+      }
+      .report-title { font-size: 1.3rem; padding-right: 0; }
+
+      /* File Card Stack ke bawah */
+      .file-card {
+        flex-direction: column;
+        align-items: stretch; /* Tombol jadi full width */
+        gap: 1rem;
+        text-align: center;
+      }
+      .file-card .d-flex {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .file-card .btn { width: 100%; justify-content: center; }
+
+      /* Tombol Aksi Admin */
+      .admin-actions-wrapper {
+        flex-direction: column;
+        align-items: stretch !important;
+        gap: 1rem;
+      }
+      .admin-buttons-group {
+        flex-direction: column;
+        width: 100%;
+      }
+      .admin-buttons-group button, 
+      .admin-buttons-group form {
+        width: 100%;
+      }
+      .admin-buttons-group button {
+        width: 100%;
+        justify-content: center;
+        padding: 0.6rem;
+      }
+    }
   </style>
 </head>
 
@@ -89,7 +138,7 @@
     <div class="mb-4">
         <a th:href="@{/report-submissions}" class="btn-back">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-            Kembali ke Daftar
+            Kembali
         </a>
     </div>
 
@@ -147,26 +196,27 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
                         </div>
                         <div>
-                            <div style="font-weight:600; color:var(--navy)">File Laporan Akhir</div>
-                            <small class="text-muted">Klik tombol di kanan untuk mengunduh</small>
+                            <div style="font-weight:600; color:var(--navy)" th:text="${report.fileTitle}">File Laporan</div>
+                            <small class="text-muted">Klik tombol untuk mengunduh</small>
                         </div>
                     </div>
                     <a th:href="@{${report.filePath}}" target="_blank" class="btn btn-sm btn-primary" style="background:var(--navy); border:none;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="me-1"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                         Download / Lihat
                     </a>
-                </div>  
-                <div class="card p-3 mb-4 border-0 bg-light" 
+                </div>
+
+                <div class="card p-3 mb-4 border-0 bg-light mt-4" 
                     style="border-left: 4px solid #0b2340 !important;"
                     th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''SCHOOL_SUPERVISOR'', ''ROLE_ADMINISTRATOR'', ''ROLE_SCHOOL_SUPERVISOR'')')}">
                     
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
+                    <div class="d-flex justify-content-between align-items-center admin-actions-wrapper">
+                        <div class="mb-2 mb-md-0">
                             <h6 class="mb-1 fw-bold text-navy">Validasi Laporan</h6>
                             <small class="text-muted">Tentukan status laporan ini:</small>
                         </div>
                         
-                        <div class="d-flex gap-2">
+                        <div class="d-flex gap-2 admin-buttons-group">
                             
                             <form th:action="@{/report-submissions/{id}/update-status(id=${report.submissionId})}" method="post">
                                 <input type="hidden" name="status" value="REVISION">
@@ -198,12 +248,12 @@
                     </div>
                 </div>
             </div>
-                <div th:if="${report.filePath == null}" class="alert alert-warning mt-2">
-                    <small>Tidak ada file yang dilampirkan pada laporan ini.</small>
-                </div>
-            </div>
 
+            <div th:if="${report.filePath == null}" class="alert alert-warning mt-2">
+                <small>Tidak ada file yang dilampirkan pada laporan ini.</small>
+            </div>
         </div>
+
     </div>
 </main>
 
