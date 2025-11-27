@@ -25,6 +25,12 @@ public class AttendanceModel {
     @JoinColumn(name = "placementId")
     private PlacementModel placement;
 
+    @ManyToOne
+    @JoinColumn(name = "studentId")
+    private StudentModel student;
+    @ManyToOne
+    @JoinColumn(name = "created_by")
+    private UserModel createdBy;
 
 
 
@@ -110,11 +116,27 @@ public class AttendanceModel {
         this.notes = notes;
     }
     
-    public enum Presence{
+    public enum Presence{   
         SICK,
         PRESENT,
         ABSENT,
         PERMISION
+    }
+
+    public UserModel getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(UserModel createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public StudentModel getStudent() {
+        return student;
+    }
+
+    public void setStudent(StudentModel student) {
+        this.student = student;
     }
 
     

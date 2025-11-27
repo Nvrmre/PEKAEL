@@ -83,4 +83,13 @@ public class AttendanceService {
     public Long countAttendanceByStudentId(Long StudentId){
         return attendanceRepository.countByPlacementStudentStudentId(StudentId);
     }
+
+    public List<AttendanceModel> getByStudentId(Long studentId) {
+        return attendanceRepository.findByStudent_StudentId(studentId);
+    }
+
+    public List<AttendanceModel> getByStudentIds(List<Long> studentIds) {
+        if (studentIds == null || studentIds.isEmpty()) return List.of();
+        return attendanceRepository.findByStudent_StudentIdIn(studentIds);
+    }
 }

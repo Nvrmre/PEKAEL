@@ -14,4 +14,7 @@ public interface AttendanceRepository extends JpaRepository<AttendanceModel, Lon
      boolean existsByPlacementAndDateBetween(PlacementModel placement, LocalDateTime from, LocalDateTime to);
      List<AttendanceModel> findByPlacementStudentStudentId(Long StudentId);
      Long countByPlacementStudentStudentId(Long StudentId);
+
+    List<AttendanceModel> findByStudent_StudentId(Long studentId);
+    List<AttendanceModel> findByStudent_StudentIdIn(List<Long> studentIds);
 }

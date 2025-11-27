@@ -3,142 +3,227 @@
 
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Daftar Placement - Sistem Monitoring</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daftar Tempat PKL - Sistem Monitoring</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <style>
-    :root{
-      --navy:#0b2340;
-      --cream:#f2ece3;
-      --accent:#b78b4a;
-      --muted:#6c757d;
-      --shadow:0 6px 18px rgba(11,35,64,0.06);
+    :root {
+      /* Palette Warna Modern */
+      --navy: #0f172a;
+      --navy-light: #1e293b;
+      --accent: #b78b4a;
+      --bg-body: #f1f5f9;
+      --text-main: #334155;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      
+      /* Status Colors */
+      --success-bg: #dcfce7; --success-text: #166534;
+      --warning-bg: #fef9c3; --warning-text: #854d0e;
+      --info-bg: #e0f2fe;    --info-text: #075985;
+      --danger-bg: #fee2e2;  --danger-text: #991b1b;
     }
 
-    body{
-      background:var(--cream);
-      color:var(--navy);
-      font-family:system-ui, -apple-system, "Segoe UI", Roboto, Arial;
-      -webkit-font-smoothing:antialiased;
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
     }
 
-    .container-main{
-      max-width:1100px;
-      margin:1.8rem auto;
-      padding:1.25rem;
+    .container-main {
+      max-width: 1150px;
+      margin: 2.5rem auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      padding: 0;
+      overflow: hidden;
     }
 
-    .card-page{
-      background:#fff;
-      border-radius:12px;
-      padding:1.25rem;
-      box-shadow:var(--shadow);
+    /* --- Header --- */
+    .page-header {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
     }
 
-    /* ===== HEADER FIX =====
-       Remove column layout so title doesn't break into multiple lines.
-    */
-    .title-row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:1rem;
-      margin-bottom:.75rem;
+    h1 {
+      font-weight: 700;
+      font-size: 1.35rem;
+      margin: 0;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
     }
 
-    .title-left{
-      display:flex;
-      align-items:center;
-      gap:.6rem;
-      min-width:0; /* allow ellipsis if needed */
+    h1 svg {
+      color: var(--accent);
+      width: 26px; height: 26px;
     }
 
-    .title-left svg{
-      stroke:var(--accent);
-      width:28px;
-      height:28px;
-      flex:0 0 auto;
+    /* Button Add */
+    .btn-add {
+      background-color: var(--navy);
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      padding: 0.6rem 1.2rem;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+    }
+    .btn-add:hover { background-color: var(--navy-light); transform: translateY(-1px); color: #fff; }
+
+    /* --- Table Styling --- */
+    .table-responsive { padding: 0; }
+    .table-custom { width: 100%; margin-bottom: 0; border-collapse: collapse; }
+    .table-custom thead { background-color: #f8fafc; }
+    
+    .table-custom th {
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
     }
 
-    .title-text{
-      font-weight:700;
-      font-size:1.25rem;
-      color:var(--navy);
-      white-space:nowrap; /* keep title on single line if possible */
-      overflow:hidden;
-      text-overflow:ellipsis;
+    .table-custom td {
+      padding: 1rem 1.5rem;
+      vertical-align: middle;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+    .table-custom tr:last-child td { border-bottom: none; }
+    .table-custom tbody tr:hover { background-color: #f8fafc; }
+
+    /* --- Specific Column Styling --- */
+    /* Avatar Siswa */
+    .student-wrapper { display: flex; align-items: center; gap: 12px; }
+    .avatar-circle {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy), #334155);
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 600; font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .student-info { display: flex; flex-direction: column; }
+    .student-name { font-weight: 600; color: var(--navy); }
+    .student-nis { font-size: 0.8rem; color: var(--text-muted); }
+
+    /* Info Perusahaan & Pembimbing */
+    .info-primary { font-weight: 600; color: var(--navy); display: block; }
+    .info-secondary { font-size: 0.85rem; color: var(--text-muted); }
+
+    /* Periode */
+    .period-box {
+      font-size: 0.85rem;
+      background: #f1f5f9;
+      padding: 4px 8px;
+      border-radius: 6px;
+      display: inline-block;
+      white-space: nowrap;
     }
 
-    .title-sub{
-      font-weight:600;
-      font-size:.95rem;
-      color:var(--muted);
-      margin-top:4px;
+    /* Status Badges */
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 0.35rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
     }
+    .status-ACTIVE { background: var(--success-bg); color: var(--success-text); }
+    .status-COMPLETED { background: var(--info-bg); color: var(--info-text); }
+    .status-PENDING { background: var(--warning-bg); color: var(--warning-text); }
+    .status-CANCELLED { background: var(--danger-bg); color: var(--danger-text); }
 
-    .btn-add{
-      background:var(--accent);
-      color:#fff;
-      border:none;
-      border-radius:8px;
-      padding:.45rem .8rem;
-      display:inline-flex;
-      gap:.4rem;
-      align-items:center;
-      font-weight:700;
-      transition:transform .14s ease, box-shadow .14s ease;
-      white-space:nowrap;
+    /* Actions */
+    .action-links { display: flex; gap: 0.5rem; justify-content: flex-end; }
+    .btn-icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid transparent; background: transparent;
+      color: var(--text-muted); transition: all 0.2s;
     }
+    .btn-icon:hover { background: #f1f5f9; color: var(--navy); transform: scale(1.1); }
+    .btn-delete:hover { background: #fee2e2; color: #dc2626; }
 
-    .btn-add svg{ width:18px; height:18px; color:white; }
-
-    /* TABLE & CONTENT */
-    .table thead th{
-      background:rgba(11,35,64,0.03);
-      text-align:center;
-      vertical-align:middle;
-      font-weight:600;
-    }
-
-    .table tbody td{ vertical-align:middle; text-align:center; }
-
-    .col-name .nowrap{
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      display:block;
-      max-width:220px;
-      text-align:left;
-    }
-
-    .col-company .nowrap{ max-width:260px; text-align:left; }
-    .col-supervisor .nowrap{ max-width:180px; text-align:left; }
-
-    .actions .btn{ width:30px; height:30px; padding:0; margin-right:.2rem; display:inline-flex; align-items:center; justify-content:center; background:none; border:none; cursor:pointer; }
-
-    .badge-status{ font-weight:700; border-radius:8px; padding:.32rem .6rem; display:inline-flex; gap:.45rem; align-items:center; font-size:.9rem; }
-
-    /* mobile: stacked cards */
-    @media (max-width:767px){
-      .table thead { display:none; }
-      .table tbody tr {
-        display:block;
-        background:#fff;
-        border-radius:10px;
-        box-shadow:0 6px 12px rgba(11,35,64,0.04);
-        padding:.75rem;
-        margin-bottom:.6rem;
+    /* --- RESPONSIVE MOBILE (Card View) --- */
+    @media (max-width: 992px) {
+      .container-main { margin: 1rem; background: transparent; box-shadow: none; overflow: visible; }
+      .page-header { background: transparent; border: none; padding: 0 0 1.5rem 0; flex-wrap: wrap; gap: 1rem; }
+      
+      .table-custom thead { display: none; }
+      .table-custom, .table-custom tbody, .table-custom tr, .table-custom td { display: block; width: 100%; }
+      
+      .table-custom tr {
+        background: #fff;
+        margin-bottom: 1rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        padding: 1.25rem;
+        border: 1px solid var(--border-color);
       }
-      .table tbody td{ display:flex; justify-content:space-between; padding:.25rem .5rem; text-align:left; border:none; }
-      .table tbody td::before{ content:attr(data-label); font-weight:700; color:var(--muted); min-width:95px; display:inline-block; margin-right:.6rem; }
-      .col-name .nowrap { max-width: calc(100vw - 170px); }
-      .col-company .nowrap { max-width: calc(100vw - 170px); }
-      .col-supervisor .nowrap { max-width: calc(100vw - 170px); }
-      .title-text{ font-size:1.05rem; white-space:normal; } /* allow wrap on really small screens */
-      body{ font-size:.95rem; }
+
+      .table-custom td {
+        padding: 0.5rem 0;
+        border: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: right;
+      }
+
+      /* Label for mobile */
+      .table-custom td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        margin-right: 1rem;
+        text-align: left;
+      }
+
+      /* Hide NO column on mobile */
+      .td-no { display: none !important; }
+
+      /* Custom Layout per row in mobile */
+      .td-student { 
+        justify-content: flex-start !important; 
+        border-bottom: 1px dashed var(--border-color) !important; 
+        padding-bottom: 1rem !important; 
+        margin-bottom: 0.5rem;
+      }
+      .td-student::before { display: none; } /* Hide label for student section */
+
+      .td-actions {
+        justify-content: flex-end;
+        margin-top: 1rem;
+        padding-top: 1rem !important;
+        border-top: 1px dashed var(--border-color);
+      }
     }
+    
+    footer.footer { text-align: center; color: var(--text-muted); padding: 2rem 0; font-size: 0.85rem; }
   </style>
 </head>
 
@@ -146,211 +231,175 @@
   <div th:replace="~{layouts/fragments/navbar :: topbar}"></div>
   <div th:replace="~{layouts/fragments/sidebar :: sidebar}"></div>
 
-  <div class="container-main">
-    <div class="card-page">
-      <div class="title-row">
-        <div>
-          <div class="title-left">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M8 7v4m8-4v4M4 21h16a2 2 0 002-2V7a2 2 0 00-2-2H4a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-            </svg>
-            <div>
-              <div class="title-text">Daftar Tempat PKL</div>
-              <div th:if="${isSupervisor}" class="title-sub">Menampilkan penempatan untuk: <span th:text="${currentUserName}">Nama Guru</span></div>
-            </div>
+  <main class="container-main">
+    
+    <div class="page-header">
+      <h1>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+           <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
+        </svg>
+        Daftar Tempat PKL
+      </h1>
+      
+      <a th:href="@{/placements/create}" class="btn-add" th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+        </svg>
+        Tambah Placement
+      </a>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table-custom">
+        <thead>
+          <tr>
+            <th class="text-center td-no" style="width: 50px;">No</th>
+            <th>Siswa</th>
+            <th>Tempat PKL</th>
+            <th>Pembimbing</th>
+            <th>Periode</th>
+            <th>Status</th>
+            <th class="text-end" th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="p, stat : ${placements}">
+            
+            <td class="text-center td-no" th:text="${stat.count}">1</td>
+
+            <td class="td-student">
+              <div class="student-wrapper">
+                <div class="avatar-circle">
+                   <span th:text="${p.student?.user?.username != null ? #strings.substring(p.student.user.username, 0, 1).toUpperCase() : 'S'}">S</span>
+                </div>
+                <div class="student-info">
+                  <span class="student-name" th:text="${p.student?.user?.username ?: 'Unknown'}">Nama Siswa</span>
+                  <span class="student-nis" th:text="${p.student?.studentNumber != null ? 'NIS: ' + p.student.studentNumber : '-'}">NIS: 12345</span>
+                </div>
+              </div>
+            </td>
+
+            <td data-label="Tempat">
+               <span class="info-primary" th:text="${p.company?.companyName ?: '-'}">Nama Perusahaan</span>
+               <span class="info-secondary" th:text="${p.company?.companyAddress ?: '-'}">Alamat Perusahaan</span>
+            </td>
+
+            <td data-label="Pembimbing">
+               <span class="info-primary" 
+                     th:text="${p.companySupervisor?.user?.username ?: (p.schoolSupervisor?.user?.username ?: '-')}">
+                     Nama Pembimbing
+               </span>
+               <span class="info-secondary" th:if="${p.companySupervisor != null}">Pembimbing Industri</span>
+               <span class="info-secondary" th:if="${p.companySupervisor == null and p.schoolSupervisor != null}">Pembimbing Sekolah</span>
+            </td>
+
+            <td data-label="Periode">
+               <div class="period-box">
+                 <span th:text="${p.startDate != null ? #temporals.format(p.startDate, 'dd MMM yy') : '-'}">01 Jan 25</span>
+                 <span class="text-muted mx-1">&rarr;</span>
+                 <span th:text="${p.endDate != null ? #temporals.format(p.endDate, 'dd MMM yy') : '-'}">31 Mar 25</span>
+               </div>
+            </td>
+
+            <td data-label="Status">
+               <span th:classappend="'status-' + ${p.status}" class="status-badge">
+                 <svg th:if="${#strings.toString(p.status) == 'ACTIVE'}" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                 <svg th:if="${#strings.toString(p.status) == 'PENDING'}" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                 <span th:text="${p.status}">ACTIVE</span>
+               </span>
+            </td>
+
+            <td class="td-actions" th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
+              <div class="action-links">
+                <a th:href="@{/placements/edit/{id}(id=${p.placementId})}" class="btn-icon" title="Edit">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                </a>
+                
+                <a th:href="@{/placements/detail/{id}(id=${p.placementId})}" class="btn-icon" title="Detail">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.52 5 12 5c4.48 0 8.268 2.943 9.542 7-1.274 4.057-5.062 7-9.542 7-4.48 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                </a>
+
+                <form th:action="@{/placements/{id}(id=${p.placementId})}" method="post" class="m-0">
+                  <input type="hidden" name="_method" value="delete" />
+                  <button type="button" class="btn-icon btn-delete btn-open-delete"
+                          th:attr="data-form-id='del-' + ${p.placementId}, data-name=${p.student?.user?.username}"
+                          title="Hapus">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                </form>
+              </div>
+            </td>
+          </tr>
+
+          <tr th:if="${#lists.isEmpty(placements)}">
+            <td colspan="7" class="text-center py-5 text-muted">
+                <div class="d-flex flex-column align-items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="#e2e8f0" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z" /></svg>
+                    <span class="mt-2">Belum ada data placement.</span>
+                </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-body p-4 text-center">
+          <div class="mb-3">
+             <div class="mx-auto d-flex align-items-center justify-content-center rounded-circle" style="width: 50px; height: 50px; background: #fee2e2;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="#dc2626" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+             </div>
+          </div>
+          <h6 class="fw-bold">Hapus Placement?</h6>
+          <p class="text-muted small mb-4">Tindakan ini tidak dapat dibatalkan.</p>
+          <div class="d-flex gap-2 justify-content-center">
+            <button type="button" class="btn btn-light w-50" data-bs-dismiss="modal">Batal</button>
+            <button type="button" id="confirmDeleteBtn" class="btn btn-danger w-50">Hapus</button>
           </div>
         </div>
-
-        <div>
-          <a th:href="@{/placements/create}" class="btn-add" title="Tambah Placement"
-             th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
-            </svg>
-            <span>Tambah</span>
-          </a>
-        </div>
-      </div>
-
-      <div class="table-responsive">
-        <table class="table table-hover align-middle">
-          <thead>
-            <tr>
-              <th style="width:56px" th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">#</th>
-              <th>Nama</th>
-              <th>Tempat</th>
-              <th>Pembimbing</th>
-              <th>Periode</th>
-              <th>Status</th>
-              <th style="width:180px" th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">Aksi</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr th:each="p, stat : ${placements}">
-              <td th:text="${stat.count}" data-label="#" th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">1</td>
-
-              <td class="col-name" th:attr="data-label='Nama'">
-                  <!-- Ambil username dari relasi user. Jika ingin menampilkan nama lengkap dari student model ganti expression sesuai field. -->
-                  <div class="nowrap"
-                      th:text="${p.student != null && p.student.user != null ? p.student.user.username : '-'}">
-                    Nama Siswa
-                  </div>
-
-                  <div class="text-muted small"
-                      th:text="${p.student != null && p.student.studentNumber != null ? 'NIS: ' + p.student.studentNumber : ''}">
-                    NIS
-                  </div>
-              </td>
-
-
-              <td class="col-company" th:attr="data-label='Tempat'">
-                <div class="nowrap" th:text="${p.company != null ? p.company.companyName : '-'}">PT Contoh</div>
-                <div class="text-muted small" th:text="${p.company != null ? (p.company.companyAddress != null ? p.company.companyAddress : '') : ''}">Alamat</div>
-              </td>
-
-              <td class="col-supervisor" th:attr="data-label='Pembimbing'">
-                <div class="nowrap"
-                     th:text="${p.schoolSupervisor != null && p.schoolSupervisor.user != null 
-                                ? (p.schoolSupervisor.schoolSupervisorFullName != null && p.schoolSupervisor.schoolSupervisorFullName != '' 
-                                    ? p.schoolSupervisor.schoolSupervisorFullName 
-                                    : p.schoolSupervisor.user.username)
-                                : (p.companySupervisor != null && p.companySupervisor.user != null 
-                                    ? p.companySupervisor.user.username 
-                                    : '-')}">Supervisor</div>
-                <div class="text-muted small"
-                     th:text="${p.schoolSupervisor != null && p.schoolSupervisor.schoolSupervisorPosition != null 
-                                ? p.schoolSupervisor.schoolSupervisorPosition
-                                : (p.companySupervisor != null && p.companySupervisor.jobTitle != null 
-                                    ? p.companySupervisor.jobTitle 
-                                    : '')}">Jabatan</div>
-              </td>
-
-              <td data-label="Periode">
-                <div th:if="${p.startDate != null and p.endDate != null}">
-                  <span th:text="${#temporals.format(p.startDate, 'dd MMM yyyy')}">01 Jan 2025</span>
-                  <span class="text-muted"> - </span>
-                  <span th:text="${#temporals.format(p.endDate, 'dd MMM yyyy')}">31 Mar 2025</span>
-                </div>
-                <div th:if="${p.startDate != null and p.endDate == null}">
-                  <span th:text="${#temporals.format(p.startDate, 'dd MMM yyyy')}">01 Jan 2025</span>
-                </div>
-                <div th:if="${p.startDate == null and p.endDate != null}">
-                  <span th:text="${#temporals.format(p.endDate, 'dd MMM yyyy')}">31 Mar 2025</span>
-                </div>
-                <div th:if="${p.startDate == null and p.endDate == null}" class="text-muted">-</div>
-              </td>
-
-              <td data-label="Status" style="min-width:120px;">
-                <span th:switch="${p.status}">
-                  <span th:case="'ACTIVE'" class="badge-status status-ACTIVE">
-                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>ACTIVE</span>
-                  </span>
-                  <span th:case="'COMPLETED'" class="badge-status status-COMPLETED"><span>COMPLETED</span></span>
-                  <span th:case="'PENDING'" class="badge-status status-PENDING"><span>PENDING</span></span>
-                  <span th:case="'CANCELLED'" class="badge-status status-CANCELLED"><span>CANCELLED</span></span>
-                  <span th:case="*" class="badge-status status-PENDING"><span th:text="${p.status != null ? p.status.name() : 'PENDING'}">PENDING</span></span>
-                </span>
-              </td>
-
-              <td class="actions" data-label="Aksi">
-                <div class="d-flex align-items-center">
-                  <a th:href="@{/placements/edit/{id}(id=${p.placementId})}" class="btn btn-edit" title="Edit"
-                    th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" width="20" height="20" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4 20h4l10-10-4-4L4 16v4z"/></svg>
-                  </a>
-
-                  <a th:href="@{/placements/detail/{id}(id=${p.placementId})}" class="btn-view" title="Lihat Detail">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" width="20" height="20" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.52 5 12 5c4.48 0 8.268 2.943 9.542 7-1.274 4.057-5.062 7-9.542 7-4.48 0-8.268-2.943-9.542-7z"/><circle cx="12" cy="12" r="3"/></svg>
-                  </a>
-
-                  <form th:action="@{/placements/{id}(id=${p.placementId})}" method="post" th:attr="id='del-' + ${p.placementId}" style="display:inline;" th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
-                    <input type="hidden" name="_method" value="delete" />
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                    <button type="button" class="btn btn-delete" th:attr="data-form-id='del-' + ${p.placementId}"
-                            th:attrappend="data-name=${p.company != null ? p.company.companyName : (p.student != null && p.student.user != null ? p.student.user.username : 'Placement')}"
-                            title="Hapus" aria-label="Hapus">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" width="18" height="18" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 7h12M9 7v10a2 2 0 002 2h2a2 2 0 002-2V7M10 11h4m-4 4h4"/></svg>
-                    </button>
-                  </form>
-                </div>
-              </td>
-
-            </tr>
-
-            <tr th:if="${#lists.isEmpty(placements)}">
-              <td colspan="7" class="text-center text-muted py-4">
-                <div th:if="${isSupervisor}">Tidak ada placement yang terkait dengan Anda.</div>
-                <div th:if="${!isSupervisor}">Tidak ada data placement.</div>
-              </td>
-            </tr>
-
-          </tbody>
-        </table>
       </div>
     </div>
   </div>
 
-  <!-- modal delete (sama seperti sebelumnya) -->
-  <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="confirmDeleteLabel">Konfirmasi Hapus</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-        </div>
-        <div class="modal-body">
-          <p id="confirmDeleteMessage" class="mb-0">Apakah Anda yakin ingin menghapus item ini?</p>
-          <small class="text-muted">Tindakan ini tidak bisa dibatalkan. Data yang terhapus tidak dapat dikembalikan.</small>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-          <button type="button" id="confirmDeleteBtn" class="btn btn-danger">Hapus</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <footer style="text-align:center; color:var(--muted); padding:1rem; margin-top:1rem;">
+  <footer class="footer">
     &copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}">2025</span> Sistem Monitoring
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
   <script>
-    (function () {
+    document.addEventListener('DOMContentLoaded', function () {
       let formToSubmit = null;
       const modalEl = document.getElementById('confirmDeleteModal');
+      const bsModal = new bootstrap.Modal(modalEl);
       const confirmBtn = document.getElementById('confirmDeleteBtn');
-      const msgEl = document.getElementById('confirmDeleteMessage');
-      const bsModal = new bootstrap.Modal(modalEl, { backdrop: 'static', keyboard: false });
 
-      document.querySelectorAll('button[data-form-id]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const formId = btn.getAttribute('data-form-id');
-          const name = btn.getAttribute('data-name') || 'item ini';
-          const form = document.getElementById(formId);
-          if (!form) return console.warn('Form not found for id', formId);
-          formToSubmit = form;
-          msgEl.textContent = `Yakin ingin menghapus "${name}"?`;
+      document.querySelectorAll('.btn-open-delete').forEach(btn => {
+        btn.addEventListener('click', function () {
+          // Cari form terdekat dari tombol ini
+          formToSubmit = btn.closest('form');
           bsModal.show();
         });
       });
 
-      confirmBtn.addEventListener('click', () => {
-        if (!formToSubmit) return;
-        confirmBtn.disabled = true;
-        confirmBtn.textContent = 'Menghapus...';
-        formToSubmit.submit();
+      confirmBtn.addEventListener('click', function () {
+        if (formToSubmit) {
+          confirmBtn.disabled = true;
+          confirmBtn.textContent = 'Menghapus...';
+          formToSubmit.submit();
+        }
       });
-
-      modalEl.addEventListener('hidden.bs.modal', () => {
-        formToSubmit = null;
-        confirmBtn.disabled = false;
-        confirmBtn.textContent = 'Hapus';
-        msgEl.textContent = 'Apakah Anda yakin ingin menghapus item ini?';
-      });
-    })();
+    });
   </script>
+
 </body>
 </html>

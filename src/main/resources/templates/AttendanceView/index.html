@@ -8,216 +8,274 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
     :root {
+      /* Palette Warna Utama */
       --navy: #0b2340;
+      --navy-light: #1e3a5f;
       --cream: #f2ece3;
       --accent: #b78b4a;
-      --muted: #6c757d;
+      --muted: #64748b;
+      --border-color: #e2e8f0;
+      --white: #ffffff;
+      
+      /* Status Colors (Soft Pastel) */
+      --status-hadir-bg: #dcfce7; --status-hadir-text: #166534;
+      --status-sakit-bg: #e0f2fe; --status-sakit-text: #075985;
+      --status-izin-bg: #fef9c3;  --status-izin-text: #854d0e;
+      --status-alpha-bg: #fee2e2; --status-alpha-text: #991b1b;
     }
 
     body {
-      background: var(--cream);
+      background-color: var(--cream);
       color: var(--navy);
-      font-size: 1rem;
-      font-family: system-ui, -apple-system, sans-serif;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-size: 0.95rem;
+      -webkit-font-smoothing: antialiased;
     }
 
+    /* Layout Container */
     .container-main {
-      max-width: 1000px;
-      margin: 2rem auto;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 3px 10px rgba(11, 35, 64, 0.08);
-      padding: 2rem;
+      max-width: 1050px;
+      margin: 2.5rem auto;
+      padding: 0 1rem;
     }
 
-    /* Header Title Responsif */
-    .header-wrapper {
+    /* Card Wrapper */
+    .card-dashboard {
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      overflow: hidden; /* Agar border radius tabel tidak bocor */
+      border: 1px solid rgba(255,255,255,0.6);
+    }
+
+    /* Header Section */
+    .page-header {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--border-color);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap; /* Agar tombol turun jika layar sempit */
-      gap: 1rem;
+      background: #fff;
     }
 
     h2.title {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
       font-weight: 700;
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       margin: 0;
       color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
     }
 
     h2.title svg {
-      width: 26px;
-      height: 26px;
-      stroke: var(--accent);
+      width: 24px;
+      height: 24px;
+      color: var(--accent);
     }
 
+    /* Tombol Tambah */
     .btn-add {
-      background: var(--accent);
-      color: white;
+      background-color: var(--navy);
+      color: #fff;
+      font-weight: 600;
       border: none;
-      border-radius: 6px;
-      padding: 0.4rem 0.9rem;
+      border-radius: 8px;
+      padding: 0.55rem 1rem;
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      font-weight: 600;
-      font-size: 0.95rem;
+      gap: 0.5rem;
+      font-size: 0.9rem;
       transition: all 0.2s ease;
       text-decoration: none;
-      white-space: nowrap;
     }
 
     .btn-add:hover {
-      background: #a5793e;
-      transform: translateY(-2px);
+      background-color: var(--navy-light);
+      transform: translateY(-1px);
       color: #fff;
+      box-shadow: 0 4px 6px rgba(11, 35, 64, 0.15);
     }
-    
-    .btn-add svg { width: 16px; height: 16px; }
 
-    /* --- TABLE DESKTOP --- */
-    table thead {
-      background: rgba(11, 35, 64, 0.05);
+    /* Info Badges (Role Info) */
+    .info-bar {
+      background: #f8fafc;
+      padding: 0.75rem 2rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
     }
-    th { color: var(--navy); font-weight: 600; text-align: center; }
-    td { vertical-align: middle; text-align: center; }
     
-    /* Tombol Aksi */
-    .btn-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 6px; /* Kotak rounded sedikit lebih modern */
+    .role-badge {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      border: none;
-      cursor: pointer;
-      transition: 0.18s;
-      padding: 0;
-    }
-
-    .btn-edit-icon { background: #0b74a4; color: #fff; }
-    .btn-edit-icon:hover { background: #095b7f; transform: scale(1.1); }
-
-    .btn-delete-icon { background: #c44d3a; color: #fff; }
-    .btn-delete-icon:hover { background: #a63e2d; transform: scale(1.1); }
-
-    .btn-icon svg { width: 16px; height: 16px; }
-
-    /* Badge Status */
-    .badge-status {
-      display: inline-block;
-      padding: 0.4rem 0.75rem;
+      gap: 6px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      background: #fff;
+      padding: 4px 10px;
       border-radius: 6px;
+      border: 1px solid var(--border-color);
+      font-weight: 500;
+    }
+    .role-badge svg { width: 14px; height: 14px; color: var(--accent); }
+
+    /* Table Styles */
+    .table-responsive { padding: 0; margin: 0; }
+    .table-custom { width: 100%; border-collapse: collapse; margin: 0; }
+    
+    .table-custom thead {
+      background-color: #f8fafc;
+    }
+
+    .table-custom th {
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
+      text-align: left;
+    }
+    .table-custom th.text-center { text-align: center; }
+
+    .table-custom td {
+      padding: 1rem 1.5rem;
+      vertical-align: middle;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--navy);
+    }
+    
+    .table-custom tr:last-child td { border-bottom: none; }
+    .table-custom tbody tr:hover { background-color: #fcfcfc; }
+
+    /* Column Specifics */
+    .cell-photo { width: 80px; text-align: center; }
+    .img-thumb {
+      width: 42px; height: 42px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid #e2e8f0;
+      background: #fff;
+    }
+    
+    .placeholder-thumb {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      display: flex; align-items: center; justify-content: center;
+      color: #94a3b8;
+      border: 1px solid #e2e8f0;
+      margin: 0 auto;
+    }
+
+    .cell-name {
       font-weight: 600;
-      font-size: 0.8rem;
-      letter-spacing: 0.5px;
+      color: var(--navy);
+      display: block;
+      max-width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .badge-hadir { background: #d1e7dd; color: #0f5132; }
-    .badge-sakit { background: #cff4fc; color: #055160; }
-    .badge-alpha { background: #f8d7da; color: #842029; }
-    .badge-izin { background: #fff3cd; color: #664d03; }
-
-    .img-thumb { 
-      width: 50px; 
-      height: 50px; 
-      object-fit: cover; 
-      border-radius: 50%; /* Foto bulat lebih modern untuk profil */
-      border: 2px solid #e9ecef; 
+    /* Status Badges */
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 0.35rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
     }
+    
+    .status-HADIR { background: var(--status-hadir-bg); color: var(--status-hadir-text); }
+    .status-SAKIT { background: var(--status-sakit-bg); color: var(--status-sakit-text); }
+    .status-IZIN { background: var(--status-izin-bg); color: var(--status-izin-text); }
+    .status-ALPHA { background: var(--status-alpha-bg); color: var(--status-alpha-text); }
+    /* Default fallback */
+    .status-DEFAULT { background: #f1f5f9; color: var(--muted); }
 
-    /* --- MOBILE RESPONSIVE (Card View) --- */
+    /* Action Buttons */
+    .action-group { display: flex; gap: 0.5rem; justify-content: flex-end; }
+    
+    .btn-icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    
+    .btn-icon:hover { background: #f1f5f9; color: var(--navy); transform: scale(1.1); }
+    .btn-delete:hover { background: #fee2e2; color: #dc2626; }
+
+    /* MOBILE RESPONSIVE (Card View) */
     @media (max-width: 768px) {
-      .container-main {
-        margin: 1rem 0.5rem;
-        padding: 1.25rem;
-      }
+      .container-main { margin: 1.5rem auto; padding: 0 1rem; }
+      .card-dashboard { background: transparent; box-shadow: none; border: none; overflow: visible; }
+      .page-header { background: transparent; border: none; padding: 0 0 1.5rem 0; flex-wrap: wrap; gap: 1rem; }
+      .info-bar { background: transparent; padding: 0 0 1rem 0; border: none; }
       
-      h2.title { font-size: 1.25rem; }
-
-      /* Sembunyikan Header Tabel */
-      table thead { display: none; }
-
-      /* Baris jadi Kartu */
-      table tbody tr {
-        display: block;
+      .table-custom thead { display: none; }
+      .table-custom, .table-custom tbody, .table-custom tr, .table-custom td { display: block; width: 100%; }
+      
+      .table-custom tr {
         background: #fff;
-        border: 1px solid #e0e0e0;
-        border-radius: 10px;
         margin-bottom: 1rem;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-        padding: 0.5rem;
+        border-radius: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        padding: 1.25rem;
+        border: 1px solid var(--border-color);
       }
 
-      /* Sel jadi Flex Row */
-      table tbody td {
+      .table-custom td {
+        padding: 0.5rem 0;
+        border: none;
         display: flex;
-        justify-content: space-between; /* Label kiri, isi kanan */
+        justify-content: space-between;
         align-items: center;
         text-align: right;
-        padding: 0.75rem 0.5rem;
-        border-bottom: 1px solid #f1f1f1;
       }
 
-      table tbody td:last-child {
-        border-bottom: none;
-        justify-content: flex-end; /* Tombol aksi di kanan */
-      }
-
-      /* Tampilkan Label Kolom via attribute data-label */
-      table tbody td::before {
+      /* Label styling for mobile */
+      .table-custom td::before {
         content: attr(data-label);
-        font-weight: 700;
+        font-weight: 600;
         color: var(--muted);
-        font-size: 0.9rem;
-        text-align: left;
+        font-size: 0.85rem;
         margin-right: 1rem;
+        text-align: left;
       }
 
-      /* Styling khusus kolom NO agar jadi Header Kartu */
-      table tbody td[data-label="No"] {
-        background: var(--navy);
-        color: white;
-        margin: -0.5rem -0.5rem 0.5rem -0.5rem;
-        border-radius: 10px 10px 0 0;
-        padding: 0.5rem 1rem;
-        justify-content: flex-start;
-        font-weight: bold;
-      }
-      table tbody td[data-label="No"]::before {
-        content: "#";
-        color: var(--accent);
-        margin-right: 5px;
-      }
-
-      /* Styling Foto di Mobile */
-      table tbody td[data-label="Foto"] {
-        justify-content: flex-end;
-      }
+      /* Mobile Specific Layout Adjustments */
+      .cell-photo { width: 100%; display: flex !important; justify-content: flex-end; }
+      .cell-name { text-align: right; max-width: 100%; white-space: normal; }
       
-      /* Empty State adjustment */
-      table tbody tr.empty-row td {
-         display: block;
-         text-align: center;
-         border: none;
+      /* Hide column headers for clean look */
+      .table-custom td[data-label="No"] { display: none; } 
+      
+      .td-actions {
+        border-top: 1px dashed var(--border-color);
+        margin-top: 0.75rem;
+        padding-top: 0.75rem !important;
       }
-      table tbody tr.empty-row td::before { display: none; }
     }
 
     footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.9rem;
-      padding: 1rem;
-      margin-top: 1rem;
+      text-align: center; color: var(--muted); padding: 2rem 0; font-size: 0.85rem;
     }
   </style>
 </head>
@@ -227,126 +285,144 @@
   <div th:replace="~{layouts/fragments/sidebar :: sidebar}"></div>
 
   <main class="container-main">
-    <div class="header-wrapper">
-      <h2 class="title">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-          stroke-width="1.6">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-        </svg>
-        Daftar Absensi
-      </h2>
+    
+    <div class="card-dashboard">
+      <div class="page-header">
+        <h2 class="title">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
+          </svg>
+          Daftar Absensi
+        </h2>
 
-      <a th:href="@{/attendances/create}" class="btn-add" title="Tambah Absensi" th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-          stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-        </svg>
-        Tambah
-      </a>
-    </div>
+        <a th:href="@{/attendances/create}" class="btn-add" th:if="${isAdmin == true}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+          </svg>
+          Tambah
+        </a>
+      </div>
 
-    <div class="table-responsive-md"> <table class="table align-middle mb-0">
-        <thead>
-          <tr>
-            <th width="50">No</th>
-            <th width="80">Foto</th>
-            <th>Nama Siswa</th>
-            <th>Tanggal</th>
-            <th>Waktu</th>
-            <th>Status</th>
-            <th width="100" th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr th:each="att, iterStat : ${attend}">
-            <td data-label="No" th:text="${iterStat.count}">1</td>
+      <div class="info-bar" th:if="${isAdmin == true or isSupervisor == true or isStudent == true}">
+        <div th:if="${isAdmin == true}" class="role-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          Mode Administrator
+        </div>
+        <div th:if="${isSupervisor == true}" class="role-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" /></svg>
+          Mode Supervisor
+        </div>
+        <div th:if="${isStudent == true}" class="role-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+          Mode Siswa
+        </div>
+      </div>
 
-            <td data-label="Foto">
-              <div th:if="${att.checkInPhotoUrl != null and att.checkInPhotoUrl != ''}">
-                <img th:src="@{${att.checkInPhotoUrl}}" alt="foto" class="img-thumb" />
-              </div>
-              <div th:if="${att.checkInPhotoUrl == null or att.checkInPhotoUrl == ''}">
-                 <div class="d-flex align-items-center justify-content-center bg-light rounded-circle" style="width:50px; height:50px; border: 1px solid #ddd;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="#ccc" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+      <div th:if="${!(isAdmin == true) and !(isSupervisor == true) and !(isStudent == true)}" class="text-center py-5">
+        <div style="max-width:560px; margin:0 auto">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="var(--muted)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" /></svg>
+          <h3 class="mt-3" style="color:var(--navy); font-weight:700">Akses Ditolak</h3>
+          <p style="color:var(--muted)">Anda tidak memiliki izin untuk melihat data absensi.</p>
+        </div>
+      </div>
+
+      <div class="table-responsive" th:if="${isAdmin == true or isSupervisor == true or isStudent == true}">
+        <table class="table-custom">
+          <thead>
+            <tr>
+              <th width="60" class="text-center">No</th>
+              <th width="100" class="text-center">Foto</th>
+              <th>Nama Siswa</th>
+              <th>Tanggal</th>
+              <th>Waktu</th>
+              <th>Status</th>
+              <th width="120" class="text-center" th:if="${isAdmin == true}">Aksi</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr th:each="att, iterStat : ${attend}">
+              <td data-label="No" class="text-center" th:text="${iterStat.count}">1</td>
+
+              <td data-label="Foto" class="cell-photo">
+                <div th:if="${att.checkInPhotoUrl != null and att.checkInPhotoUrl != ''}">
+                  <img th:src="@{${att.checkInPhotoUrl}}" alt="foto" class="img-thumb" />
                 </div>
-              </div>
+                <div th:unless="${att.checkInPhotoUrl != null and att.checkInPhotoUrl != ''}">
+                  <div class="placeholder-thumb">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+                  </div>
+                </div>
+              </td>
+
+              <td data-label="Nama Siswa">
+                <span class="cell-name" th:text="${att.placement?.student?.user?.username ?: '—'}">John Doe</span>
+              </td>
+
+              <td data-label="Tanggal" th:text="${att.date != null ? #temporals.format(att.date, 'dd MMM yyyy') : '-'}">01 Nov 2025</td>
+
+              <td data-label="Waktu" th:text="${att.checkInTime != null ? #temporals.format(att.checkInTime, 'HH:mm') : '-'}">07:45</td>
+
+              <td data-label="Status">
+               <span class="status-pill"
+                     th:classappend="${#strings.toString(att.presenceStatus) == 'PRESENT'} ? 'status-HADIR' : 
+                                    (${#strings.toString(att.presenceStatus) == 'SICK'} ? 'status-SAKIT' : 
+                                    (${#strings.toString(att.presenceStatus) == 'PERMISION'} ? 'status-IZIN' : 
+                                    (${#strings.toString(att.presenceStatus) == 'ABSENT'} ? 'status-ALPHA' : 'status-DEFAULT')))">
+                 
+                  <svg th:if="${#strings.toString(att.presenceStatus) == 'PRESENT'}" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  <svg th:if="${#strings.toString(att.presenceStatus) == 'SICK'}" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                  <svg th:if="${#strings.toString(att.presenceStatus) == 'PERMISION'}" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  <svg th:if="${#strings.toString(att.presenceStatus) == 'ABSENT'}" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+
+                  <span th:text="${#strings.toString(att.presenceStatus) == 'PRESENT' ? 'Hadir' : 
+                                  (#strings.toString(att.presenceStatus) == 'SICK' ? 'Sakit' : 
+                                  (#strings.toString(att.presenceStatus) == 'PERMISION' ? 'Izin' : 
+                                  (#strings.toString(att.presenceStatus) == 'ABSENT' ? 'Alpha' : att.presenceStatus)))}">
+                     STATUS
+                  </span>
+               </span>
             </td>
 
-            <td data-label="Nama Siswa" th:text="${att.placement != null && att.placement.student != null ? att.placement.student.user.username : '—'}" style="font-weight:500;">John Doe</td>
-
-            <td data-label="Tanggal" th:text="${att.date != null ? #temporals.format(att.date, 'dd MMM yyyy') : '-'}">01 Nov 2025</td>
-
-            <td data-label="Waktu" th:text="${att.checkInTime != null ? #temporals.format(att.checkInTime, 'HH:mm') : '-'}">07:45</td>
-
-            <td data-label="Status">
-              <span th:switch="${att.presenceStatus}">
-                <span th:case="${T(com.sistem.monitoring.models.AttendanceModel.Presence).PRESENT}"
-                      class="badge-status badge-hadir">Hadir</span>
-                <span th:case="${T(com.sistem.monitoring.models.AttendanceModel.Presence).SICK}"
-                      class="badge-status badge-sakit">Sakit</span>
-                <span th:case="${T(com.sistem.monitoring.models.AttendanceModel.Presence).ABSENT}"
-                      class="badge-status badge-alpha">Alpha</span>
-                <span th:case="${T(com.sistem.monitoring.models.AttendanceModel.Presence).PERMISION}"
-                      class="badge-status badge-izin">Izin</span>
-                <span th:case="*"
-                      class="badge-status badge-alpha"
-                      th:text="${att.presenceStatus != null ? att.presenceStatus.name() : '—'}">—</span>
-              </span>
-            </td>
-
-            <td data-label="Aksi" th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
-              <div class="d-flex align-items-center justify-content-end justify-content-md-center gap-2">
-
-                <a th:href="@{'/attendances/edit/' + ${att.attendId}}" 
-                   class="btn-icon btn-edit-icon"
-                   title="Edit">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
-                    stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/>
-                  </svg>
-                </a>
-
-                <form th:action="@{/attendances/{id}(id=${att.attendId})}" method="post" style="display:inline; margin:0;">
-                  <input type="hidden" name="_method" value="delete" />
-                  <button type="submit" class="btn-icon btn-delete-icon" title="Hapus"
-                          onclick="return confirm('Yakin ingin menghapus data ini?')">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
-                      stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M3 6h18M8 6v12a2 2 0 002 2h4a2 2 0 002-2V6M10 6V4a2 2 0 012-2h0a2 2 0 012 2v2"/>
+              <td class="td-actions" th:if="${isAdmin == true}">
+                <div class="action-group">
+                  <a th:href="@{'/attendances/edit/' + ${att.attendId}}" class="btn-icon" title="Edit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/>
                     </svg>
-                  </button>
-                </form>
+                  </a>
 
-              </div>
-            </td>
+                  <form th:action="@{/attendances/{id}(id=${att.attendId})}" method="post" style="margin:0;">
+                    <input type="hidden" name="_method" value="delete" />
+                    <button type="submit" class="btn-icon btn-delete" title="Hapus"
+                            onclick="return confirm('Yakin ingin menghapus data ini?')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                      </svg>
+                    </button>
+                  </form>
+                </div>
+              </td>
+            </tr>
 
-          </tr>
-
-          <tr th:if="${#lists.isEmpty(attend)}" class="empty-row">
-            <td colspan="7" class="text-center text-muted py-5">
-              <div class="d-flex flex-column align-items-center justify-content-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" stroke="#dee2e6"
-                    stroke-width="1.5" class="mb-2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m0-4v-2m6 8v-2m0-4v-2M4 4h16v16H4z" />
-                  </svg>
-                  <span>Belum ada data absensi.</span>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            <tr th:if="${#lists.isEmpty(attend)}">
+              <td colspan="7" class="text-center py-5 text-muted">
+                <div class="d-flex flex-column align-items-center justify-content-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="#e2e8f0" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  <span class="mt-2">Belum ada data absensi.</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </main>
 
   <footer>
-    &copy; <span th:text="${#temporals.format(#temporals.createNow(),'yyyy')}">2025</span> Sistem Monitoring — Semua hak
-    dilindungi.
+    &copy; <span th:text="${#temporals.format(#temporals.createNow(),'yyyy')}">2025</span> Sistem Monitoring.
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

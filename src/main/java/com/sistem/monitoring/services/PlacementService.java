@@ -71,8 +71,6 @@ public class PlacementService {
         placementRepository.deleteById(id);
     }
 
-    // pastikan PlacementRepository punya:
-    // List<PlacementModel> findBySchoolSupervisor_SSupervisorId(Long sSupervisorId);
     public List<PlacementModel> getBySchoolSupervisorId(Long sSupervisorId) {
         return placementRepository.findBySchoolSupervisor_SSupervisorId(sSupervisorId);
     }
