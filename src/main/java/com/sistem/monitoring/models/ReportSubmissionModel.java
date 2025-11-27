@@ -22,6 +22,10 @@ public class ReportSubmissionModel {
     private Long submissionId;
     
     @ManyToOne
+    @JoinColumn(name = "createdBy")
+    private UserModel createdBy;
+
+    @ManyToOne
     @JoinColumn(name = "studentId") 
     private StudentModel student;
 
@@ -129,6 +133,14 @@ public class ReportSubmissionModel {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public UserModel getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(UserModel createdBy) {
+        this.createdBy = createdBy;
     }
 
     

@@ -41,6 +41,10 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public Optional<UserModel> findByUsername (String Username){
+        return userRepository.findByUsername(Username);
+    }
+
     // ========================================================================
     // CREATE NEW USER (Full Parameter Spesifik)
     // ========================================================================

@@ -52,4 +52,17 @@ public class ReportSubmissionService {
     public void deleteReport(Long id){
         reportSubmissionRepository.deleteById(id);
     }
+    public List<ReportSubmissionModel> getByCreatorUsername(String username) {
+        return reportSubmissionRepository.findByCreatedBy_Username(username);
+    }
+
+    public List<ReportSubmissionModel> getByStudentIds(List<Long> studentIds) {
+        if (studentIds == null || studentIds.isEmpty()) return List.of();
+        return reportSubmissionRepository.findByStudent_StudentIdIn(studentIds);
+    }
+
+    public List<ReportSubmissionModel> getByCreatorOrStudents(String username, List<Long> studentIds) {
+        // gunakan repository combined kalau ada:
+        return reportSubmissionRepository.findByCreatedBy_UsernameOrStudent_StudentIdIn(username, studentIds);
+    }
 }

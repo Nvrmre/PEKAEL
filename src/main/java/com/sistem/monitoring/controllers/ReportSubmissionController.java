@@ -6,6 +6,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -26,6 +29,8 @@ import com.sistem.monitoring.models.ReportSubmissionModel;
 import com.sistem.monitoring.models.UserModel;
 import com.sistem.monitoring.services.PlacementService;
 import com.sistem.monitoring.services.ReportSubmissionService;
+import com.sistem.monitoring.services.SchoolSupervisorService;
+import com.sistem.monitoring.services.StudentServices;
 import com.sistem.monitoring.services.UserService;
 
 @Controller
@@ -35,16 +40,23 @@ public class ReportSubmissionController {
     private final ReportSubmissionService reportSubmissionService;
     private final PlacementService placementService;
     private final UserService userService;
+    private final SchoolSupervisorService schoolSupervisorService;
+    private final StudentServices studentServices;
 
     // Direktori Upload
     private final Path uploadDir = Paths.get("src/main/resources/static/uploads/report-submission/");
 
     public ReportSubmissionController(ReportSubmissionService reportService,
-            PlacementService placementService,
-            UserService userService) {
+                                      PlacementService placementService,
+                                      UserService userService,
+                                      SchoolSupervisorService schoolSupervisorService,
+                                      StudentServices studentServices
+                                     ) {
         this.reportSubmissionService = reportService;
         this.placementService = placementService;
         this.userService = userService;
+        this.schoolSupervisorService = schoolSupervisorService;
+        this.studentServices = studentServices;
         try {
             if (!Files.exists(uploadDir)) {
                 Files.createDirectories(uploadDir);
@@ -58,8 +70,50 @@ public class ReportSubmissionController {
     // 1. LIST DATA
     // ==========================================
     @GetMapping
-    public String showAllSubmission(Model model) {
-        model.addAttribute("submission", reportSubmissionService.getAllSubmission());
+    public String listReports(Model model, Principal principal) {
+        String username = principal != null ? principal.getName() : null;
+        List<ReportSubmissionModel> reports;
+
+        if (username == null) {
+            // anonymous: redirect ke login atau tampil kosong
+            return "redirect:/login";
+        }
+
+        try {
+            // apakah user adalah school supervisor?
+            var maybeSupervisor = schoolSupervisorService.findByUserUsername(username);
+            if (maybeSupervisor.isPresent()) {
+                Long supervisorId = maybeSupervisor.get().getsSupervisorId();
+
+                // ambil placements yang di-assign ke supervisor ini
+                List<PlacementModel> placements = placementService.getBySchoolSupervisorId(supervisorId);
+
+                // ekstrak student IDs
+                List<Long> studentIds = placements.stream()
+                        .map(p -> p.getStudent() != null ? p.getStudent().getStudentId() : null)
+                        .filter(Objects::nonNull)
+                        .distinct()
+                        .collect(Collectors.toList());
+
+                // ambil reports untuk student tersebut AND reports yang dibuat oleh user login
+                reports = reportSubmissionService.getByCreatorOrStudents(username, studentIds);
+
+                // set flag di model agar view tahu ini supervisor
+                model.addAttribute("isSupervisor", true);
+                model.addAttribute("currentUserName", username);
+            } else {
+                // bukan supervisor: hanya tampilkan report yang dibuat user itu sendiri
+                reports = reportSubmissionService.getByCreatorUsername(username);
+                model.addAttribute("isSupervisor", false);
+                model.addAttribute("currentUserName", username);
+            }
+        } catch (Exception ex) {
+            // fallback: tampilkan hanya milik user
+            reports = reportSubmissionService.getByCreatorUsername(username);
+            model.addAttribute("isSupervisor", false);
+        }
+
+        model.addAttribute("submission", reports);
         return "ReportSubmissionView/index";
     }
 
@@ -79,81 +133,90 @@ public class ReportSubmissionController {
     // 3. SAVE ACTION (UPLOAD + AUTO STUDENT)
     // ==========================================
     @PostMapping
-    public String saveReport(@ModelAttribute("submission") ReportSubmissionModel submission,
+    public String saveReport(
+            @ModelAttribute("submission") ReportSubmissionModel submission,
             @RequestParam("fileUpload") MultipartFile fileUpload,
+            @RequestParam(value = "studentId", required = false) Long studentId, // opsional: bila admin memilih siswa
             Principal principal) {
 
-        System.out.println("=== MULAI PROSES SAVE REPORT ==="); // Jejak 1
+        System.out.println("=== MULAI PROSES SAVE REPORT ===");
 
-        // 1. Cek Apakah User Login?
         if (principal == null) {
             System.out.println("ERROR: Principal is NULL (User belum login atau session habis)");
             return "redirect:/Auth/login";
         }
 
         String username = principal.getName();
-        System.out.println("User Login: " + username); // Jejak 2
+        System.out.println("User Login: " + username);
 
-        // 2. Cari Data User & Student
-        UserModel user = userService.getAllUser().stream()
-                .filter(u -> u.getUsername().equals(username))
-                .findFirst().orElse(null);
-
-        // Cek apakah user ditemukan dan dia Student
-        if (user != null && user.getRole() == UserModel.Role.Student && user.getStudent() != null) {
-            Long studentId = user.getStudent().getStudentId();
-            System.out.println("Student ID ditemukan: " + studentId); // Jejak 3
-
-            // 3. Cari Placement (Penempatan)
-            PlacementModel myPlacement = placementService.getPlacementByStudentId(studentId)
-                    .orElse(null);
-
-            if (myPlacement != null) {
-                System.out.println("Placement ditemukan: " + myPlacement.getCompany().getCompanyName()); // Jejak 4
-
-                // SET SISWA KE LAPORAN
-                submission.setStudent(myPlacement.getStudent());
-            } else {
-                System.out.println("BAHAYA: Siswa ini BELUM punya Placement/PKL! Data Student tidak akan masuk.");
-                // Opsional: return "redirect:/report-submissions/create?error=no_placement";
-            }
-        } else {
-            System.out.println("INFO: User bukan Student atau Data Student null. (Mungkin Admin input manual?)");
+        // Ambil user login secara langsung (lebih efisien daripada getAllUser stream)
+        UserModel user = userService.findByUsername(username).orElse(null); // sesuaikan kalau service-mu beda
+        if (user == null) {
+            System.out.println("ERROR: User tidak ditemukan di DB untuk username " + username);
+            return "redirect:/Auth/login";
         }
 
-        // 4. Set Status Default
+        // set createdBy selalu dari user login (PENTING)
+        submission.setCreatedBy(user);
+
+        // Jika ada studentId dikirim (misal admin memilih student), pakai itu
+        if (studentId != null) {
+            var maybeStudent = studentServices.getUserStudentById(studentId);
+            if (maybeStudent.isPresent()) {
+                submission.setStudent(maybeStudent.get());
+                System.out.println("Student di-set dari param studentId: " + studentId);
+            } else {
+                System.out.println("WARNING: studentId param tidak ditemukan: " + studentId);
+            }
+        } else {
+            // Jika uploader adalah student, set student berdasarkan relasi user -> student (umumnya)
+            if (user.getRole() == UserModel.Role.Student && user.getStudent() != null) {
+                submission.setStudent(user.getStudent());
+                System.out.println("Student di-set dari user.student: " + user.getStudent().getStudentId());
+            } else {
+                // kalau bukan student dan tidak ada studentId, submission.student bisa tetap null (admin/manual)
+                System.out.println("Info: uploader bukan student dan tidak mengirim studentId. submission.student mungkin null.");
+            }
+        }
+
+        // Set default status jika belum ada
         if (submission.getStatus() == null) {
             submission.setStatus(ReportSubmissionModel.Status.PENDING);
         }
 
-        // 5. Upload File
+        // Set timestamps
+        var now = java.time.LocalDateTime.now();
+        if (submission.getCreatedAt() == null) submission.setCreatedAt(now);
+        submission.setUpdatedAt(now);
+
+        // Upload file jika ada
         if (fileUpload != null && !fileUpload.isEmpty()) {
-            System.out.println("Mulai Upload File: " + fileUpload.getOriginalFilename()); // Jejak 5
-            String filename = System.currentTimeMillis() + "-"
-                    + StringUtils.cleanPath(fileUpload.getOriginalFilename());
+            System.out.println("Mulai Upload File: " + fileUpload.getOriginalFilename());
+            String filename = System.currentTimeMillis() + "-" + org.springframework.util.StringUtils.cleanPath(fileUpload.getOriginalFilename());
             try {
-                Path dest = uploadDir.resolve(filename).normalize();
-                Files.copy(fileUpload.getInputStream(), dest, StandardCopyOption.REPLACE_EXISTING);
+                java.nio.file.Path dest = uploadDir.resolve(filename).normalize();
+                java.nio.file.Files.copy(fileUpload.getInputStream(), dest, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
 
                 submission.setFilePath("/uploads/report-submission/" + filename);
-                // submission.setFileUrl("/uploads/report-submission/" + filename);
                 System.out.println("Upload Berhasil. Path: " + submission.getFilePath());
-            } catch (IOException e) {
+            } catch (java.io.IOException e) {
                 System.out.println("ERROR Upload File: " + e.getMessage());
                 e.printStackTrace();
+                // kalau mau: return ke form dengan pesan error
             }
         } else {
             System.out.println("INFO: Tidak ada file yang diupload.");
         }
 
-        // 6. EKSEKUSI SIMPAN KE DB
+        // Simpan
         try {
-            System.out.println("Mencoba menyimpan ke database..."); // Jejak 6
+            System.out.println("Mencoba menyimpan ke database...");
             reportSubmissionService.createSubmission(submission);
-            System.out.println("SUKSES: Data tersimpan di Database!"); // Jejak 7
+            System.out.println("SUKSES: Data tersimpan di Database!");
         } catch (Exception e) {
-            System.out.println("FATAL ERROR SAAT SAVE: " + e.getMessage()); // Jejak 8
+            System.out.println("FATAL ERROR SAAT SAVE: " + e.getMessage());
             e.printStackTrace();
+            // bisa redirect ke halaman error atau kembalikan ke form
         }
 
         return "redirect:/report-submissions";
