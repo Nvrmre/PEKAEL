@@ -182,6 +182,52 @@
     .feature h4 { margin:0 0 6px; font-size:16px; color:var(--navy); }
     .feature p { margin:0; color:var(--muted); font-size:14px; }
 
+    /* TECH STACK SECTION */
+    .tech-section {
+      margin-top: 48px;
+      text-align: center;
+    }
+    .tech-header h3 {
+      font-size: 24px; color: var(--navy); margin-bottom: 8px;
+    }
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      max-width: 800px;
+      margin: 24px auto 0;
+    }
+    .tech-card {
+      background: #fff;
+      border: 1px solid rgba(11,35,64,0.05);
+      border-radius: var(--radius);
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease;
+      text-align: left;
+    }
+    .tech-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(183,139,74,0.3);
+    }
+    .tech-icon-box {
+      width: 54px; height: 54px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--navy), #162f52);
+      display: grid; place-items: center;
+      flex-shrink: 0;
+      color: var(--cream);
+    }
+    .tech-info h5 { margin: 0 0 4px; font-size: 16px; color: var(--navy); }
+    .tech-info p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.4; }
+
+    /* Mobile adjustment for tech stack */
+    @media (max-width: 768px) {
+      .tech-grid { grid-template-columns: 1fr; }
+    }
     /* STRIP CTA */
     .strip {
       margin-top:34px; border-radius:12px; padding:16px; display:flex; align-items:center; justify-content:space-between;
@@ -318,7 +364,7 @@
         </div>
       </aside>
     </section>
-
+   
     <!-- FEATURES -->
     <section id="fitur" style="margin-top:10px">
       <div class="features">
@@ -350,7 +396,7 @@
         </div>
       </div>
 
-      <div style="margin-top:20px; display:flex; gap:12px; align-items:center">
+      <!-- <div style="margin-top:20px; display:flex; gap:12px; align-items:center">
         <div style="flex:1">
           <div class="strip">
             <div>
@@ -358,9 +404,37 @@
               <div class="small muted">Stabil, aman, dan mendukung integrasi SSO / LDAP</div>
             </div>
             <div style="display:flex; gap:10px; align-items:center">
-              <a class="btn-ghost" href="https://wa.me/085158245221">Hubungi Sales</a>
+              <a class="btn-ghost" href="https://wa.me/085158245221">Hubungi Sales</a> -->
               <!-- <a class="btn-primary" href="/trial">Minta Trial</a> -->
-            </div>
+            <!-- </div>
+          </div>
+        </div> -->
+      <!-- </div> -->
+    </section>
+     <section class="tech-section fade delay-3">
+      <div class="tech-header">
+        <h3>Ditenagai Teknologi Handal</h3>
+        <p class="small muted">Dibangun dengan standar keamanan dan performa enterprise</p>
+      </div>
+
+      <div class="tech-grid">
+        <div class="tech-card">
+          <div class="tech-icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-coffee"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>
+          </div>
+          <div class="tech-info">
+            <h5>Java Backend</h5>
+            <p>Bahasa pemrograman tangguh yang menjamin stabilitas sistem jangka panjang.</p>
+          </div>
+        </div>
+
+        <div class="tech-card">
+          <div class="tech-icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-leaf"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+          </div>
+          <div class="tech-info">
+            <h5>Spring Boot</h5>
+            <p>Framework modern untuk keamanan ketat dan arsitektur yang cepat serta efisien.</p>
           </div>
         </div>
       </div>
