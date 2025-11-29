@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Terjadi Kesalahan - Sistem Monitoring</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy: #0b2340;
+      --navy-light: #153255;
+      --cream: #f2ece3;
+      --accent: #b78b4a;
+      --muted: #64748b;
+      --white: #ffffff;
+      --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--cream);
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .error-card {
+      background: var(--white);
+      max-width: 500px;
+      width: 100%;
+      padding: 48px 40px;
+      border-radius: 24px;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.6);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Dekorasi Background di dalam card */
+    .blob {
+      position: absolute;
+      width: 150px; height: 150px;
+      background: rgba(183, 139, 74, 0.08);
+      border-radius: 50%;
+      top: -30px; right: -30px;
+      z-index: 0;
+    }
+    .blob-2 {
+      position: absolute;
+      width: 100px; height: 100px;
+      background: rgba(11, 35, 64, 0.05);
+      border-radius: 50%;
+      bottom: -20px; left: -20px;
+      z-index: 0;
+    }
+
+    .content { position: relative; z-index: 1; }
+
+    .icon-box {
+      width: 80px; height: 80px;
+      background: #fef2f2; /* Merah muda sangat soft */
+      color: #dc2626;      /* Merah error */
+      border-radius: 20px;
+      display: grid; place-items: center;
+      margin: 0 auto 24px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    }
+    
+    /* Jika status bukan error (misal maintenance), bisa ganti warna lewat class */
+    .icon-box svg { width: 40px; height: 40px; stroke-width: 1.5; }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -0.5px;
+    }
+
+    p.lead {
+      margin: 0 0 32px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    /* Area Code Error Spring */
+    .error-details {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 32px;
+      text-align: left;
+    }
+    
+    .error-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+      font-weight: 700;
+      display: block;
+      margin-bottom: 6px;
+    }
+    
+    .error-code {
+      font-family: 'Monaco', 'Consolas', monospace;
+      font-size: 13px;
+      color: #ef4444;
+      word-break: break-all;
+      margin: 0;
+    }
+
+    /* Button Style */
+    .btn-home {
+      background-color: var(--navy);
+      color: #fff;
+      text-decoration: none;
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(11, 35, 64, 0.2);
+    }
+
+    .btn-home:hover {
+      background-color: var(--navy-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(11, 35, 64, 0.25);
+    }
+
+    /* Responsif */
+    @media (max-width: 480px) {
+      .error-card { padding: 32px 24px; }
+      h1 { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="error-card">
+    <div class="blob"></div>
+    <div class="blob-2"></div>
+
+    <div class="content">
+      <div class="icon-box">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+        </svg>
+      </div>
+
+      <h1>Oops! Sabar Jon Lagi Eror</h1>
+      <p class="lead">Sistem mengalami kendala tak terduga. Kami telah mencatat kejadian ini.</p>
+
+      <div class="error-details" th:if="${message != null and message != ''}">
+        <span class="error-label">DETAIL SYSTEM:</span>
+        <p class="error-code" th:text="${message}">Java.lang.NullPointerException...</p>
+      </div>
+      
+      <div class="error-details" th:if="${status != null}">
+         <span class="error-label">KODE ERROR:</span>
+         <p class="error-code" th:text="${status} + ' - ' + ${error}">500 - Internal Server Error</p>
+      </div>
+
+      <a th:href="@{/index}" class="btn-home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+        </svg>
+        Kembali ke Beranda
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>
