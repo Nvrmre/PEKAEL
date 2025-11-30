@@ -9,6 +9,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -214,7 +221,7 @@ public class ReportSubmissionController {
         } catch (Exception e) {
             System.out.println("FATAL ERROR SAAT SAVE: " + e.getMessage());
             e.printStackTrace();
-            // bisa redirect ke halaman error atau kembalikan ke form
+           
         }
 
         return "redirect:/report-submissions";
@@ -222,7 +229,6 @@ public class ReportSubmissionController {
 
     // ==========================================
     // 4. EDIT FORM
-    // ==========================================
     @GetMapping("/edit/{id}")
     public String editData(@PathVariable Long id, Model model) {
         ReportSubmissionModel report = reportSubmissionService.getSubmissionById(id)
@@ -231,27 +237,23 @@ public class ReportSubmissionController {
         return "ReportSubmissionView/edit-form";
     }
 
-    // ==========================================
-    // 5. UPDATE ACTION
-    // ==========================================
-    @PutMapping("/{id}") // PERBAIKAN: Tambahkan /{id}
+    // 5. UPDATE ACTION   
+    @PutMapping("/{id}") 
     public String updateData(@PathVariable Long id, @ModelAttribute ReportSubmissionModel report) {
         reportSubmissionService.updateReportSubmission(id, report);
         return "redirect:/report-submissions";
     }
 
-    // ==========================================
     // 6. DELETE ACTION
-    // ==========================================
+  
     @DeleteMapping("/{id}")
     public String deleteData(@PathVariable Long id) {
         reportSubmissionService.deleteReport(id);
         return "redirect:/report-submissions";
     }
 
-    // ==========================================
     // 7. DETAIL VIEW
-    // ==========================================
+ 
     @GetMapping("/{id}")
     public String viewReportDetail(@PathVariable Long id, Model model, Principal principal) {
         ReportSubmissionModel report = reportSubmissionService.getSubmissionById(id)
@@ -261,33 +263,53 @@ public class ReportSubmissionController {
         return "ReportSubmissionView/detail";
     }
 
-    // ==========================================
-    // 8. APPROVE / REJECT (Admin & Guru)
-    // ==========================================
+ 
+    // 8. APPROVE / REJECT
     @PostMapping("/{id}/update-status")
     @PreAuthorize("hasAnyAuthority('ADMINISTRATOR', 'SCHOOL_SUPERVISOR', 'ROLE_ADMINISTRATOR', 'ROLE_SCHOOL_SUPERVISOR')")
     public String updateReportStatus(@PathVariable Long id, 
                                      @RequestParam("status") String statusStr) {
         
-        // 1. Ambil data laporan yang ada
+      
         ReportSubmissionModel report = reportSubmissionService.getSubmissionById(id)
                 .orElseThrow(() -> new RuntimeException("Laporan tidak ditemukan"));
 
         try {
-            // 2. Ubah String dari HTML menjadi Enum
+           
             ReportSubmissionModel.Status newStatus = ReportSubmissionModel.Status.valueOf(statusStr);
-            
-            // 3. Set status baru
             report.setStatus(newStatus);
-            
-            // 4. Simpan perubahan (Gunakan method create/save yang sudah ada di service)
             reportSubmissionService.createSubmission(report); 
             
         } catch (IllegalArgumentException e) {
             System.out.println("Eror: Status " + statusStr + " tidak dikenali.");
         }
-
-        // 5. Kembali ke halaman detail
         return "redirect:/report-submissions/" + id;
+    }
+
+    @GetMapping("/download/{id}")
+    public ResponseEntity<Resource> downloadReport(@PathVariable Long id) throws IOException {
+        ReportSubmissionModel report = reportSubmissionService.getSubmissionById(id).orElseThrow(()-> new RuntimeException("Not found"));
+        Path path = Paths.get(report.getFilePath());
+        Resource resource = new UrlResource(path.toUri());
+
+        String contentType = Files.probeContentType(path);
+        if(contentType == null){
+            contentType = "application/octet-stream";
+        }
+        String oriFileName = report.getFileTitle();
+        String extentsion = "";
+
+        int i = oriFileName.lastIndexOf(".");
+        if (i > 0){
+            extentsion = oriFileName.substring(i);
+        }
+
+        String finalFileName = report.getFileTitle() + extentsion;
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;fileTitle=\"" + finalFileName)
+                .body(resource);
+
     }
 }

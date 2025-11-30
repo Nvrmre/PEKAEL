@@ -374,7 +374,6 @@
                   <svg th:if="${#strings.toString(att.presenceStatus) == 'SICK'}" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                   <svg th:if="${#strings.toString(att.presenceStatus) == 'PERMISION'}" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                   <svg th:if="${#strings.toString(att.presenceStatus) == 'ABSENT'}" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-
                   <span th:text="${#strings.toString(att.presenceStatus) == 'PRESENT' ? 'Hadir' : 
                                   (#strings.toString(att.presenceStatus) == 'SICK' ? 'Sakit' : 
                                   (#strings.toString(att.presenceStatus) == 'PERMISION' ? 'Izin' : 
