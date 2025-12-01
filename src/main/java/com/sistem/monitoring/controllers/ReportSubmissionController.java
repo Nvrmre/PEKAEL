@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -52,11 +50,10 @@ public class ReportSubmissionController {
     private final Path uploadDir = Paths.get("src/main/resources/static/uploads/report-submission/");
 
     public ReportSubmissionController(ReportSubmissionService reportService,
-                                      PlacementService placementService,
-                                      UserService userService,
-                                      SchoolSupervisorService schoolSupervisorService,
-                                      StudentServices studentServices
-                                     ) {
+            PlacementService placementService,
+            UserService userService,
+            SchoolSupervisorService schoolSupervisorService,
+            StudentServices studentServices) {
         this.reportSubmissionService = reportService;
         this.placementService = placementService;
         this.userService = userService;
@@ -76,16 +73,27 @@ public class ReportSubmissionController {
     // ==========================================
     @GetMapping
     public String listReports(Model model, Principal principal) {
-        String username = principal != null ? principal.getName() : null;
-        List<ReportSubmissionModel> reports;
+        if (principal == null) {
+            return "redirect:/login";
+        }
+        String username = principal.getName();
 
-        if (username == null) {
-            // anonymous: redirect ke login atau tampil kosong
+        // ambil user entity untuk cek role
+        UserModel user = userService.findByUsername(username).orElse(null);
+        if (user == null) {
             return "redirect:/login";
         }
 
-        try {
-            // apakah user adalah school supervisor?
+        List<ReportSubmissionModel> reports;
+
+        // jika Admin -> lihat semua
+        if (user.getRole() == UserModel.Role.Administrator) {
+            reports = reportSubmissionService.getAllSubmission(); // pastikan service punya method ini
+            model.addAttribute("isAdmin", true);
+            model.addAttribute("isSupervisor", false);
+            model.addAttribute("currentUserName", username);
+        } else {
+            // cek apakah school supervisor
             var maybeSupervisor = schoolSupervisorService.findByUserUsername(username);
             if (maybeSupervisor.isPresent()) {
                 Long supervisorId = maybeSupervisor.get().getsSupervisorId();
@@ -100,22 +108,20 @@ public class ReportSubmissionController {
                         .distinct()
                         .collect(Collectors.toList());
 
-                // ambil reports untuk student tersebut AND reports yang dibuat oleh user login
+                // ambil reports untuk student tersebut OR yang dibuat oleh user login
                 reports = reportSubmissionService.getByCreatorOrStudents(username, studentIds);
 
-                // set flag di model agar view tahu ini supervisor
                 model.addAttribute("isSupervisor", true);
+                model.addAttribute("isAdmin", false);
                 model.addAttribute("currentUserName", username);
             } else {
-                // bukan supervisor: hanya tampilkan report yang dibuat user itu sendiri
+                // bukan admin dan bukan supervisor -> tampilkan reports yang dibuat user itu
+                // sendiri
                 reports = reportSubmissionService.getByCreatorUsername(username);
                 model.addAttribute("isSupervisor", false);
+                model.addAttribute("isAdmin", false);
                 model.addAttribute("currentUserName", username);
             }
-        } catch (Exception ex) {
-            // fallback: tampilkan hanya milik user
-            reports = reportSubmissionService.getByCreatorUsername(username);
-            model.addAttribute("isSupervisor", false);
         }
 
         model.addAttribute("submission", reports);
@@ -174,13 +180,16 @@ public class ReportSubmissionController {
                 System.out.println("WARNING: studentId param tidak ditemukan: " + studentId);
             }
         } else {
-            // Jika uploader adalah student, set student berdasarkan relasi user -> student (umumnya)
+            // Jika uploader adalah student, set student berdasarkan relasi user -> student
+            // (umumnya)
             if (user.getRole() == UserModel.Role.Student && user.getStudent() != null) {
                 submission.setStudent(user.getStudent());
                 System.out.println("Student di-set dari user.student: " + user.getStudent().getStudentId());
             } else {
-                // kalau bukan student dan tidak ada studentId, submission.student bisa tetap null (admin/manual)
-                System.out.println("Info: uploader bukan student dan tidak mengirim studentId. submission.student mungkin null.");
+                // kalau bukan student dan tidak ada studentId, submission.student bisa tetap
+                // null (admin/manual)
+                System.out.println(
+                        "Info: uploader bukan student dan tidak mengirim studentId. submission.student mungkin null.");
             }
         }
 
@@ -191,16 +200,19 @@ public class ReportSubmissionController {
 
         // Set timestamps
         var now = java.time.LocalDateTime.now();
-        if (submission.getCreatedAt() == null) submission.setCreatedAt(now);
+        if (submission.getCreatedAt() == null)
+            submission.setCreatedAt(now);
         submission.setUpdatedAt(now);
 
         // Upload file jika ada
         if (fileUpload != null && !fileUpload.isEmpty()) {
             System.out.println("Mulai Upload File: " + fileUpload.getOriginalFilename());
-            String filename = System.currentTimeMillis() + "-" + org.springframework.util.StringUtils.cleanPath(fileUpload.getOriginalFilename());
+            String filename = System.currentTimeMillis() + "-"
+                    + org.springframework.util.StringUtils.cleanPath(fileUpload.getOriginalFilename());
             try {
                 java.nio.file.Path dest = uploadDir.resolve(filename).normalize();
-                java.nio.file.Files.copy(fileUpload.getInputStream(), dest, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+                java.nio.file.Files.copy(fileUpload.getInputStream(), dest,
+                        java.nio.file.StandardCopyOption.REPLACE_EXISTING);
 
                 submission.setFilePath("/uploads/report-submission/" + filename);
                 System.out.println("Upload Berhasil. Path: " + submission.getFilePath());
@@ -221,7 +233,7 @@ public class ReportSubmissionController {
         } catch (Exception e) {
             System.out.println("FATAL ERROR SAAT SAVE: " + e.getMessage());
             e.printStackTrace();
-           
+
         }
 
         return "redirect:/report-submissions";
@@ -237,15 +249,15 @@ public class ReportSubmissionController {
         return "ReportSubmissionView/edit-form";
     }
 
-    // 5. UPDATE ACTION   
-    @PutMapping("/{id}") 
+    // 5. UPDATE ACTION
+    @PutMapping("/{id}")
     public String updateData(@PathVariable Long id, @ModelAttribute ReportSubmissionModel report) {
         reportSubmissionService.updateReportSubmission(id, report);
         return "redirect:/report-submissions";
     }
 
     // 6. DELETE ACTION
-  
+
     @DeleteMapping("/{id}")
     public String deleteData(@PathVariable Long id) {
         reportSubmissionService.deleteReport(id);
@@ -253,7 +265,7 @@ public class ReportSubmissionController {
     }
 
     // 7. DETAIL VIEW
- 
+
     @GetMapping("/{id}")
     public String viewReportDetail(@PathVariable Long id, Model model, Principal principal) {
         ReportSubmissionModel report = reportSubmissionService.getSubmissionById(id)
@@ -263,23 +275,21 @@ public class ReportSubmissionController {
         return "ReportSubmissionView/detail";
     }
 
- 
     // 8. APPROVE / REJECT
     @PostMapping("/{id}/update-status")
     @PreAuthorize("hasAnyAuthority('ADMINISTRATOR', 'SCHOOL_SUPERVISOR', 'ROLE_ADMINISTRATOR', 'ROLE_SCHOOL_SUPERVISOR')")
-    public String updateReportStatus(@PathVariable Long id, 
-                                     @RequestParam("status") String statusStr) {
-        
-      
+    public String updateReportStatus(@PathVariable Long id,
+            @RequestParam("status") String statusStr) {
+
         ReportSubmissionModel report = reportSubmissionService.getSubmissionById(id)
                 .orElseThrow(() -> new RuntimeException("Laporan tidak ditemukan"));
 
         try {
-           
+
             ReportSubmissionModel.Status newStatus = ReportSubmissionModel.Status.valueOf(statusStr);
             report.setStatus(newStatus);
-            reportSubmissionService.createSubmission(report); 
-            
+            reportSubmissionService.createSubmission(report);
+
         } catch (IllegalArgumentException e) {
             System.out.println("Eror: Status " + statusStr + " tidak dikenali.");
         }
@@ -288,28 +298,39 @@ public class ReportSubmissionController {
 
     @GetMapping("/download/{id}")
     public ResponseEntity<Resource> downloadReport(@PathVariable Long id) throws IOException {
-        ReportSubmissionModel report = reportSubmissionService.getSubmissionById(id).orElseThrow(()-> new RuntimeException("Not found"));
-        Path path = Paths.get(report.getFilePath());
-        Resource resource = new UrlResource(path.toUri());
+        ReportSubmissionModel report = reportSubmissionService.getSubmissionById(id)
+                .orElseThrow(() -> new RuntimeException("Not found"));
 
-        String contentType = Files.probeContentType(path);
-        if(contentType == null){
+        if (report.getFilePath() == null) {
+            throw new RuntimeException("File path kosong");
+        }
+
+        // filePath yang Anda simpan biasanya "/uploads/report-submission/filename.ext"
+        // — kita resolve ke uploadDir
+        String storedPath = report.getFilePath();
+        // jika filePath menyertakan leading slash, ambil nama filenya:
+        Path fileOnDisk = uploadDir.resolve(Paths.get(storedPath).getFileName().toString()).normalize();
+
+        if (!Files.exists(fileOnDisk) || !Files.isReadable(fileOnDisk)) {
+            throw new RuntimeException("File tidak ditemukan atau tidak dapat diakses: " + fileOnDisk);
+        }
+
+        Resource resource = new UrlResource(fileOnDisk.toUri());
+        String contentType = Files.probeContentType(fileOnDisk);
+        if (contentType == null)
             contentType = "application/octet-stream";
-        }
-        String oriFileName = report.getFileTitle();
-        String extentsion = "";
 
-        int i = oriFileName.lastIndexOf(".");
-        if (i > 0){
-            extentsion = oriFileName.substring(i);
-        }
+        // gunakan fileTitle jika ada, fallback ke nama file di disk
+        String originalTitle = report.getFileTitle();
+        String diskName = fileOnDisk.getFileName().toString();
+        String finalFileName = (originalTitle != null && !originalTitle.isBlank()) ? originalTitle : diskName;
 
-        String finalFileName = report.getFileTitle() + extentsion;
-
+        // pastikan header Content-Disposition benar (attachment; filename="...") dan
+        // di-escape jika perlu
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;fileTitle=\"" + finalFileName)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + finalFileName + "\"")
                 .body(resource);
-
     }
+
 }

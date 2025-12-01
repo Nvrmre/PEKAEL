@@ -64,6 +64,7 @@ public class UserModel {
     @Column(columnDefinition = "text")
     private String adminNotes;
 
+
     @Column
     private Boolean adminActive;
 
@@ -221,5 +222,11 @@ public class UserModel {
         Administrator,
         Student
 
+    }
+    public enum Permission{
+        USERS_MANAGE,
+        PLACEMENTS_MANAGE,
+        REPORTS_VIEW,
+        SETTINGS_MANAGE
     }
 }

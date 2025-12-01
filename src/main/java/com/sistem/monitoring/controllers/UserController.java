@@ -1,8 +1,13 @@
 package com.sistem.monitoring.controllers;
 
+import com.sistem.monitoring.models.CompanyModel;
 import com.sistem.monitoring.models.UserModel;
+import com.sistem.monitoring.services.CompanyService;
 import com.sistem.monitoring.services.CompanySupervisorService;
 import com.sistem.monitoring.services.UserService;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,6 +25,9 @@ public class UserController {
 
     @Autowired
     private CompanySupervisorService companySupervisorService;
+
+    @Autowired
+    private CompanyService companyService;
 
     // ==========================================
     // 1. LIST USER (Hanya Administrator)
@@ -54,8 +62,10 @@ public class UserController {
     @PreAuthorize("hasAuthority('Administrator','ADMINISTRATOR')")
     @GetMapping("/create")
     public String showCreateForm(Model model){
+        List<CompanyModel> companies = companyService.getAllCompanyData();
         model.addAttribute("user", new UserModel());
         model.addAttribute("cspv", companySupervisorService.getCompanySupervisor());
+        model.addAttribute("companies", companies);
         return "UserView/create-form";
     }
 
@@ -103,12 +113,14 @@ public class UserController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/edit/{id}")
     public String editUser(@PathVariable Long id, Model model, Authentication authentication){
+        List<CompanyModel> companies = companyService.getAllCompanyData();
         UserModel user = userService.getUserById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (isAdministrator(authentication) || isOwner(authentication, user)) {
             model.addAttribute("user", user);
             model.addAttribute("roles", UserModel.Role.values());
+            model.addAttribute("companies", companies);
             return "UserView/edit-form";
         } else {
             throw new AccessDeniedException("Anda tidak berhak mengedit user ini.");

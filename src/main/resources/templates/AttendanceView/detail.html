@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Detail Absensi - Sistem Monitoring</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --navy:#0b2340;        /* primary nav color */
+      --muted:#64748b;
+      --cream:#f2ece3;       /* background / light */
+      --border:#e2e8f0;
+      --white:#ffffff;
+      --accent:#b78b4a;      /* accent (reject) */
+
+      --status-hadir-bg:#dcfce7; --status-hadir-text:#166534;
+      --status-sakit-bg:#e0f2fe;  --status-sakit-text:#075985;
+      --status-izin-bg:#fef9c3;   --status-izin-text:#854d0e;
+      --status-alpha-bg:#fee2e2;  --status-alpha-text:#991b1b;
+    }
+
+    html,body{height:100%}
+    body{
+      font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial;
+      background:var(--cream);
+      color:var(--navy);
+      font-size:0.95rem;
+      -webkit-font-smoothing:antialiased;
+      margin:0;
+      padding:0;
+    }
+
+    .container-main{ max-width:1100px; margin:1.25rem auto; padding:0 1rem; }
+
+    .card {
+      background:var(--white);
+      border-radius:12px;
+      overflow:hidden;
+      box-shadow:0 10px 30px rgba(11,35,64,0.06);
+      border:1px solid rgba(11,35,64,0.04);
+    }
+
+    .card-header {
+      padding:1rem 1.25rem;
+      border-bottom:1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:.75rem;
+    }
+    .card-header h3 { margin:0; font-weight:700; font-size:1.15rem; }
+    .card-header .sub { color:var(--muted); font-size:.9rem; margin-top:6px; }
+
+    .meta { display:flex; gap:1.2rem; padding:1.25rem; flex-wrap:wrap; align-items:flex-start; }
+
+    .img-wrap { flex: 0 0 360px; }
+    .img-preview {
+      width:100%;
+      height:360px;
+      object-fit:cover;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:#fff;
+      display:block;
+      cursor:pointer;
+    }
+    .img-empty {
+      width:100%;
+      height:360px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#fafafa;
+      border-radius:10px;
+      border:1px solid var(--border);
+      color:var(--muted);
+      font-weight:600;
+    }
+
+    .info-col { flex:1 1 520px; min-width:260px; }
+    .info-grid { display:flex; gap:1rem; flex-wrap:wrap; }
+    .info-left { min-width:240px; flex:0 0 240px; }
+    .info-right { flex:1 1 300px; min-width:220px; }
+
+    .field { display:flex; gap:.6rem; align-items:center; margin-bottom:.6rem; }
+    .label { min-width:120px; color:var(--muted); font-weight:600; font-size:.9rem; }
+    .value { font-weight:700; color:var(--navy); }
+
+    .status-pill { display:inline-flex; align-items:center; padding:.35rem .8rem; border-radius:999px; font-weight:700; text-transform:uppercase; font-size:0.82rem; letter-spacing:0.6px; }
+    .status-PRESENT{ background:var(--status-hadir-bg); color:var(--status-hadir-text); }
+    .status-SICK{ background:var(--status-sakit-bg); color:var(--status-sakit-text); }
+    .status-PERMISION{ background:var(--status-izin-bg); color:var(--status-izin-text); }
+    .status-ABSENT{ background:var(--status-alpha-bg); color:var(--status-alpha-text); }
+    .status-DEFAULT{ background:#f1f5f9; color:var(--muted); }
+
+    .company-card { background:#fbfbff; border:1px solid var(--border); padding:.9rem; border-radius:8px; }
+    .company-name { font-weight:700; color:var(--navy); font-size:1rem; }
+    .company-meta { color:var(--muted); font-size:0.92rem; margin-top:6px; }
+
+    .notes { margin-top:.75rem; background:#fffefc; border:1px solid var(--border); padding:.85rem; border-radius:8px; }
+    .notes .title { color:var(--muted); font-weight:700; margin-bottom:.35rem; }
+
+    .actions { padding:1rem 1.25rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; gap:.5rem; align-items:center; flex-wrap:wrap; }
+
+    .btn-ghost {
+      background:transparent;
+      border:1px solid var(--navy);
+      color:var(--navy);
+      padding:.45rem .85rem;
+      border-radius:8px;
+      font-weight:600;
+      display:inline-flex;
+      gap:.5rem;
+      align-items:center;
+      text-decoration:none;
+    }
+    .btn-ghost:hover { background:rgba(11,35,64,0.03); }
+
+    .btn-approve {
+      background:var(--navy);
+      color:var(--cream);
+      border:none;
+      padding:.55rem 1rem;
+      border-radius:8px;
+      font-weight:700;
+      box-shadow:0 6px 18px rgba(11,35,64,0.06);
+      display:inline-flex;
+      gap:.5rem;
+      align-items:center;
+      text-decoration:none;
+    }
+    .btn-approve:hover { transform:translateY(-1px); }
+
+    .btn-reject {
+      background:var(--accent);
+      color:var(--white);
+      border:none;
+      padding:.55rem 1rem;
+      border-radius:8px;
+      font-weight:700;
+      box-shadow:0 6px 18px rgba(11,35,64,0.04);
+      display:inline-flex;
+      gap:.5rem;
+      align-items:center;
+      text-decoration:none;
+    }
+    .btn-reject:hover { transform:translateY(-1px); }
+
+    .small-muted { color:var(--muted); font-size:0.9rem; }
+
+    /* PHOTO ACTION BUTTONS (navy/cream look) */
+    .photo-actions { display:flex; gap:.6rem; flex-wrap:wrap; margin-top:.6rem; }
+    .btn-photo {
+      padding:.55rem 1rem;
+      border-radius:8px;
+      font-weight:600;
+      font-size:.92rem;
+      display:inline-flex;
+      align-items:center;
+      gap:.5rem;
+      text-decoration:none;
+      transition:.18s ease;
+      box-shadow:0 3px 10px rgba(0,0,0,0.04);
+      border:1px solid var(--navy);
+      background:var(--cream);
+      color:var(--navy);
+    }
+    .btn-photo svg { width:18px; height:18px; fill:none; stroke:var(--navy); stroke-width:1.6; }
+    .btn-photo:hover {
+      background:var(--navy);
+      color:var(--cream);
+      transform:translateY(-2px);
+      box-shadow:0 8px 24px rgba(11,35,64,0.12);
+    }
+    .btn-photo.btn-download svg { stroke:var(--navy); }
+    .btn-photo.btn-download:hover svg { stroke:var(--cream); }
+
+    @media (max-width: 980px){
+      .img-wrap { flex-basis:280px; }
+      .img-preview, .img-empty { height:280px; }
+      .info-left { min-width:200px; flex-basis:200px; }
+    }
+
+    @media (max-width: 700px) {
+      .meta { padding:1rem; gap:1rem; flex-direction:column; align-items:stretch; }
+      .img-wrap { width:100%; flex-basis:auto; order:0; }
+      .img-preview, .img-empty { width:100%; height:auto; aspect-ratio:1/1; }
+      .info-col { order:1; }
+      .info-grid { flex-direction:column; }
+      .info-left { min-width:100%; flex-basis:auto; }
+      .info-right { min-width:100%; flex-basis:auto; }
+      .label { min-width:100px; font-size:.88rem; }
+      .card-header { flex-direction:column; align-items:flex-start; gap:.5rem; }
+      .actions { padding:1rem; }
+      .btn-approve, .btn-reject { width:100%; justify-content:center; }
+      .btn-ghost { width:auto; }
+      .photo-actions { flex-direction:column; }
+      .btn-photo { width:100%; justify-content:center; }
+    }
+
+    @media (max-width:420px){
+      .label { min-width:90px; font-size:.86rem; }
+      .card { border-radius:10px; }
+    }
+  </style>
+</head>
+<body>
+  <div th:replace="~{layouts/fragments/navbar :: topbar}"></div>
+  <div th:replace="~{layouts/fragments/sidebar :: sidebar}"></div>
+
+  <main class="container-main">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h3>Detail Absensi</h3>
+          <div class="sub">
+            <span th:text="${attend.placement?.student?.user?.username ?: (attend.student != null ? attend.student.user.username : '-')}">Nama Siswa</span>
+            &nbsp;·&nbsp;
+            <span th:text="${attend.placement?.company?.companyName ?: (attend.placement?.placementId ?: '-')}">Unit</span>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:.5rem;align-items:center;">
+          <a th:href="@{/attendances}" class="btn-ghost" aria-label="Kembali">
+            <!-- icon: chevron-left -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            Kembali
+          </a>
+
+          <a th:href="@{'/attendances/edit/' + ${attend.attendId}}" class="btn-ghost" th:if="${isAdmin == true}" aria-label="Edit">
+            <!-- icon: edit -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
+            Edit
+          </a>
+        </div>
+      </div>
+
+      <div class="meta">
+        <!-- IMAGE -->
+        <div class="img-wrap">
+          <div th:if="${attend.checkInPhotoUrl != null and attend.checkInPhotoUrl != ''}">
+            <img th:src="@{${attend.checkInPhotoUrl}}"
+                 alt="Foto Check-in"
+                 class="img-preview"
+                 id="imgCheckIn"
+                 th:attr="data-full=@{${attend.checkInPhotoUrl}}"/>
+          </div>
+          <div th:unless="${attend.checkInPhotoUrl != null and attend.checkInPhotoUrl != ''}" class="img-empty">Tidak ada foto</div>
+
+          <!-- PHOTO ACTION BUTTONS (SVG icons) -->
+          <div class="photo-actions">
+            <a th:if="${attend.checkInPhotoUrl != null and attend.checkInPhotoUrl != ''}"
+               th:href="@{${attend.checkInPhotoUrl}}"
+               target="_blank"
+               class="btn-photo"
+               aria-label="Lihat foto"
+               title="Lihat foto">
+              <!-- icon: magnifying glass -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.6" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M21 21l-4.35-4.35"/></svg>
+              <span>Lihat Foto</span>
+            </a>
+
+            <a th:if="${attend.checkInPhotoUrl != null and attend.checkInPhotoUrl != ''}"
+               th:href="@{${attend.checkInPhotoUrl}}"
+               download
+               class="btn-photo btn-download"
+               aria-label="Unduh foto"
+               title="Unduh foto">
+              <!-- icon: download -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.6" fill="none" stroke="currentColor" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span>Unduh</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- INFO -->
+        <div class="info-col">
+          <div class="info-grid">
+            <div class="info-left">
+              <div class="field"><div class="label">Nama</div><div class="value" th:text="${attend.placement?.student?.user?.username ?: (attend.student != null ? attend.student.user.username : '-')}">John Doe</div></div>
+              <div class="field"><div class="label">Tanggal</div><div class="value" th:text="${attend.date != null ? #temporals.format(attend.date,'dd MMMM yyyy') : '-'}">01 November 2025</div></div>
+              <div class="field"><div class="label">Check-in</div><div class="value" th:text="${attend.checkInTime != null ? #temporals.format(attend.checkInTime,'HH:mm:ss') : '-'}">07:45:12</div></div>
+              <div class="field"><div class="label">Check-out</div><div class="value" th:text="${attend.checkOutTime != null ? #temporals.format(attend.checkOutTime,'HH:mm:ss') : '-'}">-</div></div>
+
+              <div class="field" style="align-items:flex-start;">
+                <div class="label">Status</div>
+                <div>
+                  <span class="status-pill"
+                        th:classappend="${attend.presenceStatus != null} ? ' status-' + ${#strings.toString(attend.presenceStatus)} : ' status-DEFAULT'">
+                    <span th:text="${#strings.toString(attend.presenceStatus) == 'PRESENT' ? 'Hadir' :
+                                    (#strings.toString(attend.presenceStatus) == 'SICK' ? 'Sakit' :
+                                    (#strings.toString(attend.presenceStatus) == 'PERMISION' ? 'Izin' :
+                                    (#strings.toString(attend.presenceStatus) == 'ABSENT' ? 'Alpha' : (attend.presenceStatus ?: '-'))))}">STATUS</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-right">
+              <div class="company-card">
+                <div class="company-name" th:text="${attend.placement?.company?.companyName ?: '-'}">Nama Perusahaan</div>
+                <div class="company-meta" th:if="${attend.placement?.company != null}">
+                  <div th:if="${attend.placement.company.companyAddress != null}">Alamat: <span th:text="${attend.placement.company.companyAddress}">Alamat</span></div>
+                  <div th:if="${attend.placement.company.contactPerson != null}">Kontak: <span th:text="${attend.placement.company.contactPerson}">Nama</span></div>
+                  <div th:if="${attend.placement.company.companyPhone != null}">Tel: <span th:text="${attend.placement.company.companyPhone}">0812xxx</span></div>
+                </div>
+              </div>
+
+              <div class="notes">
+                <div class="title">Catatan</div>
+                <div th:text="${attend.notes ?: '-'}" style="white-space:pre-wrap;color:var(--navy);">Tidak ada catatan.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Approve / Reject (Admin/Supervisor) -->
+      <div style="padding:0 1.25rem 1rem 1.25rem;">
+        <div th:if="${isAdmin == true or isSupervisor == true}" style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;">
+          <form th:action="@{/attendances/{id}/approve(id=${attend.attendId})}" method="post" th:if="${#strings.toString(attend.presenceStatus) != 'PRESENT'}" style="display:inline-block;margin:0;">
+            <button type="submit" class="btn-approve" onclick="return confirm('Setujui kehadiran ini menjadi HADIR?')" aria-label="Approve">
+              <!-- icon: check -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              Approve (Hadir)
+            </button>
+          </form>
+
+          <form th:action="@{/attendances/{id}/reject(id=${attend.attendId})}" method="post" th:if="${#strings.toString(attend.presenceStatus) != 'ABSENT'}" style="display:inline-block;margin:0;">
+            <button type="submit" class="btn-reject" onclick="return confirm('Tolak absensi ini dan set sebagai ALPHA?')" aria-label="Reject">
+              <!-- icon: x -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Reject (Alpha)
+            </button>
+          </form>
+
+          <div style="margin-left:auto;">
+            <small class="small-muted">Note: tindakan ini akan mengganti status absensi siswa.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <div class="small-muted">Dibuat oleh: <span th:text="${attend.createdBy != null ? attend.createdBy.username : '-'}">Admin</span></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal fullscreen preview -->
+  <div id="imgModal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,0.85);align-items:center;justify-content:center;z-index:1200;" onclick="closeImgModal()">
+    <img id="imgModalImg" src="" style="max-width:96%;max-height:96%;border-radius:8px;box-shadow:0 12px 40px rgba(0,0,0,0.6)"/>
+  </div>
+
+  <script>
+    function openImgModal(src){
+      var m = document.getElementById('imgModal');
+      var i = document.getElementById('imgModalImg');
+      i.src = src;
+      m.style.display = 'flex';
+    }
+    function closeImgModal(){
+      var m = document.getElementById('imgModal');
+      m.style.display = 'none';
+    }
+
+    document.addEventListener('DOMContentLoaded', function(){
+      var cIn = document.getElementById('imgCheckIn');
+      if(cIn){
+        cIn.addEventListener('click', function(e){
+          var src = this.getAttribute('data-full') || this.src;
+          openImgModal(src);
+        });
+      }
+      document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeImgModal(); });
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

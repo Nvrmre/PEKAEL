@@ -87,8 +87,6 @@ public class HomeController {
         if (principal != null) {
             String username = principal.getName();
             model.addAttribute("username", username);
-
-            // 2. Cari User Login
             UserModel user = userService.getAllUser().stream()
                     .filter(u -> u.getUsername().equals(username))
                     .findFirst().orElse(null);
@@ -98,12 +96,6 @@ public class HomeController {
 
                 // Hitung Data Statistik Siswa
                 studentReportTotal = reportSubmissionService.countReportsByStudentId(studentId);
-                // Pastikan service ini ada:
-                // studentAttendanceTotal =
-                // attendanceService.countAttendanceByStudentId(studentId);
-
-                // --- LOGIKA TANGGAL PLACEMENT (BARU) ---
-                // Cari placement siswa
                 var myPlacement = placementService.getPlacementByStudentId(studentId).orElse(null);
 
                 if (myPlacement != null) {

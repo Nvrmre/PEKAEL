@@ -293,6 +293,21 @@
             </div>
           </div>
 
+          <!-- Student Full Name (ADDED) -->
+          <div class="col-12 col-md-6">
+            <label class="form-label">Nama Lengkap Siswa</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white input-icon" aria-hidden="true">
+                <!-- user icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a8.25 8.25 0 0115 0" />
+                </svg>
+              </span>
+              <input type="text" name="studentFullName" class="form-control" placeholder="Masukkan nama lengkap siswa" />
+            </div>
+          </div>
+
           <!-- Phone Number -->
           <div class="col-12 col-md-6">
             <label class="form-label">Nomor HP</label>
@@ -353,102 +368,6 @@
               <input type="text" name="studentClass" class="form-control" placeholder="Masukkan kelas / tingkat" />
             </div>
           </div>
-
-          <!-- ===== Placement Fields ===== -->
-          <!-- <div class="col-12">
-            <hr />
-            <div class="section-head" style="margin-bottom:0.6rem;"> -->
-              <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6"
-                aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M3 7h18M8 7v4m8-4v4M6 21h12a1 1 0 001-1V8H5v12a1 1 0 001 1z" />
-              </svg>
-              Informasi PKL
-            </div>
-          </div> -->
-
-          <!-- Placement: Company -->
-          <!-- <div class="col-12 col-md-6">
-            <label class="form-label">Perusahaan Penempatan</label>
-            <div class="input-group">
-              <span class="input-group-text bg-white input-icon" aria-hidden="true">
-               
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M3 21h18M9 8h6m-6 4h6M4 21V7a1 1 0 011-1h14a1 1 0 011 1v14" />
-                </svg>
-              </span>
-             
-              <select name="studentPlacementCompanyId" class="form-select">
-                <option value="">-- Pilih Perusahaan --</option>
-              
-              </select>
-            </div>
-          </div> -->
-
-          <!-- Placement: Location -->
-          <!-- <div class="col-12 col-md-6">
-            <label class="form-label">Lokasi Penempatan</label>
-            <div class="input-group">
-              <span class="input-group-text bg-white input-icon" aria-hidden="true"> -->
-                <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M12 21s8-4.5 8-10a8 8 0 10-16 0c0 5.5 8 10 8 10z" />
-                  <circle cx="12" cy="11" r="2.5" />
-                </svg>
-              </span>
-              <input type="text" name="studentPlacementLocation" class="form-control"
-                placeholder="Contoh: Jakarta / Surabaya / Remote" />
-            </div>
-          </div> -->
-
-          <!-- Placement: Start Date -->
-          <!-- <div class="col-12 col-md-6">
-            <label class="form-label">Tanggal Mulai Penempatan</label>
-            <div class="input-group">
-              <span class="input-group-text bg-white input-icon" aria-hidden="true"> -->
-                <!-- Calendar Icon -->
-                <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v11a2 2 0 002 2z" />
-                </svg>
-              </span>
-              <input type="date" name="studentPlacementStart" class="form-control" />
-            </div>
-          </div> -->
-
-          <!-- Placement: End Date -->
-          <!-- <div class="col-12 col-md-6">
-            <label class="form-label">Tanggal Selesai Penempatan</label>
-            <div class="input-group">
-              <span class="input-group-text bg-white input-icon" aria-hidden="true"> -->
-                <!-- Calendar Check Icon -->
-                <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V7" />
-                </svg>
-              </span>
-              <input type="date" name="studentPlacementEnd" class="form-control" />
-            </div>
-          </div> -->
-
-          <!-- Placement: Company Supervisor -->
-          <!-- <div class="col-12 col-md-6">
-            <label class="form-label">Pembimbing Perusahaan</label>
-            <div class="input-group">
-              <span class="input-group-text bg-white input-icon" aria-hidden="true">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 14v7" />
-                </svg>
-              </span>
-              <select name="studentPlacementSupervisorId" class="form-select">
-                <option value="">-- Pilih Pembimbing --</option> 
-
-              </select>
-            </div>
-          </div> -->
-
         </div>
       </div>
 
@@ -479,6 +398,22 @@
             </div>
           </div>
 
+          <!-- Company Supervisor Full Name (ADDED) -->
+          <div class="col-12 col-md-6">
+            <label class="form-label">Nama Pembimbing (Perusahaan)</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white input-icon" aria-hidden="true">
+                <!-- user icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a8.25 8.25 0 0115 0" />
+                </svg>
+              </span>
+              <input type="text" name="companySupervisorFullName" class="form-control"
+                     placeholder="Masukkan nama pembimbing perusahaan" />
+            </div>
+          </div>
+
           <!-- Address -->
           <div class="col-12 col-md-6">
             <label class="form-label">Alamat</label>
@@ -497,8 +432,9 @@
           </div>
 
           <!-- Company Name -->
+          <!-- === Pilih Perusahaan (Company) === -->
           <div class="col-12 col-md-6">
-            <label class="form-label">Nama Perusahaan</label>
+            <label class="form-label">Perusahaan</label>
             <div class="input-group">
               <span class="input-group-text bg-white input-icon" aria-hidden="true">
                 <!-- Building Icon -->
@@ -507,7 +443,42 @@
                     d="M3 21h18M9 8h6m-6 4h6M4 21V7a1 1 0 011-1h14a1 1 0 011 1v14" />
                 </svg>
               </span>
-              <input type="text" name="company" class="form-control" placeholder="Masukkan nama perusahaan" />
+
+              <select id="companySelect" name="companyId" class="form-select">
+                <option value="">-- Pilih Perusahaan --</option>
+                <option th:each="c : ${companies}" th:value="${c.companyId}" th:text="${c.companyName}"
+                  th:attr="data-address=${c.companyAddress}, data-industry=${c.companyIndustry}">
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Lokasi Perusahaan (akan diisi otomatis saat select berubah) -->
+          <div class="col-12 col-md-6">
+            <label class="form-label">Lokasi Perusahaan</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white input-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9 20l-5.447-2.724A2 2 0 013 15.382V5a2 2 0 012-2h14a2 2 0 012 2v10.382a2 2 0 01-.553 1.894L15 20V9l-6 3v8z" />
+                </svg>
+              </span>
+              <input type="text" id="companyLocation" name="companyLocation" class="form-control"
+                placeholder="Masukkan lokasi perusahaan" />
+            </div>
+          </div>
+
+          <!-- Bidang Industri -->
+          <div class="col-12 col-md-6">
+            <label class="form-label">Bidang Industri</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white input-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 7h2l3 9h8l3-9h2M5 7l2 6h10l2-6M4 21h16" />
+                </svg>
+              </span>
+              <input type="text" id="companyIndustry" name="companyIndustry" class="form-control"
+                placeholder="Contoh: Teknologi, Manufaktur, Finansial" />
             </div>
           </div>
 
@@ -526,35 +497,6 @@
             </div>
           </div>
 
-          <!-- Company Location -->
-          <div class="col-12 col-md-6">
-            <label class="form-label">Lokasi Perusahaan</label>
-            <div class="input-group">
-              <span class="input-group-text bg-white input-icon" aria-hidden="true">
-                <!-- Map Icon -->
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M9 20l-5.447-2.724A2 2 0 013 15.382V5a2 2 0 012-2h14a2 2 0 012 2v10.382a2 2 0 01-.553 1.894L15 20V9l-6 3v8z" />
-                </svg>
-              </span>
-              <input type="text" name="companyLocation" class="form-control" placeholder="Masukkan lokasi perusahaan" />
-            </div>
-          </div>
-
-          <!-- Industry Field -->
-          <div class="col-12 col-md-6">
-            <label class="form-label">Bidang Industri</label>
-            <div class="input-group">
-              <span class="input-group-text bg-white input-icon" aria-hidden="true">
-                <!-- Factory / Gear Icon -->
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 7h2l3 9h8l3-9h2M5 7l2 6h10l2-6M4 21h16" />
-                </svg>
-              </span>
-              <input type="text" name="companyIndustry" class="form-control"
-                placeholder="Contoh: Teknologi, Manufaktur, Finansial" />
-            </div>
-          </div>
         </div>
       </div>
 
@@ -571,6 +513,22 @@
         </div>
 
         <div class="row g-3">
+
+          <!-- School Supervisor Full Name (ADDED) -->
+          <div class="col-12 col-md-6">
+            <label class="form-label">Nama Pembimbing (Sekolah)</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white input-icon" aria-hidden="true">
+                <!-- user icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a8.25 8.25 0 0115 0" />
+                </svg>
+              </span>
+              <input type="text" name="schoolSupervisorFullName" class="form-control"
+                     placeholder="Masukkan nama pembimbing sekolah" />
+            </div>
+          </div>
 
           <!-- Phone Number -->
           <div class="col-12 col-md-6">
@@ -682,6 +640,21 @@
         </div>
 
         <div class="row g-3">
+          <!-- Admin Full Name (ADDED) -->
+          <div class="col-12 col-md-6">
+            <label class="form-label">Nama Lengkap Admin</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white input-icon" aria-hidden="true">
+                <!-- user icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a8.25 8.25 0 0115 0" />
+                </svg>
+              </span>
+              <input type="text" name="adminFullName" class="form-control" placeholder="Nama lengkap admin" />
+            </div>
+          </div>
+
           <!-- Phone -->
           <div class="col-12 col-md-6">
             <label class="form-label">Nomor HP</label>
@@ -820,6 +793,77 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const companySelect = document.getElementById('companySelect');
+    const companyLocation = document.getElementById('companyLocation');
+    const companyIndustry = document.getElementById('companyIndustry');
+    const supervisorSelect = document.getElementById('companySupervisorSelect');
+
+    function clearCompanyFields() {
+      if (companyLocation) companyLocation.value = '';
+      if (companyIndustry) companyIndustry.value = '';
+    }
+
+    function filterSupervisorsForCompany(companyId) {
+      if (!supervisorSelect) return;
+      // tampilkan/hidden option sesuai data-company-id
+      for (let i=0; i<supervisorSelect.options.length; i++) {
+        const opt = supervisorSelect.options[i];
+        const optCompany = opt.getAttribute('data-company-id') || '';
+        // keep the placeholder (empty value)
+        if (!opt.value) {
+          opt.style.display = '';
+          continue;
+        }
+        if (!companyId) {
+          // saat tidak ada perusahaan terpilih: sembunyikan semua pembimbing (atau tampilkan semua sesuai kebutuhan)
+          opt.style.display = 'none';
+        } else {
+          opt.style.display = (optCompany === companyId.toString()) ? '' : 'none';
+        }
+      }
+      // jika pilihan saat ini tidak sesuai filter, reset ke value kosong
+      if (supervisorSelect.value) {
+        const sel = supervisorSelect.options[supervisorSelect.selectedIndex];
+        if (sel && sel.style.display === 'none') {
+          supervisorSelect.value = '';
+        }
+      }
+    }
+
+    if (companySelect) {
+      companySelect.addEventListener('change', function () {
+        const selected = companySelect.options[companySelect.selectedIndex];
+        if (!selected || !selected.value) {
+          clearCompanyFields();
+          filterSupervisorsForCompany(null);
+          return;
+        }
+
+        const location = selected.getAttribute('data-address') || '';
+        const industry = selected.getAttribute('data-industry') || '';
+
+        if (companyLocation) companyLocation.value = location;
+        if (companyIndustry) companyIndustry.value = industry;
+
+        filterSupervisorsForCompany(selected.value);
+      });
+
+      // inisialisasi awal (jika form di-open dengan nilai terpilih mis. edit)
+      const evt = new Event('change');
+      companySelect.dispatchEvent(evt);
+    } else {
+      // jika tidak ada companySelect, pastikan semua supervisor terlihat
+      if (supervisorSelect) {
+        for (let i=0; i<supervisorSelect.options.length; i++) {
+          supervisorSelect.options[i].style.display = '';
+        }
+      }
+    }
+  });
+</script>
+
 </body>
 
 </html>

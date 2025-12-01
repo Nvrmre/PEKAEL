@@ -336,8 +336,8 @@
             <h6 th:text="${report.student?.user?.username ?: 'Nama Siswa Tidak Ditemukan'}">Username Siswa</h6>
 
             <small>
-              NISN / NIM: <span th:text="${report.student?.studentNumber ?: '-'}">12345</span> •
-              Kelas / Semester: <span th:text="${report.student?.studentClass ?: '-'}">XII RPL</span>
+              NISN  : <span th:text="${report.student?.studentNumber ?: '-'}">12345</span> •
+              Kelas : <span th:text="${report.student?.studentClass ?: '-'}">XII RPL</span>
             </small>
           </div>
         </div>
@@ -367,17 +367,17 @@
                 <small class="text-muted">Klik tombol untuk mengunduh</small>
               </div>
             </div>
-            <a th:href="@{/download/{id}(id=${report-submissions.submissionId})}" target="_blank" class="btn btn-sm btn-primary"
+            <a th:href="@{/report-submissions/download/{id}(id=${report.submissionId})}"
+              th:if="${report.filePath != null}" target="_blank" class="btn btn-sm btn-primary"
               style="background:var(--navy); border:none;">
-
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor" stroke-width="2" class="me-1">
                 <path stroke-linecap="round" stroke-linejoin="round"
                   d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
               </svg>
-
               Download / Lihat
             </a>
+
           </div>
 
           <div class="card p-3 mb-4 border-0 bg-light mt-4" style="border-left: 4px solid #0b2340 !important;"

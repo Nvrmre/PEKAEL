@@ -97,8 +97,8 @@ public class AttendanceController {
                 isSupervisor = true;
                 SchoolSupervisorModel supervisor = maybeSupervisor.get();
 
-                List<PlacementModel> placements =
-                        placementService.getBySchoolSupervisorId(supervisor.getsSupervisorId());
+                List<PlacementModel> placements = placementService
+                        .getBySchoolSupervisorId(supervisor.getsSupervisorId());
 
                 List<Long> studentIds = placements.stream()
                         .map(p -> p.getStudent() != null ? p.getStudent().getStudentId() : null)
@@ -117,7 +117,7 @@ public class AttendanceController {
         }
 
         // set model attributes consistent with template
-        model.addAttribute("attend", attendances);         // <- template expects ${attend}
+        model.addAttribute("attend", attendances); // <- template expects ${attend}
         model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("isSupervisor", isSupervisor);
         model.addAttribute("isStudent", isStudent);
@@ -125,7 +125,6 @@ public class AttendanceController {
 
         return "AttendanceView/index";
     }
-
 
     // ===========================================================
     // 2. FORM CREATE (AUTO SET PLACEMENT UNTUK STUDENT)
@@ -165,8 +164,8 @@ public class AttendanceController {
     // ===========================================================
     @PostMapping
     public String saveData(@ModelAttribute AttendanceModel attend,
-                        @RequestParam("checkInPhoto") MultipartFile file,
-                        Principal principal) {
+            @RequestParam("checkInPhoto") MultipartFile file,
+            Principal principal) {
 
         // --- pastikan user login ---
         if (principal == null) {
@@ -192,7 +191,8 @@ public class AttendanceController {
                         StringUtils.cleanPath(file.getOriginalFilename());
 
                 Path uploadPath = Paths.get(UPLOAD_DIR);
-                if (!Files.exists(uploadPath)) Files.createDirectories(uploadPath);
+                if (!Files.exists(uploadPath))
+                    Files.createDirectories(uploadPath);
                 Path filePath = uploadPath.resolve(fileName);
                 Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
@@ -206,8 +206,10 @@ public class AttendanceController {
         attend.setCreatedBy(user);
 
         // --- set placement & student ---
-        // Kasus ideal: jika form sudah mengirim placement (attend.getPlacement() terisi), gunakan itu.
-        // Jika tidak (student mengirim dari form create yang di-prefill), kita dapat cari placement berdasarkan student dari user yang login.
+        // Kasus ideal: jika form sudah mengirim placement (attend.getPlacement()
+        // terisi), gunakan itu.
+        // Jika tidak (student mengirim dari form create yang di-prefill), kita dapat
+        // cari placement berdasarkan student dari user yang login.
         if (attend.getPlacement() == null || attend.getPlacement().getPlacementId() == null) {
             // jika pembuat adalah student, otomatis ambil placement miliknya
             if (user.getRole() == UserModel.Role.Student && user.getStudent() != null) {
@@ -219,7 +221,8 @@ public class AttendanceController {
                 }
             }
         } else {
-            // jika ada placement terisi (misal admin memilih placement di form), pastikan juga set student dari placement
+            // jika ada placement terisi (misal admin memilih placement di form), pastikan
+            // juga set student dari placement
             PlacementModel p = placementService.getPlacementById(attend.getPlacement().getPlacementId())
                     .orElse(null);
             if (p != null) {
@@ -228,7 +231,8 @@ public class AttendanceController {
             }
         }
 
-        // fallback: jika masih belum ada student, coba gunakan createdBy jika itu student
+        // fallback: jika masih belum ada student, coba gunakan createdBy jika itu
+        // student
         if (attend.getStudent() == null && user.getRole() == UserModel.Role.Student && user.getStudent() != null) {
             attend.setStudent(user.getStudent());
         }
@@ -261,6 +265,157 @@ public class AttendanceController {
     public String updateData(@PathVariable Long id, @ModelAttribute AttendanceModel attend) {
         attendanceService.updateAttendance(id, attend);
         return "redirect:/attendances";
+    }
+
+    // DETAIL VIEW — GET /attendances/{id}
+    @GetMapping("/{id:\\d+}")
+    public String showDetail(@PathVariable("id") Long id, Model model, Principal principal) {
+
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        String username = principal.getName();
+
+        // ambil user login (sama cara seperti di listAttendance)
+        UserModel user = userService.getAllUser().stream()
+                .filter(u -> u.getUsername().equals(username))
+                .findFirst()
+                .orElse(null);
+
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        // ambil attendance
+        AttendanceModel attend = attendanceService.getAttendanceById(id)
+                .orElseThrow(() -> new RuntimeException("Attendance not found"));
+
+        // tentukan role flags (sama logika seperti listAttendance)
+        boolean isAdmin = false;
+        boolean isSupervisor = false;
+        boolean isStudent = false;
+
+        if (user.getRole() == UserModel.Role.Administrator) {
+            isAdmin = true;
+        } else if (user.getRole() == UserModel.Role.Student) {
+            isStudent = true;
+        } else {
+            var maybeSupervisor = schoolSupervisorService.findByUserUsername(username);
+            if (maybeSupervisor.isPresent()) {
+                isSupervisor = true;
+            }
+        }
+
+        // optional: cek authorization lebih ketat:
+        // - jika student, pastikan attend.getStudent() == user.getStudent()
+        // - jika supervisor, pastikan student pada attend termasuk bimbingannya
+        // (sesuaikan kebutuhan kebijakan akses Anda)
+
+        model.addAttribute("attend", attend);
+        model.addAttribute("isAdmin", isAdmin);
+        model.addAttribute("isSupervisor", isSupervisor);
+        model.addAttribute("isStudent", isStudent);
+        model.addAttribute("currentUserName", username);
+
+        return "AttendanceView/detail";
+    }
+
+    // APPROVE absensi (set PRESENT)
+    @PostMapping("/{id:\\d+}/approve")
+    public String approveAttendance(@PathVariable("id") Long id, Principal principal, Model model) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+        String username = principal.getName();
+
+        UserModel user = userService.getAllUser().stream()
+                .filter(u -> u.getUsername().equals(username))
+                .findFirst()
+                .orElse(null);
+
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        // ambil attendance
+        AttendanceModel attend = attendanceService.getAttendanceById(id)
+                .orElseThrow(() -> new RuntimeException("Attendance not found"));
+
+        // hanya Admin atau Supervisor yang membimbing siswa boleh approve
+        boolean isAdmin = user.getRole() == UserModel.Role.Administrator;
+        boolean isSupervisor = false;
+        if (!isAdmin) {
+            var maybeSupervisor = schoolSupervisorService.findByUserUsername(username);
+            if (maybeSupervisor.isPresent()) {
+                SchoolSupervisorModel sup = maybeSupervisor.get();
+                // cek apakah siswa termasuk bimbingannya
+                List<PlacementModel> placements = placementService.getBySchoolSupervisorId(sup.getsSupervisorId());
+                isSupervisor = placements.stream()
+                        .filter(p -> p.getStudent() != null)
+                        .anyMatch(p -> Objects.equals(p.getStudent().getStudentId(),
+                                attend.getStudent() != null ? attend.getStudent().getStudentId() : null));
+            }
+        }
+
+        if (!isAdmin && !isSupervisor) {
+            // forbidden
+            return "error/403";
+        }
+
+        // set status jadi PRESENT
+        attend.setPresenceStatus(AttendanceModel.Presence.PRESENT);
+        // (opsional) catat siapa approve -> bisa pakai createdBy/atau field baru untuk
+        // approvedBy
+        attendanceService.updateAttendance(id, attend);
+
+        // redirect kembali ke halaman detail
+        return "redirect:/attendances/" + id;
+    }
+
+    // REJECT absensi (set ABSENT)
+    @PostMapping("/{id:\\d+}/reject")
+    public String rejectAttendance(@PathVariable("id") Long id, Principal principal, Model model) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+        String username = principal.getName();
+
+        UserModel user = userService.getAllUser().stream()
+                .filter(u -> u.getUsername().equals(username))
+                .findFirst()
+                .orElse(null);
+
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        AttendanceModel attend = attendanceService.getAttendanceById(id)
+                .orElseThrow(() -> new RuntimeException("Attendance not found"));
+
+        boolean isAdmin = user.getRole() == UserModel.Role.Administrator;
+        boolean isSupervisor = false;
+        if (!isAdmin) {
+            var maybeSupervisor = schoolSupervisorService.findByUserUsername(username);
+            if (maybeSupervisor.isPresent()) {
+                SchoolSupervisorModel sup = maybeSupervisor.get();
+                List<PlacementModel> placements = placementService.getBySchoolSupervisorId(sup.getsSupervisorId());
+                isSupervisor = placements.stream()
+                        .filter(p -> p.getStudent() != null)
+                        .anyMatch(p -> Objects.equals(p.getStudent().getStudentId(),
+                                attend.getStudent() != null ? attend.getStudent().getStudentId() : null));
+            }
+        }
+
+        if (!isAdmin && !isSupervisor) {
+            return "error/403";
+        }
+
+        // set status jadi ABSENT
+        attend.setPresenceStatus(AttendanceModel.Presence.ABSENT);
+        attendanceService.updateAttendance(id, attend);
+
+        return "redirect:/attendances/" + id;
     }
 
     // ===========================================================

@@ -69,12 +69,59 @@
 
         <div id="companySupervisorFields" class="card-section" style="display:none;">
           <h6>Data Pembimbing Perusahaan</h6>
-          <input type="text" name="companyName" class="form-control mb-2"
-                 th:value="${user.companySupervisor != null && user.companySupervisor.company != null ? user.companySupervisor.company.companyName : ''}"
-                 placeholder="Nama Perusahaan"/>
-          <input type="text" name="jobTitle" class="form-control mb-2"
-                 th:value="${user.companySupervisor != null ? user.companySupervisor.jobTitle : ''}"
-                 placeholder="Jabatan"/>
+
+          <!-- Perusahaan: select dari companies -->
+          <div class="mb-2">
+            <label class="form-label small mb-1">Perusahaan</label>
+            <select id="companySelect" name="companyId" class="form-select">
+              <option value="">-- Pilih Perusahaan --</option>
+              <option th:each="c : ${companies}"
+                      th:value="${c.companyId}"
+                      th:text="${c.companyName}"
+                      th:attr="data-address=${c.companyAddress}, data-industry=${c.companyIndustry}"
+                      th:selected="${user.companySupervisor != null and user.companySupervisor.company != null and user.companySupervisor.company.companyId == c.companyId}">
+              </option>
+            </select>
+          </div>
+
+          <!-- Pembimbing: akan difilter berdasarkan perusahaan terpilih -->
+          <!-- <div class="mb-2">
+            <label class="form-label small mb-1">Pembimbing Perusahaan</label>
+            <select id="companySupervisorSelect" name="companySupervisorId" class="form-select">
+              <option value="">-- Pilih Pembimbing --</option>
+              <option th:each="s : ${allSupervisors}"
+                      th:value="${s.supervisorId}"
+                      th:text="${s.fullName}"
+                      th:attr="data-company-id=${s.company.companyId}, data-job=${s.jobTitle}"
+                      th:selected="${user.companySupervisor != null and user.companySupervisor.supervisorId == s.supervisorId}">
+              </option>
+            </select>
+          </div> -->
+
+          <!-- Jabatan (boleh diedit manual atau diisi otomatis ketika supervisor dipilih) -->
+          <div class="mb-2">
+            <label class="form-label small mb-1">Jabatan</label>
+            <input type="text" id="jobTitle" name="jobTitle" class="form-control"
+                   th:value="${user.companySupervisor != null ? user.companySupervisor.jobTitle : ''}"
+                   placeholder="Jabatan pembimbing"/>
+          </div>
+
+          <!-- (opsional) tampilkan alamat / industry yang diambil dari company option -->
+          <div class="row g-2">
+            <div class="col-12 col-md-6">
+              <label class="form-label small mb-1">Alamat Perusahaan</label>
+              <input type="text" id="companyAddress" name="companyAddress" class="form-control"
+                     th:value="${user.companySupervisor != null && user.companySupervisor.company != null ? user.companySupervisor.company.companyAddress : ''}"
+                     placeholder="Alamat perusahaan (otomatis)"/>
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label small mb-1">Bidang Industri</label>
+              <input type="text" id="companyIndustry" name="companyIndustry" class="form-control"
+                     th:value="${user.companySupervisor != null && user.companySupervisor.company != null ? user.companySupervisor.company.companyIndustry : ''}"
+                     placeholder="Bidang industri (otomatis)"/>
+            </div>
+          </div>
+
         </div>
 
         <div id="schoolSupervisorFields" class="card-section" style="display:none;">
@@ -83,8 +130,8 @@
                  th:value="${user.schoolSupervisor != null ? user.schoolSupervisor.employeeIdNumber : ''}"
                  placeholder="NIP"/>
           <input type="text" name="schoolPhone" class="form-control mb-2"
-          placeholder="Nomor HP"/>
-          <!-- th:value="${user.schoolSupervisor != null ? user.schoolSupervisor.phone : ''}" -->
+                 th:value="${user.schoolSupervisor != null ? user.schoolSupervisor.phone : ''}"
+                 placeholder="Nomor HP"/>
         </div>
 
         <div class="d-flex justify-content-end gap-2">
@@ -99,7 +146,7 @@
   </footer>
 
   <script>
-    // simple toggleFields - safe DOM ops only
+    // toggle role blocks
     function toggleFields() {
       const role = document.getElementById('roleSelect') ? document.getElementById('roleSelect').value : '';
       const s = document.getElementById('studentFields'), c = document.getElementById('companySupervisorFields'), sc = document.getElementById('schoolSupervisorFields');
@@ -110,7 +157,85 @@
       if ((role+'').includes('Company') && c) c.style.display = 'block';
       if ((role+'').includes('School') && sc) sc.style.display = 'block';
     }
-    document.addEventListener('DOMContentLoaded', function(){ toggleFields(); const sel = document.getElementById('roleSelect'); if(sel) sel.addEventListener('change', toggleFields); });
+
+    // company -> fill address/industry & filter supervisors
+    document.addEventListener('DOMContentLoaded', function(){
+      toggleFields();
+      const roleSel = document.getElementById('roleSelect');
+      if (roleSel) roleSel.addEventListener('change', toggleFields);
+
+      const companySelect = document.getElementById('companySelect');
+      const companyAddress = document.getElementById('companyAddress');
+      const companyIndustry = document.getElementById('companyIndustry');
+      const supervisorSelect = document.getElementById('companySupervisorSelect');
+      const jobTitleInput = document.getElementById('jobTitle');
+
+      function clearCompanyDerived() {
+        if (companyAddress) companyAddress.value = '';
+        if (companyIndustry) companyIndustry.value = '';
+      }
+
+      function filterSupervisorsForCompany(companyId) {
+        if (!supervisorSelect) return;
+        for (let i=0;i<supervisorSelect.options.length;i++) {
+          const opt = supervisorSelect.options[i];
+          const optCompany = opt.getAttribute('data-company-id') || '';
+          if (!opt.value) { opt.style.display = ''; continue; }
+          if (!companyId) {
+            // sembunyikan semua pembimbing bila tidak ada perusahaan terpilih
+            opt.style.display = 'none';
+          } else {
+            opt.style.display = (optCompany === companyId.toString()) ? '' : 'none';
+          }
+        }
+        // jika current selected tidak terlihat, reset selection
+        if (supervisorSelect.value) {
+          const curOpt = supervisorSelect.options[supervisorSelect.selectedIndex];
+          if (curOpt && curOpt.style.display === 'none') {
+            supervisorSelect.value = '';
+            if (jobTitleInput) jobTitleInput.value = '';
+          }
+        }
+      }
+
+      if (companySelect) {
+        companySelect.addEventListener('change', function(){
+          const sel = companySelect.options[companySelect.selectedIndex];
+          if (!sel || !sel.value) {
+            clearCompanyDerived();
+            filterSupervisorsForCompany(null);
+            return;
+          }
+          const addr = sel.getAttribute('data-address') || '';
+          const ind = sel.getAttribute('data-industry') || '';
+          if (companyAddress) companyAddress.value = addr;
+          if (companyIndustry) companyIndustry.value = ind;
+          filterSupervisorsForCompany(sel.value);
+        });
+      }
+
+      if (supervisorSelect) {
+        supervisorSelect.addEventListener('change', function(){
+          const sel = supervisorSelect.options[supervisorSelect.selectedIndex];
+          if (!sel || !sel.value) {
+            if (jobTitleInput) jobTitleInput.value = '';
+            return;
+          }
+          const j = sel.getAttribute('data-job') || '';
+          if (jobTitleInput) jobTitleInput.value = j;
+        });
+      }
+
+      // initialize filter & fields on load (important untuk edit form)
+      if (companySelect) {
+        companySelect.dispatchEvent(new Event('change'));
+      } else {
+        // jika tidak ada companySelect, pastikan supervisors terlihat
+        if (supervisorSelect) {
+          for (let i=0;i<supervisorSelect.options.length;i++) supervisorSelect.options[i].style.display = '';
+        }
+      }
+    });
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

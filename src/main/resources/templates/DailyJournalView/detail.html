@@ -52,7 +52,7 @@
           <div class="day-name" th:text="${journal.date != null ? #temporals.format(journal.date, 'EEEE') : '-'}">Senin</div>
           <div class="full-date" th:text="${journal.date != null ? #temporals.format(journal.date, 'dd MMMM yyyy') : '-'}">01 Januari 2025</div>
         </div>
-        <div class="status-badge" th:classappend="'status-' + ${journal.validationStatus}" th:text="${journal.validationStatus}">PENDING</div>
+        <!-- <div class="status-badge" th:classappend="'status-' + ${journal.validationStatus}" th:text="${journal.validationStatus}">PENDING</div> -->
       </div>
 
       <div class="journal-body">
