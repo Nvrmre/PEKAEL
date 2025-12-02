@@ -83,6 +83,7 @@ public class UserService {
         }
 
         user.setPassword(passwordEncoder.encode(rawPassword));
+        user.setActive(true);
 
         // 3. Reset Admin Access jika bukan Admin
         if (user.getRole() != UserModel.Role.Administrator) {
@@ -130,7 +131,7 @@ public class UserService {
                     user.setAdminFullName(safe(adminFullName));
                     user.setAdminPhone(safe(adminPhone));
                     user.setAdminDepartment(safe(adminDept));
-                    user.setAdminActive(true);
+                    user.setActive(true);
                     break;
             }
         }
@@ -207,7 +208,7 @@ public class UserService {
             user.setAdminFullName(safe(genericFullName));
             user.setAdminPhone(safe(genericPhone));
             user.setAdminOfficeLocation(safe(genericAddress));
-            user.setAdminActive(true);
+            user.setActive(true);
 
         } else if (newRole == UserModel.Role.Company_Supervisor) {
             CompanySupervisorModel cs = user.getCompanySupervisor();

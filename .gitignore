@@ -10,6 +10,11 @@ target/
 src/main/resources/static/uploads/absensi/*
 !src/main/resources/static/uploads/absensi/.gitkeep
 
+uploads/report-submission/*
+!uploads/report-submission/.gitkeep
+uploads/absensi/*
+!uploads/absensi/.gitkeep
+
 src/main/resources/static/uploads/report-submission/*
 !src/main/resources/static/uploads/report-submission/.gitkeep
 

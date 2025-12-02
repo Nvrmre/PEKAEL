@@ -33,8 +33,8 @@ public class SecurityConfig {
                             .withUsername(user.getUsername()) 
                             .password(user.getPassword())
                             .authorities(authorities)
-                            .accountLocked(!Boolean.TRUE.equals(user.getAdminActive()))
-                            .disabled(!Boolean.TRUE.equals(user.getAdminActive()))
+                            .accountLocked(!Boolean.TRUE.equals(user.getActive()))
+                            .disabled(!Boolean.TRUE.equals(user.getActive()))
                             .build();
                 })
                 .orElseThrow(() -> new UsernameNotFoundException("Email tidak ditemukan: " + emailInput));

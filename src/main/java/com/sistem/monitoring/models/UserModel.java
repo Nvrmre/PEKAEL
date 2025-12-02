@@ -66,7 +66,9 @@ public class UserModel {
 
 
     @Column
-    private Boolean adminActive;
+    private Boolean Active;
+
+
 
     public UserModel() {
     }
@@ -201,12 +203,12 @@ public class UserModel {
         this.adminNotes = adminNotes;
     }
 
-    public Boolean getAdminActive() {
-        return adminActive;
+    public Boolean getActive() {
+        return Active;
     }
 
-    public void setAdminActive(Boolean adminActive) {
-        this.adminActive = adminActive;
+    public void setActive(Boolean Active) {
+        this.Active = Active;
     }
 
 
@@ -223,10 +225,5 @@ public class UserModel {
         Student
 
     }
-    public enum Permission{
-        USERS_MANAGE,
-        PLACEMENTS_MANAGE,
-        REPORTS_VIEW,
-        SETTINGS_MANAGE
-    }
+
 }

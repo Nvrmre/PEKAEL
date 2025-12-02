@@ -47,7 +47,7 @@ public class ReportSubmissionController {
     private final StudentServices studentServices;
 
     // Direktori Upload
-    private final Path uploadDir = Paths.get("src/main/resources/static/uploads/report-submission/");
+    private final Path uploadDir = Paths.get("uploads/report-submission/");
 
     public ReportSubmissionController(ReportSubmissionService reportService,
             PlacementService placementService,

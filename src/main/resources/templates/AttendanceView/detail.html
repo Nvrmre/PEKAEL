@@ -284,7 +284,7 @@
               <div class="field"><div class="label">Nama</div><div class="value" th:text="${attend.placement?.student?.user?.username ?: (attend.student != null ? attend.student.user.username : '-')}">John Doe</div></div>
               <div class="field"><div class="label">Tanggal</div><div class="value" th:text="${attend.date != null ? #temporals.format(attend.date,'dd MMMM yyyy') : '-'}">01 November 2025</div></div>
               <div class="field"><div class="label">Check-in</div><div class="value" th:text="${attend.checkInTime != null ? #temporals.format(attend.checkInTime,'HH:mm:ss') : '-'}">07:45:12</div></div>
-              <div class="field"><div class="label">Check-out</div><div class="value" th:text="${attend.checkOutTime != null ? #temporals.format(attend.checkOutTime,'HH:mm:ss') : '-'}">-</div></div>
+              <!-- <div class="field"><div class="label">Check-out</div><div class="value" th:text="${attend.checkOutTime != null ? #temporals.format(attend.checkOutTime,'HH:mm:ss') : '-'}">-</div></div> -->
 
               <div class="field" style="align-items:flex-start;">
                 <div class="label">Status</div>

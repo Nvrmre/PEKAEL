@@ -2,6 +2,7 @@ package com.sistem.monitoring.services;
 
 import com.sistem.monitoring.models.AttendanceModel;
 import com.sistem.monitoring.models.PlacementModel;
+import com.sistem.monitoring.models.UserModel;
 import com.sistem.monitoring.repositories.AttendanceRepository;
 import com.sistem.monitoring.repositories.PlacementRepository;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class AttendanceService {
     private final PlacementRepository placementRepository;
 
     public AttendanceService(AttendanceRepository attendanceRepository,
-                             PlacementRepository placementRepository) {
+            PlacementRepository placementRepository) {
         this.attendanceRepository = attendanceRepository;
         this.placementRepository = placementRepository;
     }
@@ -30,6 +31,7 @@ public class AttendanceService {
     public Optional<AttendanceModel> getAttendanceById(Long id) {
         return attendanceRepository.findById(id);
     }
+
     public AttendanceModel createAttendance(AttendanceModel attendance) {
         ZoneId zone = ZoneId.of("Asia/Jakarta");
         LocalDateTime now = LocalDateTime.now(zone);
@@ -48,9 +50,9 @@ public class AttendanceService {
         return attendanceRepository.save(attendance);
     }
 
-    public AttendanceModel updateAttendance(Long id, AttendanceModel updated) {
+    public AttendanceModel updateAttendance(Long id, AttendanceModel updated, UserModel actor) {
         AttendanceModel existing = attendanceRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Attendance not found"));
+                .orElseThrow(() -> new RuntimeException("Attendance not found"));
 
         if (updated.getPlacement() != null && updated.getPlacement().getPlacementId() != null) {
             Long placementId = updated.getPlacement().getPlacementId();
@@ -60,10 +62,17 @@ public class AttendanceService {
         }
 
         AttendanceModel.Presence newStatus = updated.getPresenceStatus();
-        if (newStatus != null && newStatus == AttendanceModel.Presence.PRESENT) {
-            throw new IllegalArgumentException("Tidak diperbolehkan mengubah status menjadi PRESENT lewat edit");
-        }
+
+        boolean isAdmin = actor.getRole() == UserModel.Role.Administrator;
+        boolean isSupervisor = actor.getRole() == UserModel.Role.School_Supervisor;
+
         if (newStatus != null) {
+            if (newStatus == AttendanceModel.Presence.PRESENT) {
+                if (!isAdmin && !isSupervisor) {
+                    throw new IllegalArgumentException(
+                            "Hanya Administrator atau Supervisor yang boleh mengubah status menjadi HADIR");
+                }
+            }
             existing.setPresenceStatus(newStatus);
         }
 
@@ -77,10 +86,11 @@ public class AttendanceService {
         attendanceRepository.deleteById(id);
     }
 
-    public List<AttendanceModel> findAttendanceByStudentId(Long StudentId){
+    public List<AttendanceModel> findAttendanceByStudentId(Long StudentId) {
         return attendanceRepository.findByPlacementStudentStudentId(StudentId);
     }
-    public Long countAttendanceByStudentId(Long StudentId){
+
+    public Long countAttendanceByStudentId(Long StudentId) {
         return attendanceRepository.countByPlacementStudentStudentId(StudentId);
     }
 
@@ -89,7 +99,8 @@ public class AttendanceService {
     }
 
     public List<AttendanceModel> getByStudentIds(List<Long> studentIds) {
-        if (studentIds == null || studentIds.isEmpty()) return List.of();
+        if (studentIds == null || studentIds.isEmpty())
+            return List.of();
         return attendanceRepository.findByStudent_StudentIdIn(studentIds);
     }
 }

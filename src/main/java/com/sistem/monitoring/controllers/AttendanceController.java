@@ -18,6 +18,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sistem.monitoring.models.AttendanceModel;
 import com.sistem.monitoring.models.PlacementModel;
@@ -44,7 +45,7 @@ public class AttendanceController {
     @Autowired
     private SchoolSupervisorService schoolSupervisorService;
 
-    private final String UPLOAD_DIR = "src/main/resources/static/uploads/absensi/";
+    private final String UPLOAD_DIR = "uploads/absensi/";
 
     // ===========================================================
     // 1. FILTER LIST ABSENSI (ADMIN / STUDENT / SUPERVISOR)
@@ -202,14 +203,7 @@ public class AttendanceController {
             }
         }
 
-        // --- set createdBy (siapa yang membuat record) ---
         attend.setCreatedBy(user);
-
-        // --- set placement & student ---
-        // Kasus ideal: jika form sudah mengirim placement (attend.getPlacement()
-        // terisi), gunakan itu.
-        // Jika tidak (student mengirim dari form create yang di-prefill), kita dapat
-        // cari placement berdasarkan student dari user yang login.
         if (attend.getPlacement() == null || attend.getPlacement().getPlacementId() == null) {
             // jika pembuat adalah student, otomatis ambil placement miliknya
             if (user.getRole() == UserModel.Role.Student && user.getStudent() != null) {
@@ -221,8 +215,6 @@ public class AttendanceController {
                 }
             }
         } else {
-            // jika ada placement terisi (misal admin memilih placement di form), pastikan
-            // juga set student dari placement
             PlacementModel p = placementService.getPlacementById(attend.getPlacement().getPlacementId())
                     .orElse(null);
             if (p != null) {
@@ -230,18 +222,9 @@ public class AttendanceController {
                 attend.setStudent(p.getStudent());
             }
         }
-
-        // fallback: jika masih belum ada student, coba gunakan createdBy jika itu
-        // student
         if (attend.getStudent() == null && user.getRole() == UserModel.Role.Student && user.getStudent() != null) {
             attend.setStudent(user.getStudent());
         }
-
-        // --- optional: set tanggal/waktu jika service belum handle ---
-        // attend.setDate(LocalDate.now()); // kalau model pakai LocalDate
-        // attend.setCheckInTime(LocalDateTime.now()); // sesuai tipe di model
-
-        // --- simpan ---
         attendanceService.createAttendance(attend);
 
         return "redirect:/attendances";
@@ -262,8 +245,17 @@ public class AttendanceController {
     // 5. UPDATE DATA
     // ===========================================================
     @PutMapping("/{id}")
-    public String updateData(@PathVariable Long id, @ModelAttribute AttendanceModel attend) {
-        attendanceService.updateAttendance(id, attend);
+    public String updateData(@PathVariable Long id, @ModelAttribute AttendanceModel attend, Principal principal, RedirectAttributes ra) {
+        String username = principal.getName();
+        UserModel user = userService.findByUsername(username).orElseThrow();
+
+        try {
+            attendanceService.updateAttendance(id, attend, user);
+            ra.addFlashAttribute("success", "Data absensi diperbarui");
+        } catch (IllegalArgumentException ex) {
+            ra.addFlashAttribute("error", ex.getMessage());
+            return "redirect:/attendances/edit/" + id;
+        }
         return "redirect:/attendances";
     }
 
@@ -291,7 +283,6 @@ public class AttendanceController {
         AttendanceModel attend = attendanceService.getAttendanceById(id)
                 .orElseThrow(() -> new RuntimeException("Attendance not found"));
 
-        // tentukan role flags (sama logika seperti listAttendance)
         boolean isAdmin = false;
         boolean isSupervisor = false;
         boolean isStudent = false;
@@ -307,10 +298,6 @@ public class AttendanceController {
             }
         }
 
-        // optional: cek authorization lebih ketat:
-        // - jika student, pastikan attend.getStudent() == user.getStudent()
-        // - jika supervisor, pastikan student pada attend termasuk bimbingannya
-        // (sesuaikan kebutuhan kebijakan akses Anda)
 
         model.addAttribute("attend", attend);
         model.addAttribute("isAdmin", isAdmin);
@@ -363,13 +350,8 @@ public class AttendanceController {
             return "error/403";
         }
 
-        // set status jadi PRESENT
         attend.setPresenceStatus(AttendanceModel.Presence.PRESENT);
-        // (opsional) catat siapa approve -> bisa pakai createdBy/atau field baru untuk
-        // approvedBy
-        attendanceService.updateAttendance(id, attend);
-
-        // redirect kembali ke halaman detail
+        attendanceService.updateAttendance(id, attend,user);
         return "redirect:/attendances/" + id;
     }
 
@@ -413,7 +395,7 @@ public class AttendanceController {
 
         // set status jadi ABSENT
         attend.setPresenceStatus(AttendanceModel.Presence.ABSENT);
-        attendanceService.updateAttendance(id, attend);
+        attendanceService.updateAttendance(id, attend,user);
 
         return "redirect:/attendances/" + id;
     }

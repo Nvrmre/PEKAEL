@@ -39,7 +39,7 @@ public class DataSeed implements CommandLineRunner {
             admin.setUsername(adminUsername);
             admin.setPassword(encoder.encode(adminPassword));
             admin.setRole(Role.Administrator);
-            admin.setAdminActive(true);
+            admin.setActive(true);
             userRepository.save(admin);
 
         }

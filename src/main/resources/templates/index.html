@@ -10,66 +10,226 @@
 
   <style>
     /* Palette & base */
-    :root{
-      --navy:#0b2340;
-      --cream:#f2ece3;
-      --muted:#6c757d;
-      --accent:#b78b4a;
-      --topbar-h:56px;
-      --sidebar-w:260px;
-      --shadow:0 6px 20px rgba(11,35,64,0.06);
+    :root {
+      --navy: #0b2340;
+      --cream: #f2ece3;
+      --muted: #6c757d;
+      --accent: #b78b4a;
+      --topbar-h: 56px;
+      --sidebar-w: 260px;
+      --shadow: 0 6px 20px rgba(11, 35, 64, 0.06);
     }
-    html,body{height:100%;margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial;background:var(--cream);color:var(--navy);-webkit-font-smoothing:antialiased;}
+
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      background: var(--cream);
+      color: var(--navy);
+      -webkit-font-smoothing: antialiased;
+    }
 
     /* Topbar (fixed) */
-    .topbar{
-      position:fixed; inset:0 0 auto 0; height:var(--topbar-h);
-      display:flex; align-items:center; justify-content:space-between;
-      padding:.6rem 1rem;
-      background:linear-gradient(180deg, rgba(11,35,64,0.98), rgba(11,35,64,0.95));
-      color:#fff; box-shadow:var(--shadow); z-index:1200;
+    .topbar {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: var(--topbar-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .6rem 1rem;
+      background: linear-gradient(180deg, rgba(11, 35, 64, 0.98), rgba(11, 35, 64, 0.95));
+      color: #fff;
+      box-shadow: var(--shadow);
+      z-index: 1200;
     }
-    .topbar .brand{display:flex;gap:.5rem;align-items:center;font-weight:600;}
-    .topbar .brand svg{width:18px;height:18px;stroke:var(--accent);}
+
+    .topbar .brand {
+      display: flex;
+      gap: .5rem;
+      align-items: center;
+      font-weight: 600;
+    }
+
+    .topbar .brand svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--accent);
+    }
 
     /* Sidebar: kept minimal, default hidden (open class shows it) */
-    .sidebar{
-      position:fixed; top:var(--topbar-h); left:0; bottom:0; width:var(--sidebar-w);
-      background:#fff; padding:1rem; box-shadow:var(--shadow);
-      transform:translateX(-110%); opacity:0; visibility:hidden;
-      transition:transform .28s ease, opacity .18s ease; z-index:1150;
-      border-radius:0 10px 10px 0; overflow:auto;
+    .sidebar {
+      position: fixed;
+      top: var(--topbar-h);
+      left: 0;
+      bottom: 0;
+      width: var(--sidebar-w);
+      background: #fff;
+      padding: 1rem;
+      box-shadow: var(--shadow);
+      transform: translateX(-110%);
+      opacity: 0;
+      visibility: hidden;
+      transition: transform .28s ease, opacity .18s ease;
+      z-index: 1150;
+      border-radius: 0 10px 10px 0;
+      overflow: auto;
     }
-    .sidebar.open{ transform:translateX(0); opacity:1; visibility:visible; }
 
-    .sidebar .title{ font-weight:700; margin-bottom:.8rem; color:var(--navy); display:flex; gap:.5rem; align-items:center; }
-    .nav-btn{ display:flex; gap:.6rem; align-items:center; padding:.55rem .65rem; color:var(--navy); text-decoration:none; border-radius:8px; font-weight:600; }
-    .nav-btn svg{ width:18px;height:18px; stroke:var(--accent); }
-    .nav-btn:hover{ background:rgba(11,35,64,0.04); transform:translateX(4px); }
-    .nav-btn.active{ background:rgba(183,139,74,0.11); border-left:3px solid var(--accent); padding-left:.5rem; }
+    .sidebar.open {
+      transform: translateX(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .sidebar .title {
+      font-weight: 700;
+      margin-bottom: .8rem;
+      color: var(--navy);
+      display: flex;
+      gap: .5rem;
+      align-items: center;
+    }
+
+    .nav-btn {
+      display: flex;
+      gap: .6rem;
+      align-items: center;
+      padding: .55rem .65rem;
+      color: var(--navy);
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    .nav-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--accent);
+    }
+
+    .nav-btn:hover {
+      background: rgba(11, 35, 64, 0.04);
+      transform: translateX(4px);
+    }
+
+    .nav-btn.active {
+      background: rgba(183, 139, 74, 0.11);
+      border-left: 3px solid var(--accent);
+      padding-left: .5rem;
+    }
 
     /* Overlay shown when sidebar open on small screens (fragment may toggle 'show' class) */
-    .overlay{ position:fixed; inset:var(--topbar-h) 0 0 0; background:rgba(0,0,0,.45); visibility:hidden; opacity:0; transition:opacity .18s ease; z-index:1140; }
-    .overlay.show{ visibility:visible; opacity:1; }
+    .overlay {
+      position: fixed;
+      inset: var(--topbar-h) 0 0 0;
+      background: rgba(0, 0, 0, .45);
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity .18s ease;
+      z-index: 1140;
+    }
+
+    .overlay.show {
+      visibility: visible;
+      opacity: 1;
+    }
 
     /* Main content */
-    .main-wrap{ margin-top:var(--topbar-h); padding:1.5rem; min-height:calc(100vh - var(--topbar-h)); }
-    .panel{ background:#fff; border-radius:12px; padding:1.4rem; box-shadow:var(--shadow); }
+    .main-wrap {
+      margin-top: var(--topbar-h);
+      padding: 1.5rem;
+      min-height: calc(100vh - var(--topbar-h));
+    }
+
+    .panel {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.4rem;
+      box-shadow: var(--shadow);
+    }
 
     /* Stat cards */
-    .stat-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; }
-    .stat-card{ display:flex; gap:1rem; align-items:center; padding:.9rem; border-radius:10px; background:#fbfaf8; border-left:6px solid rgba(183,139,74,0.18); transition:transform .18s ease, box-shadow .18s ease; }
-    .stat-card:hover{ transform:translateY(-6px); box-shadow:0 10px 26px rgba(11,35,64,0.08); }
-    .stat-icon{ width:56px; height:56px; display:flex; align-items:center; justify-content:center; border-radius:8px; background:linear-gradient(180deg, rgba(11,35,64,0.03), rgba(11,35,64,0.01)); }
-    .stat-icon svg{ width:28px;height:28px; stroke:var(--accent); }
-    .stat-text h5{ margin:0; color:var(--muted); font-weight:600; font-size:.95rem; }
-    .stat-text p{ margin:0; font-weight:700; color:var(--navy); font-size:1.4rem; margin-top:.18rem; }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
 
-    footer.footer{ text-align:center; color:var(--muted); padding:1.2rem 0; margin-top:1.5rem; }
+    .stat-card {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      padding: .9rem;
+      border-radius: 10px;
+      background: #fbfaf8;
+      border-left: 6px solid rgba(183, 139, 74, 0.18);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 26px rgba(11, 35, 64, 0.08);
+    }
+
+    .stat-icon {
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: linear-gradient(180deg, rgba(11, 35, 64, 0.03), rgba(11, 35, 64, 0.01));
+    }
+
+    .stat-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--accent);
+    }
+
+    .stat-text h5 {
+      margin: 0;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: .95rem;
+    }
+
+    .stat-text p {
+      margin: 0;
+      font-weight: 700;
+      color: var(--navy);
+      font-size: 1.4rem;
+      margin-top: .18rem;
+    }
+
+    footer.footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 1.2rem 0;
+      margin-top: 1.5rem;
+    }
 
     /* Keep toggle button visible and simple (fragment provides it) */
-    #toggleSidebarBtn{ width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center; padding:0; border:0; background:transparent; color:white; cursor:pointer; }
-    #toggleSidebarBtn svg{ width:22px;height:22px; stroke:currentColor; }
+    #toggleSidebarBtn {
+      width: 40px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: white;
+      cursor: pointer;
+    }
+
+    #toggleSidebarBtn svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+    }
   </style>
 </head>
 
@@ -82,7 +242,8 @@
   <div id="pageOverlay" class="overlay" aria-hidden="true"></div>
 
   <!-- main content -->
-  <div class="main-wrap" id="mainWrap"   th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
+  <div class="main-wrap" id="mainWrap"
+    th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
     <div class="panel">
       <div class="d-flex align-items-center justify-content-between mb-3">
         <div>
@@ -95,7 +256,8 @@
         <div class="stat-card">
           <div class="stat-icon" aria-hidden="true">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6">
-              <path d="M15.75 7.5a3.75 3.75 0 11-7.5 0zM4.5 20.25a8.25 8.25 0 0115 0" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M15.75 7.5a3.75 3.75 0 11-7.5 0zM4.5 20.25a8.25 8.25 0 0115 0" stroke-linecap="round"
+                stroke-linejoin="round" />
             </svg>
           </div>
           <div class="stat-text">
@@ -131,12 +293,14 @@
     </div>
 
     <footer class="footer">
-      &copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}">2025</span> Sistem Monitoring — Semua hak dilindungi.
+      &copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}">2025</span> Sistem Monitoring — Semua hak
+      dilindungi.
     </footer>
   </div>
 
   <!-- STUDENT DASHBOARD -->
-   <div class="main-wrap" id="mainWrap"   th:if="${#authorization.expression('hasAnyAuthority(''STUDENT'', ''Student'')')}">
+  <div class="main-wrap" id="mainWrap"
+    th:if="${#authorization.expression('hasAnyAuthority(''STUDENT'', ''Student'')')}">
     <div class="panel">
       <div class="d-flex align-items-center justify-content-between mb-3">
         <div>
@@ -148,8 +312,10 @@
       <div class="stat-grid">
         <div class="stat-card">
           <div class="stat-icon" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
             </svg>
           </div>
           <div class="stat-text">
@@ -160,9 +326,11 @@
 
         <div class="stat-card">
           <div class="stat-icon" aria-hidden="true">
-           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-           </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+            </svg>
           </div>
           <div class="stat-text">
             <h5>Total Kehadiran</h5>
@@ -172,29 +340,106 @@
 
         <div class="stat-card">
           <div class="stat-icon" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
             </svg>
           </div>
           <div class="stat-text">
             <h5>PKL Berlangsung Selama</h5>
-           <p class="fw-bold text-navy" style="font-size: 1.1rem;">
+            <p class="fw-bold text-navy" style="font-size: 1.1rem;">
               <span th:text="${startDate != null ? #temporals.format(startDate, 'dd MMMM yyyy') : '-'}"></span>
-              
+
               &nbsp;-&nbsp;
-              
+
               <span th:text="${endDate != null ? #temporals.format(endDate, 'dd MMMM yyyy') : '-'}"></span>
-          </p>
-          
+            </p>
+
+
           </div>
         </div>
       </div>
     </div>
 
     <footer class="footer">
-      &copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}">2025</span> Sistem Monitoring — Semua hak dilindungi.
+      &copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}">2025</span> Sistem Monitoring — Semua hak
+      dilindungi.
     </footer>
   </div>
+  <!-- Supervisor Dashboard: Statistik & Placements -->
+  <div class="panel"
+    th:if="${#authorization.expression('hasAnyAuthority(''SCHOOL_SUPERVISOR'',''School_Supervisor'',''School_Supervisor'')')}">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <div>
+        <h4 class="mb-0">Ringkasan Pembimbing</h4>
+      </div>
+    </div>
+
+    <div class="stat-grid" style="margin-bottom:1rem;">
+      <div class="stat-card">
+        <div class="stat-icon" aria-hidden="true">
+          <!-- icon: users -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.6" fill="none">
+            <path d="M17 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M9 7a4 4 0 100-8 4 4 0 000 8zM20 8a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div class="stat-text">
+          <h5>Jumlah Siswa Bimbingan</h5>
+          <p th:text="${supervisedStudentCount != null ? supervisedStudentCount : 0}">0</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" aria-hidden="true">
+          <!-- icon: briefcase / company -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.6" fill="none">
+            <path d="M3 21h18M9 8h6m-6 4h6M4 21V7a1 1 0 011-1h14a1 1 0 011 1v14" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div class="stat-text">
+          <h5>Jumlah Penempatan</h5>
+          <p th:text="${supervisedPlacements != null ? supervisedPlacements.size() : 0}">0</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- List placements (company name & alamat) -->
+    <div style="margin-top:0.25rem;">
+      <h6 style="margin:0 0 .5rem 0;">Daftar Penempatan</h6>
+      <div th:if="${supervisedPlacements != null and !#lists.isEmpty(supervisedPlacements)}">
+        <ul style="list-style:none;padding:0;margin:0;">
+          <li th:each="p : ${supervisedPlacements}"
+            style="margin-bottom:.6rem;padding:.6rem;border-radius:8px;background:#fbfaf8;border:1px solid rgba(11,35,64,0.04);display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div style="font-weight:700;color:var(--navy);"
+                th:text="${p.company != null ? p.company.companyName : (p.placementId != null ? 'Placement #' + p.placementId : '-')}">
+                Perusahaan</div>
+              <div style="color:var(--muted);font-size:0.92rem;">
+                <span th:if="${p.company != null and p.company.companyAddress != null}"
+                  th:text="${p.company.companyAddress}">Alamat perusahaan</span>
+                <span th:unless="${p.company != null and p.company.companyAddress != null}">-</span>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:.5rem;align-items:center;">
+              <a th:href="@{/placements/detail/{id}(id=${p.placementId})}" class="nav-btn"
+                style="padding:.4rem .6rem;">Detail</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div th:unless="${supervisedPlacements != null and !#lists.isEmpty(supervisedPlacements)}"
+        style="color:var(--muted);">
+        Belum ada penempatan untuk bimbingan Anda.
+      </div>
+    </div>
+  </div>
+
 
   <!-- Bootstrap JS (kept) — jangan duplikat toggle script di sini jika sudah ada di fragment -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

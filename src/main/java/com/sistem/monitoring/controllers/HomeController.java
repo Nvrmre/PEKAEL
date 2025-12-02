@@ -2,6 +2,8 @@ package com.sistem.monitoring.controllers;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -11,16 +13,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sistem.monitoring.models.PlacementModel;
 import com.sistem.monitoring.models.UserModel;
-import com.sistem.monitoring.services.UserService;
-import com.sistem.monitoring.services.SchoolSupervisorService;
 import com.sistem.monitoring.services.AttendanceService;
 import com.sistem.monitoring.services.CompanyService;
 import com.sistem.monitoring.services.CompanySupervisorService;
 import com.sistem.monitoring.services.DailyJournalService;
 import com.sistem.monitoring.services.GradeService;
-import com.sistem.monitoring.services.StudentServices;
 import com.sistem.monitoring.services.PlacementService;
 import com.sistem.monitoring.services.ReportSubmissionService;
+import com.sistem.monitoring.services.SchoolSupervisorService;
+import com.sistem.monitoring.services.StudentServices;
+import com.sistem.monitoring.services.UserService;
 
 @Controller
 public class HomeController {
@@ -34,7 +36,7 @@ public class HomeController {
     private final CompanyService companyService;
     private final GradeService gradeService;
     private final ReportSubmissionService reportSubmissionService;
-    
+    private final AttendanceService attendanceService;
 
     public HomeController(
             UserService userService,
@@ -56,7 +58,7 @@ public class HomeController {
         this.companyService = companyService;
         this.gradeService = gradeService;
         this.reportSubmissionService = reportSubmissionService;
-
+        this.attendanceService = attendanceService;
     }
 
     // Redirect root ke /index
@@ -70,6 +72,7 @@ public class HomeController {
     public String home(Model model, Principal principal,
             @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+
         model.addAttribute("totalGrade", gradeService.getAllGrade().size());
         model.addAttribute("totalUsers", userService.getAllUser().size());
         model.addAttribute("totalStudents", studentServices.getAllUserStudent().size());
@@ -84,6 +87,15 @@ public class HomeController {
         LocalDate defaultStart = LocalDate.now().withDayOfMonth(1);
         LocalDate defaultEnd = LocalDate.now();
 
+        // Student attendance stats defaults
+        long attendanceCount = 0;
+        long presentCount = 0;
+        double presentPercentage = 0.0;
+
+        // Supervisor stats defaults
+        long supervisedStudentCount = 0;
+        List<PlacementModel> supervisedPlacements = List.of();
+
         if (principal != null) {
             String username = principal.getName();
             model.addAttribute("username", username);
@@ -91,42 +103,89 @@ public class HomeController {
                     .filter(u -> u.getUsername().equals(username))
                     .findFirst().orElse(null);
 
-            if (user != null && user.getRole() == UserModel.Role.Student && user.getStudent() != null) {
-                Long studentId = user.getStudent().getStudentId();
+            if (user != null) {
 
-                // Hitung Data Statistik Siswa
-                studentReportTotal = reportSubmissionService.countReportsByStudentId(studentId);
-                var myPlacement = placementService.getPlacementByStudentId(studentId).orElse(null);
+                // ----------------------------
+                // STUDENT branch
+                // ----------------------------
+                if (user.getRole() == UserModel.Role.Student && user.getStudent() != null) {
+                    Long studentId = user.getStudent().getStudentId();
 
-                if (myPlacement != null) {
-                    // Jika URL parameter kosong, pakai Start Date dari Placement
-                    if (startDate == null && myPlacement.getStartDate() != null) {
-                        startDate = myPlacement.getStartDate().toLocalDate();
-                    }
+                    // Hitung Data Statistik Siswa
+                    studentReportTotal = reportSubmissionService.countReportsByStudentId(studentId);
+                    var myPlacement = placementService.getPlacementByStudentId(studentId).orElse(null);
 
-                    // Jika URL parameter kosong, pakai End Date dari Placement
-                    if (endDate == null) {
-                        if (myPlacement.getEndDate() != null) {
-                            endDate = myPlacement.getEndDate().toLocalDate();
-                        } else {
-                            // Jika PKL masih berjalan (null), anggap sampai hari ini
-                            endDate = defaultEnd;
+                    if (myPlacement != null) {
+                        // Jika URL parameter kosong, pakai Start Date dari Placement
+                        if (startDate == null && myPlacement.getStartDate() != null) {
+                            startDate = myPlacement.getStartDate().toLocalDate();
+                        }
+
+                        // Jika URL parameter kosong, pakai End Date dari Placement
+                        if (endDate == null) {
+                            if (myPlacement.getEndDate() != null) {
+                                endDate = myPlacement.getEndDate().toLocalDate();
+                            } else {
+                                // Jika PKL masih berjalan (null), anggap sampai hari ini
+                                endDate = defaultEnd;
+                            }
                         }
                     }
+
+                    // ========== hitung attendance stats untuk siswa ==========
+                    attendanceCount = attendanceService.countAttendanceByStudentId(studentId);
+
+                    List<com.sistem.monitoring.models.AttendanceModel> myAttendances = attendanceService.getByStudentId(studentId);
+                    presentCount = myAttendances.stream()
+                            .filter(a -> a.getPresenceStatus() != null && a.getPresenceStatus() == com.sistem.monitoring.models.AttendanceModel.Presence.PRESENT)
+                            .count();
+
+                    if (attendanceCount > 0) {
+                        presentPercentage = (presentCount * 100.0) / (double) attendanceCount;
+                    } else {
+                        presentPercentage = 0.0;
+                    }
                 }
-                // ----------------------------------------
+
+                // ----------------------------
+                // SUPERVISOR branch
+                // ----------------------------
+                else if (user.getRole() == UserModel.Role.School_Supervisor && user.getSchoolSupervisor() != null) {
+                    Long supervisorId = user.getSchoolSupervisor().getsSupervisorId();
+
+                    // Ambil placements yang dibimbing supervisor ini
+                    supervisedPlacements = placementService.getBySchoolSupervisorId(supervisorId);
+
+                    // Hitung jumlah siswa distinct di placements tersebut
+                    supervisedStudentCount = supervisedPlacements.stream()
+                            .map(p -> p.getStudent())
+                            .filter(Objects::nonNull)
+                            .map(s -> s.getStudentId())
+                            .filter(Objects::nonNull)
+                            .distinct()
+                            .count();
+                }
+
+                // other roles: keep defaults
             }
         }
 
-        // 3. Final Check: Jika masih null (misal Admin Login), pakai Default
-        if (startDate == null)
-            startDate = defaultStart;
-        if (endDate == null)
-            endDate = defaultEnd;
+        // Final Check: Jika masih null (misal Admin Login), pakai Default
+        if (startDate == null) startDate = defaultStart;
+        if (endDate == null) endDate = defaultEnd;
 
-        // 4. Kirim ke View
+        // Kirim ke View
         model.addAttribute("attendanceTotal", studentAttendanceTotal);
         model.addAttribute("reportTotal", studentReportTotal);
+
+        // Student attendance stats
+        model.addAttribute("attendanceCount", attendanceCount);
+        model.addAttribute("presentCount", presentCount);
+        model.addAttribute("presentPercentage", Math.round(presentPercentage * 100.0) / 100.0);
+
+        // Supervisor stats
+        model.addAttribute("supervisedStudentCount", supervisedStudentCount);
+        model.addAttribute("supervisedPlacements", supervisedPlacements);
 
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
@@ -183,34 +242,22 @@ public class HomeController {
         if (user == null)
             return "redirect:/index";
 
-        // 2. LOGIKA KHUSUS STUDENT
         if (user.getRole() == UserModel.Role.Student) {
-            // Pastikan data siswa ada
             if (user.getStudent() != null) {
                 Long currentStudentId = user.getStudent().getStudentId();
-
-                // Cari Placement milik siswa ini
-                // (Menggunakan stream filter dari list all placement)
                 PlacementModel myPlacement = placementService.getAllPlacement().stream()
                         .filter(p -> p.getStudent() != null &&
                                 p.getStudent().getStudentId().equals(currentStudentId))
                         .findFirst()
                         .orElse(null);
-
-                // Jika ketemu, buka halaman DETAIL placement
                 if (myPlacement != null) {
                     return "redirect:/placements/detail/" + myPlacement.getPlacementId();
                 } else {
-                    // Jika siswa belum punya placement, mungkin diarahkan ke halaman info atau list
-                    // kosong
-                    // Atau kembali ke dashboard dengan pesan error (via flash attribute jika perlu)
                     return "redirect:/placements";
                 }
             }
         }
 
-        // 3. LOGIKA UNTUK SUPERVISOR / ADMIN
-        // Supervisor/Admin kalau klik menu ini diarahkan ke LIST Placement saja
         return "redirect:/placements";
     }
 
