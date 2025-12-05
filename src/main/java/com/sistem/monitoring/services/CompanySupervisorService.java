@@ -102,4 +102,8 @@ public class CompanySupervisorService {
     public void deleteCompanySupervisor(Long id){
         companySupervisorRepository.deleteById(id);
     }
+
+    public Optional<CompanySupervisorModel> findByUsername(String username){
+        return companySupervisorRepository.findByUser_Username(username);
+    }
 }

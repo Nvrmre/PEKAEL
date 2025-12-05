@@ -18,6 +18,7 @@ public interface PlacementRepository extends JpaRepository<PlacementModel, Long>
     List<PlacementModel> findBySchoolSupervisor_SSupervisorId(Long sSupervisorId);
     List<PlacementModel> findByCompany_CompanyIdAndStatus(Long companyId, String status);
     List<PlacementModel> findByCompany_CompanyId(Long companyId);
+    List<PlacementModel> findByCompanySupervisor_CSupervisorId(Long cSupervisorId);
 
     @Query("SELECT p FROM PlacementModel p WHERE p.schoolSupervisor.sSupervisorId = :supervisorId AND p.company.companyId = :companyId")
     List<PlacementModel> findBySchoolSupervisorIdAndCompanyId(

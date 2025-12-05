@@ -74,6 +74,9 @@ public class PlacementService {
     public List<PlacementModel> getBySchoolSupervisorId(Long sSupervisorId) {
         return placementRepository.findBySchoolSupervisor_SSupervisorId(sSupervisorId);
     }
+     public List<PlacementModel> getByCompanySupervisorId(Long cSupervisorId) {
+        return placementRepository.findByCompanySupervisor_CSupervisorId(cSupervisorId);
+    }
 
     public List<PlacementModel> findByCompanyId(Long companyId) {
         return placementRepository.findByCompany_CompanyId(companyId);

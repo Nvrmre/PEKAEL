@@ -21,13 +21,18 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sistem.monitoring.models.AttendanceModel;
+import com.sistem.monitoring.models.CompanySupervisorModel;
 import com.sistem.monitoring.models.PlacementModel;
 import com.sistem.monitoring.models.SchoolSupervisorModel;
 import com.sistem.monitoring.models.UserModel;
 import com.sistem.monitoring.services.AttendanceService;
+import com.sistem.monitoring.services.CompanyService;
+import com.sistem.monitoring.services.CompanySupervisorService;
 import com.sistem.monitoring.services.PlacementService;
 import com.sistem.monitoring.services.SchoolSupervisorService;
 import com.sistem.monitoring.services.UserService;
+
+import lombok.var;
 
 @Controller
 @RequestMapping("/attendances")
@@ -45,6 +50,9 @@ public class AttendanceController {
     @Autowired
     private SchoolSupervisorService schoolSupervisorService;
 
+    @Autowired
+    private CompanySupervisorService companySupervisorService;
+
     private final String UPLOAD_DIR = "uploads/absensi/";
 
     // ===========================================================
@@ -53,79 +61,102 @@ public class AttendanceController {
     @GetMapping
     public String listAttendance(Model model, Principal principal) {
 
-        if (principal == null) {
-            return "redirect:/login";
-        }
-
-        String username = principal.getName();
-
-        // Ambil user login
-        UserModel user = userService.getAllUser().stream()
-                .filter(u -> u.getUsername().equals(username))
-                .findFirst()
-                .orElse(null);
-
-        if (user == null) {
-            return "redirect:/login";
-        }
-
-        // default
-        boolean isAdmin = false;
-        boolean isSupervisor = false;
-        boolean isStudent = false;
-
-        List<AttendanceModel> attendances = List.of(); // empty default
-
-        // 1) ADMIN → lihat semua
-        if (user.getRole() == UserModel.Role.Administrator) {
-            isAdmin = true;
-            attendances = attendanceService.getAllAttendances();
-        }
-        // 2) STUDENT → absensinya sendiri
-        else if (user.getRole() == UserModel.Role.Student) {
-            isStudent = true;
-            if (user.getStudent() != null) {
-                Long studentId = user.getStudent().getStudentId();
-                attendances = attendanceService.getByStudentId(studentId);
-            } else {
-                attendances = List.of();
-            }
-        }
-        // 3) SCHOOL SUPERVISOR → absensi siswa bimbingan dari PLACEMENT
-        else {
-            var maybeSupervisor = schoolSupervisorService.findByUserUsername(username);
-            if (maybeSupervisor.isPresent()) {
-                isSupervisor = true;
-                SchoolSupervisorModel supervisor = maybeSupervisor.get();
-
-                List<PlacementModel> placements = placementService
-                        .getBySchoolSupervisorId(supervisor.getsSupervisorId());
-
-                List<Long> studentIds = placements.stream()
-                        .map(p -> p.getStudent() != null ? p.getStudent().getStudentId() : null)
-                        .filter(Objects::nonNull)
-                        .distinct()
-                        .collect(Collectors.toList());
-
-                attendances = attendanceService.getByStudentIds(studentIds);
-            } else {
-                // selain admin/student/supervisor -> forbidden
-                model.addAttribute("isAdmin", false);
-                model.addAttribute("isSupervisor", false);
-                model.addAttribute("isStudent", false);
-                return "error/403";
-            }
-        }
-
-        // set model attributes consistent with template
-        model.addAttribute("attend", attendances); // <- template expects ${attend}
-        model.addAttribute("isAdmin", isAdmin);
-        model.addAttribute("isSupervisor", isSupervisor);
-        model.addAttribute("isStudent", isStudent);
-        model.addAttribute("currentUserName", username);
-
-        return "AttendanceView/index";
+    if (principal == null) {
+        return "redirect:/login";
     }
+
+    String username = principal.getName();
+    UserModel user = userService.getAllUser().stream()
+            .filter(u -> u.getUsername().equals(username))
+            .findFirst()
+            .orElse(null);
+
+    if (user == null) {
+        return "redirect:/login";
+    }
+
+    boolean isAdmin = false;
+    boolean isSupervisor = false;           // generic supervisor flag (school or company)
+    boolean isCompanySupervisor = false;   // specific company supervisor flag
+    boolean isStudent = false;
+
+    List<AttendanceModel> attendances = List.of();
+
+    // 1) ADMIN → lihat semua
+    if (user.getRole() == UserModel.Role.Administrator) {
+        isAdmin = true;
+        attendances = attendanceService.getAllAttendances();
+    }
+    // 2) STUDENT → absensinya sendiri
+    else if (user.getRole() == UserModel.Role.Student) {
+        isStudent = true;
+        if (user.getStudent() != null) {
+            Long studentId = user.getStudent().getStudentId();
+            attendances = attendanceService.getByStudentId(studentId);
+        } else {
+            attendances = List.of();
+        }
+    }
+    // 3) SUPERVISOR (school OR company) → absensi siswa bimbingan dari PLACEMENT
+    else {
+        var maybeSchoolSupervisor = schoolSupervisorService.findByUserUsername(username);
+        var maybeCompanySupervisor = companySupervisorService.findByUsername(username);
+
+        if (maybeSchoolSupervisor.isPresent()) {
+            isSupervisor = true;
+            SchoolSupervisorModel supervisor = maybeSchoolSupervisor.get();
+            List<PlacementModel> placements = placementService
+                    .getBySchoolSupervisorId(supervisor.getsSupervisorId());
+
+            List<Long> studentIds = placements.stream()
+                    .map(p -> p.getStudent() != null ? p.getStudent().getStudentId() : null)
+                    .filter(Objects::nonNull)
+                    .distinct()
+                    .collect(Collectors.toList());
+
+            attendances = studentIds.isEmpty()
+                    ? List.of()
+                    : attendanceService.getByStudentIds(studentIds);
+
+        } else if (maybeCompanySupervisor.isPresent()) {
+            // --- NEW: company supervisor handling ---
+            isSupervisor = true;
+            isCompanySupervisor = true;
+            CompanySupervisorModel cSupervisor = maybeCompanySupervisor.get();
+
+            // asumsi: ada method getByCompanySupervisorId; ganti jika nama berbeda
+            List<PlacementModel> placements = placementService
+                    .getByCompanySupervisorId(cSupervisor.getcSupervisorId());
+
+            List<Long> studentIds = placements.stream()
+                    .map(p -> p.getStudent() != null ? p.getStudent().getStudentId() : null)
+                    .filter(Objects::nonNull)
+                    .distinct()
+                    .collect(Collectors.toList());
+
+            attendances = studentIds.isEmpty()
+                    ? List.of()
+                    : attendanceService.getByStudentIds(studentIds);
+        } else {
+            // selain admin/student/supervisor -> forbidden
+            model.addAttribute("isAdmin", false);
+            model.addAttribute("isSupervisor", false);
+            model.addAttribute("isStudent", false);
+            model.addAttribute("isCompanySupervisor", false);
+            return "error/403";
+        }
+    }
+
+    // set model attributes consistent with template
+    model.addAttribute("attend", attendances); // <- template expects ${attend}
+    model.addAttribute("isAdmin", isAdmin);
+    model.addAttribute("isSupervisor", isSupervisor);
+    model.addAttribute("isCompanySupervisor", isCompanySupervisor);
+    model.addAttribute("isStudent", isStudent);
+    model.addAttribute("currentUserName", username);
+
+    return "AttendanceView/index";
+}
 
     // ===========================================================
     // 2. FORM CREATE (AUTO SET PLACEMENT UNTUK STUDENT)
