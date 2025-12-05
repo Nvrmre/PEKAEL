@@ -1,12 +1,16 @@
 package com.sistem.monitoring.models;
 
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -34,6 +38,9 @@ public class SchoolSupervisorModel {
     private String schoolSupervisorPosition;
     private String schoolSupervisorSubject;
 
+    @OneToMany(mappedBy = "schoolSupervisor", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<PlacementModel> placements;
+    
     public SchoolSupervisorModel(){}
 
     public Long getsSupervisorId() {
@@ -106,6 +113,14 @@ public class SchoolSupervisorModel {
 
     public void setSchoolSupervisorSubject(String schoolSupervisorSubject) {
         this.schoolSupervisorSubject = schoolSupervisorSubject;
+    }
+
+    public List<PlacementModel> getPlacements() {
+        return placements;
+    }
+
+    public void setPlacements(List<PlacementModel> placements) {
+        this.placements = placements;
     }
     
 

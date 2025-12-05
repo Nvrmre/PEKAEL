@@ -49,7 +49,11 @@ public class PlacementController {
     }
 
     @GetMapping
-    public String listPlacements(Model model, Principal principal) {
+    public String listPlacements(
+            @RequestParam(value = "companyId", required = false) Long companyId,
+            Model model, 
+            Principal principal) {
+        
         List<PlacementModel> list;
         boolean isSupervisor = false;
         String currentUserName = "";
@@ -63,8 +67,16 @@ public class PlacementController {
 
                 if (maybeSupervisor.isPresent()) {
                     SchoolSupervisorModel supervisor = maybeSupervisor.get();
-                    // tampilkan hanya placement milik supervisor ini
-                    list = placementService.getBySchoolSupervisorId(supervisor.getsSupervisorId());
+                    
+                    // Filter berdasarkan company jika ada parameter companyId
+                    if (companyId != null) {
+                        list = placementService.getBySchoolSupervisorIdAndCompanyId(
+                            supervisor.getsSupervisorId(), companyId);
+                    } else {
+                        // tampilkan hanya placement milik supervisor ini
+                        list = placementService.getBySchoolSupervisorId(supervisor.getsSupervisorId());
+                    }
+                    
                     isSupervisor = true;
                     // prefer full name jika tersedia, fallback ke user.username
                     if (supervisor.getSchoolSupervisorFullName() != null && !supervisor.getSchoolSupervisorFullName().isBlank()) {
@@ -75,22 +87,40 @@ public class PlacementController {
                         currentUserName = username;
                     }
                 } else {
-                    // bukan guru -> tampilkan semua (atau ubah sesuai kebijakan: redirect/forbidden)
-                    list = placementService.getAllPlacement();
+                    // bukan guru -> tampilkan semua (dengan filter jika ada)
+                    if (companyId != null) {
+                        list = placementService.getByCompanyId(companyId);
+                    } else {
+                        list = placementService.getAllPlacement();
+                    }
                     currentUserName = username;
                 }
             } else {
-                // anonymous user -> tampil semua atau redirect ke login
-                list = placementService.getAllPlacement();
+                // anonymous user -> tampil semua (dengan filter jika ada)
+                if (companyId != null) {
+                    list = placementService.getByCompanyId(companyId);
+                } else {
+                    list = placementService.getAllPlacement();
+                }
             }
         } catch (Exception ex) {
             // fallback: tampil semua agar tidak crash
-            list = placementService.getAllPlacement();
+            if (companyId != null) {
+                list = placementService.getByCompanyId(companyId);
+            } else {
+                list = placementService.getAllPlacement();
+            }
         }
 
+        // Ambil semua companies untuk dropdown filter
+        List<CompanyModel> companies = companyService.getAllCompanyData();
+
         model.addAttribute("placements", list);
+        model.addAttribute("companies", companies);
+        model.addAttribute("selectedCompanyId", companyId);
         model.addAttribute("isSupervisor", isSupervisor);
         model.addAttribute("currentUserName", currentUserName);
+        
         return "PlacementView/index";
     }
 
@@ -262,5 +292,4 @@ public class PlacementController {
             return "error/custom-error";
         }
     }
-
 }

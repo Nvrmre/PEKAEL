@@ -1,0 +1,1579 @@
+[1mApache Maven 3.6.3[m
+Maven home: /usr/share/maven
+Java version: 21.0.9, vendor: Ubuntu, runtime: /usr/lib/jvm/java-21-openjdk-amd64
+Default locale: en_US, platform encoding: UTF-8
+OS name: "linux", version: "6.8.0-87-generic", arch: "amd64", family: "unix"
+[[1;36mDEBUG[m] Created new class realm maven.api
+[[1;36mDEBUG[m] Importing foreign packages into class realm maven.api
+[[1;36mDEBUG[m]   Imported: javax.annotation.* < plexus.core
+[[1;36mDEBUG[m]   Imported: javax.annotation.security.* < plexus.core
+[[1;36mDEBUG[m]   Imported: javax.enterprise.inject.* < plexus.core
+[[1;36mDEBUG[m]   Imported: javax.enterprise.util.* < plexus.core
+[[1;36mDEBUG[m]   Imported: javax.inject.* < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.* < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.artifact < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.classrealm < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.cli < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.configuration < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.exception < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.execution < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.execution.scope < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.lifecycle < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.model < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.monitor < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.plugin < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.profiles < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.project < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.reporting < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.repository < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.rtinfo < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.settings < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.toolchain < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.usability < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.wagon.* < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.wagon.authentication < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.wagon.authorization < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.wagon.events < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.wagon.observers < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.wagon.proxy < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.wagon.repository < plexus.core
+[[1;36mDEBUG[m]   Imported: org.apache.maven.wagon.resource < plexus.core
+[[1;36mDEBUG[m]   Imported: org.codehaus.classworlds < plexus.core
+[[1;36mDEBUG[m]   Imported: org.codehaus.plexus.* < plexus.core
+[[1;36mDEBUG[m]   Imported: org.codehaus.plexus.classworlds < plexus.core
+[[1;36mDEBUG[m]   Imported: org.codehaus.plexus.component < plexus.core
+[[1;36mDEBUG[m]   Imported: org.codehaus.plexus.configuration < plexus.core
+[[1;36mDEBUG[m]   Imported: org.codehaus.plexus.container < plexus.core
+[[1;36mDEBUG[m]   Imported: org.codehaus.plexus.context < plexus.core
+[[1;36mDEBUG[m]   Imported: org.codehaus.plexus.lifecycle < plexus.core
+[[1;36mDEBUG[m]   Imported: org.codehaus.plexus.logging < plexus.core
+[[1;36mDEBUG[m]   Imported: org.codehaus.plexus.personality < plexus.core
+[[1;36mDEBUG[m]   Imported: org.codehaus.plexus.util.xml.Xpp3Dom < plexus.core
+[[1;36mDEBUG[m]   Imported: org.codehaus.plexus.util.xml.pull.XmlPullParser < plexus.core
+[[1;36mDEBUG[m]   Imported: org.codehaus.plexus.util.xml.pull.XmlPullParserException < plexus.core
+[[1;36mDEBUG[m]   Imported: org.codehaus.plexus.util.xml.pull.XmlSerializer < plexus.core
+[[1;36mDEBUG[m]   Imported: org.eclipse.aether.* < plexus.core
+[[1;36mDEBUG[m]   Imported: org.eclipse.aether.artifact < plexus.core
+[[1;36mDEBUG[m]   Imported: org.eclipse.aether.collection < plexus.core
+[[1;36mDEBUG[m]   Imported: org.eclipse.aether.deployment < plexus.core
+[[1;36mDEBUG[m]   Imported: org.eclipse.aether.graph < plexus.core
+[[1;36mDEBUG[m]   Imported: org.eclipse.aether.impl < plexus.core
+[[1;36mDEBUG[m]   Imported: org.eclipse.aether.installation < plexus.core
+[[1;36mDEBUG[m]   Imported: org.eclipse.aether.internal.impl < plexus.core
+[[1;36mDEBUG[m]   Imported: org.eclipse.aether.metadata < plexus.core
+[[1;36mDEBUG[m]   Imported: org.eclipse.aether.repository < plexus.core
+[[1;36mDEBUG[m]   Imported: org.eclipse.aether.resolution < plexus.core
+[[1;36mDEBUG[m]   Imported: org.eclipse.aether.spi < plexus.core
+[[1;36mDEBUG[m]   Imported: org.eclipse.aether.transfer < plexus.core
+[[1;36mDEBUG[m]   Imported: org.eclipse.aether.version < plexus.core
+[[1;36mDEBUG[m]   Imported: org.fusesource.jansi.* < plexus.core
+[[1;36mDEBUG[m]   Imported: org.slf4j.* < plexus.core
+[[1;36mDEBUG[m]   Imported: org.slf4j.event.* < plexus.core
+[[1;36mDEBUG[m]   Imported: org.slf4j.helpers.* < plexus.core
+[[1;36mDEBUG[m]   Imported: org.slf4j.spi.* < plexus.core
+[[1;36mDEBUG[m] Populating class realm maven.api
+[[1;34mINFO[m] Error stacktraces are turned on.
+[[1;36mDEBUG[m] Message scheme: color
+[[1;36mDEBUG[m] Message styles: [1;36mdebug[m [1;34minfo[m [1;33mwarning[m [1;31merror[m [1;32msuccess[m [1;31mfailure[m [1mstrong[m [32mmojo[m [36mproject[m
+[[1;36mDEBUG[m] Reading global settings from /usr/share/maven/conf/settings.xml
+[[1;36mDEBUG[m] Reading user settings from /home/astha/.m2/settings.xml
+[[1;36mDEBUG[m] Reading global toolchains from /usr/share/maven/conf/toolchains.xml
+[[1;36mDEBUG[m] Reading user toolchains from /home/astha/.m2/toolchains.xml
+[[1;36mDEBUG[m] Using local repository at /home/astha/.m2/repository
+[[1;36mDEBUG[m] Using manager EnhancedLocalRepositoryManager with priority 10.0 for /home/astha/.m2/repository
+[[1;34mINFO[m] Scanning for projects...
+[[1;36mDEBUG[m] Extension realms for project com.sistem:monitoring:jar:0.0.1-SNAPSHOT: (none)
+[[1;36mDEBUG[m] Looking up lifecycle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[[1;36mDEBUG[m] Extension realms for project org.springframework.boot:spring-boot-starter-parent:pom:3.5.8: (none)
+[[1;36mDEBUG[m] Looking up lifecycle mappings for packaging pom from ClassRealm[plexus.core, parent: null]
+[[1;36mDEBUG[m] Extension realms for project org.springframework.boot:spring-boot-dependencies:pom:3.5.8: (none)
+[[1;36mDEBUG[m] Looking up lifecycle mappings for packaging pom from ClassRealm[plexus.core, parent: null]
+[[1;36mDEBUG[m] === REACTOR BUILD PLAN ================================================
+[[1;36mDEBUG[m] Project: com.sistem:monitoring:jar:0.0.1-SNAPSHOT
+[[1;36mDEBUG[m] Tasks:   [clean, package]
+[[1;36mDEBUG[m] Style:   Regular
+[[1;36mDEBUG[m] =======================================================================
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m-----------------------< [0;36mcom.sistem:monitoring[0;1m >------------------------[m
+[[1;34mINFO[m] [1mBuilding monitoring 0.0.1-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;36mDEBUG[m] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[[1;36mDEBUG[m] Lifecycle clean -> [pre-clean, clean, post-clean]
+[[1;36mDEBUG[m] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[[1;36mDEBUG[m] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[[1;36mDEBUG[m] Lifecycle clean -> [pre-clean, clean, post-clean]
+[[1;36mDEBUG[m] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[[1;36mDEBUG[m] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[[1;36mDEBUG[m] Lifecycle clean -> [pre-clean, clean, post-clean]
+[[1;36mDEBUG[m] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[[1;36mDEBUG[m] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[[1;36mDEBUG[m] Lifecycle clean -> [pre-clean, clean, post-clean]
+[[1;36mDEBUG[m] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[[1;36mDEBUG[m] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[[1;36mDEBUG[m] Lifecycle clean -> [pre-clean, clean, post-clean]
+[[1;36mDEBUG[m] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[[1;36mDEBUG[m] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[[1;36mDEBUG[m] Lifecycle clean -> [pre-clean, clean, post-clean]
+[[1;36mDEBUG[m] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[[1;36mDEBUG[m] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[[1;36mDEBUG[m] Lifecycle clean -> [pre-clean, clean, post-clean]
+[[1;36mDEBUG[m] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[[1;36mDEBUG[m] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[[1;36mDEBUG[m] Lifecycle clean -> [pre-clean, clean, post-clean]
+[[1;36mDEBUG[m] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[[1;36mDEBUG[m] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[[1;36mDEBUG[m] Lifecycle clean -> [pre-clean, clean, post-clean]
+[[1;36mDEBUG[m] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[[1;36mDEBUG[m] === PROJECT BUILD PLAN ================================================
+[[1;36mDEBUG[m] Project:       com.sistem:monitoring:0.0.1-SNAPSHOT
+[[1;36mDEBUG[m] Dependencies (collect): [compile+runtime]
+[[1;36mDEBUG[m] Dependencies (resolve): [compile, compile+runtime, runtime, test]
+[[1;36mDEBUG[m] Repositories (dependencies): [central (https://repo.maven.apache.org/maven2, default, releases)]
+[[1;36mDEBUG[m] Repositories (plugins)     : [central (https://repo.maven.apache.org/maven2, default, releases)]
+[[1;36mDEBUG[m] -----------------------------------------------------------------------
+[[1;36mDEBUG[m] Goal:          org.apache.maven.plugins:maven-clean-plugin:3.4.1:clean (default-clean)
+[[1;36mDEBUG[m] Style:         Regular
+[[1;36mDEBUG[m] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <directory default-value="${project.build.directory}"/>
+  <excludeDefaultDirectories default-value="false">${maven.clean.excludeDefaultDirectories}</excludeDefaultDirectories>
+  <failOnError default-value="true">${maven.clean.failOnError}</failOnError>
+  <fast default-value="false">${maven.clean.fast}</fast>
+  <fastDir>${maven.clean.fastDir}</fastDir>
+  <fastMode default-value="background">${maven.clean.fastMode}</fastMode>
+  <followSymLinks default-value="false">${maven.clean.followSymLinks}</followSymLinks>
+  <outputDirectory default-value="${project.build.outputDirectory}"/>
+  <reportDirectory default-value="${project.build.outputDirectory}"/>
+  <retryOnError default-value="true">${maven.clean.retryOnError}</retryOnError>
+  <session default-value="${session}"/>
+  <skip default-value="false">${maven.clean.skip}</skip>
+  <testOutputDirectory default-value="${project.build.testOutputDirectory}"/>
+  <verbose>${maven.clean.verbose}</verbose>
+</configuration>
+[[1;36mDEBUG[m] -----------------------------------------------------------------------
+[[1;36mDEBUG[m] Goal:          org.apache.maven.plugins:maven-resources-plugin:3.3.1:resources (default-resources)
+[[1;36mDEBUG[m] Style:         Regular
+[[1;36mDEBUG[m] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <addDefaultExcludes default-value="true"/>
+  <buildFilters default-value="${project.build.filters}"/>
+  <delimiters>
+    <delimiter>@</delimiter>
+  </delimiters>
+  <encoding default-value="${project.build.sourceEncoding}"/>
+  <escapeWindowsPaths default-value="true"/>
+  <fileNameFiltering default-value="false"/>
+  <includeEmptyDirs default-value="false"/>
+  <outputDirectory default-value="${project.build.outputDirectory}"/>
+  <overwrite default-value="false"/>
+  <project default-value="${project}"/>
+  <propertiesEncoding>UTF-8</propertiesEncoding>
+  <resources default-value="${project.resources}"/>
+  <session default-value="${session}"/>
+  <skip default-value="false">${maven.resources.skip}</skip>
+  <supportMultiLineFiltering default-value="false"/>
+  <useBuildFilters default-value="true"/>
+  <useDefaultDelimiters default-value="true">false</useDefaultDelimiters>
+</configuration>
+[[1;36mDEBUG[m] -----------------------------------------------------------------------
+[[1;36mDEBUG[m] Goal:          org.apache.maven.plugins:maven-compiler-plugin:3.14.1:compile (default-compile)
+[[1;36mDEBUG[m] Style:         Regular
+[[1;36mDEBUG[m] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <annotationProcessorPaths>
+    <path>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </path>
+  </annotationProcessorPaths>
+  <annotationProcessorPathsUseDepMgmt default-value="false"/>
+  <basedir default-value="${basedir}"/>
+  <buildDirectory default-value="${project.build.directory}"/>
+  <compilePath default-value="${project.compileClasspathElements}"/>
+  <compileSourceRoots default-value="${project.compileSourceRoots}"/>
+  <compilerId default-value="javac">${maven.compiler.compilerId}</compilerId>
+  <compilerReuseStrategy default-value="${reuseCreated}">${maven.compiler.compilerReuseStrategy}</compilerReuseStrategy>
+  <compilerVersion>${maven.compiler.compilerVersion}</compilerVersion>
+  <createMissingPackageInfoClass default-value="true">${maven.compiler.createMissingPackageInfoClass}</createMissingPackageInfoClass>
+  <debug default-value="true">${maven.compiler.debug}</debug>
+  <debugFileName default-value="javac"/>
+  <debuglevel>${maven.compiler.debuglevel}</debuglevel>
+  <enablePreview default-value="false">${maven.compiler.enablePreview}</enablePreview>
+  <encoding default-value="${project.build.sourceEncoding}">${encoding}</encoding>
+  <executable>${maven.compiler.executable}</executable>
+  <failOnError default-value="true">${maven.compiler.failOnError}</failOnError>
+  <failOnWarning default-value="false">${maven.compiler.failOnWarning}</failOnWarning>
+  <fileExtensions default-value="class,jar"/>
+  <forceJavacCompilerUse default-value="false">${maven.compiler.forceJavacCompilerUse}</forceJavacCompilerUse>
+  <forceLegacyJavacApi default-value="false">${maven.compiler.forceLegacyJavacApi}</forceLegacyJavacApi>
+  <fork default-value="false">${maven.compiler.fork}</fork>
+  <generatedSourcesDirectory default-value="${project.build.directory}/generated-sources/annotations"/>
+  <implicit>${maven.compiler.implicit}</implicit>
+  <maxmem>${maven.compiler.maxmem}</maxmem>
+  <meminitial>${maven.compiler.meminitial}</meminitial>
+  <moduleVersion default-value="${project.version}">${maven.compiler.moduleVersion}</moduleVersion>
+  <mojoExecution default-value="${mojoExecution}"/>
+  <optimize default-value="false">${maven.compiler.optimize}</optimize>
+  <outputDirectory default-value="${project.build.outputDirectory}">${maven.compiler.outputDirectory}</outputDirectory>
+  <outputTimestamp default-value="${project.build.outputTimestamp}"/>
+  <parameters default-value="false">true</parameters>
+  <proc>${maven.compiler.proc}</proc>
+  <project default-value="${project}"/>
+  <projectArtifact default-value="${project.artifact}"/>
+  <release>${maven.compiler.release}</release>
+  <session default-value="${session}"/>
+  <showCompilationChanges default-value="false">${maven.compiler.showCompilationChanges}</showCompilationChanges>
+  <showDeprecation default-value="false">${maven.compiler.showDeprecation}</showDeprecation>
+  <showWarnings default-value="true">${maven.compiler.showWarnings}</showWarnings>
+  <skipMain>${maven.main.skip}</skipMain>
+  <skipMultiThreadWarning default-value="false">${maven.compiler.skipMultiThreadWarning}</skipMultiThreadWarning>
+  <source default-value="1.8">${maven.compiler.source}</source>
+  <staleMillis default-value="0">${lastModGranularityMs}</staleMillis>
+  <target default-value="1.8">${maven.compiler.target}</target>
+  <useIncrementalCompilation default-value="true">${maven.compiler.useIncrementalCompilation}</useIncrementalCompilation>
+  <useModuleVersion default-value="true">${maven.compiler.useModuleVersion}</useModuleVersion>
+  <verbose default-value="false">${maven.compiler.verbose}</verbose>
+</configuration>
+[[1;36mDEBUG[m] -----------------------------------------------------------------------
+[[1;36mDEBUG[m] Goal:          org.apache.maven.plugins:maven-resources-plugin:3.3.1:testResources (default-testResources)
+[[1;36mDEBUG[m] Style:         Regular
+[[1;36mDEBUG[m] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <addDefaultExcludes default-value="true"/>
+  <buildFilters default-value="${project.build.filters}"/>
+  <delimiters>
+    <delimiter>@</delimiter>
+  </delimiters>
+  <encoding default-value="${project.build.sourceEncoding}"/>
+  <escapeWindowsPaths default-value="true"/>
+  <fileNameFiltering default-value="false"/>
+  <includeEmptyDirs default-value="false"/>
+  <outputDirectory default-value="${project.build.testOutputDirectory}"/>
+  <overwrite default-value="false"/>
+  <project default-value="${project}"/>
+  <propertiesEncoding>UTF-8</propertiesEncoding>
+  <resources default-value="${project.testResources}"/>
+  <session default-value="${session}"/>
+  <skip default-value="false">${maven.test.skip}</skip>
+  <supportMultiLineFiltering default-value="false"/>
+  <useBuildFilters default-value="true"/>
+  <useDefaultDelimiters default-value="true">false</useDefaultDelimiters>
+</configuration>
+[[1;36mDEBUG[m] -----------------------------------------------------------------------
+[[1;36mDEBUG[m] Goal:          org.apache.maven.plugins:maven-compiler-plugin:3.14.1:testCompile (default-testCompile)
+[[1;36mDEBUG[m] Style:         Regular
+[[1;36mDEBUG[m] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <annotationProcessorPaths>
+    <path>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </path>
+  </annotationProcessorPaths>
+  <annotationProcessorPathsUseDepMgmt default-value="false"/>
+  <basedir default-value="${basedir}"/>
+  <buildDirectory default-value="${project.build.directory}"/>
+  <compileSourceRoots default-value="${project.testCompileSourceRoots}"/>
+  <compilerId default-value="javac">${maven.compiler.compilerId}</compilerId>
+  <compilerReuseStrategy default-value="${reuseCreated}">${maven.compiler.compilerReuseStrategy}</compilerReuseStrategy>
+  <compilerVersion>${maven.compiler.compilerVersion}</compilerVersion>
+  <createMissingPackageInfoClass default-value="true">${maven.compiler.createMissingPackageInfoClass}</createMissingPackageInfoClass>
+  <debug default-value="true">${maven.compiler.debug}</debug>
+  <debugFileName default-value="javac-test"/>
+  <debuglevel>${maven.compiler.debuglevel}</debuglevel>
+  <enablePreview default-value="false">${maven.compiler.enablePreview}</enablePreview>
+  <encoding default-value="${project.build.sourceEncoding}">${encoding}</encoding>
+  <executable>${maven.compiler.executable}</executable>
+  <failOnError default-value="true">${maven.compiler.failOnError}</failOnError>
+  <failOnWarning default-value="false">${maven.compiler.failOnWarning}</failOnWarning>
+  <fileExtensions default-value="class,jar"/>
+  <forceJavacCompilerUse default-value="false">${maven.compiler.forceJavacCompilerUse}</forceJavacCompilerUse>
+  <forceLegacyJavacApi default-value="false">${maven.compiler.forceLegacyJavacApi}</forceLegacyJavacApi>
+  <fork default-value="false">${maven.compiler.fork}</fork>
+  <generatedTestSourcesDirectory default-value="${project.build.directory}/generated-test-sources/test-annotations"/>
+  <implicit>${maven.compiler.implicit}</implicit>
+  <maxmem>${maven.compiler.maxmem}</maxmem>
+  <meminitial>${maven.compiler.meminitial}</meminitial>
+  <mojoExecution default-value="${mojoExecution}"/>
+  <optimize default-value="false">${maven.compiler.optimize}</optimize>
+  <outputDirectory default-value="${project.build.testOutputDirectory}"/>
+  <outputTimestamp default-value="${project.build.outputTimestamp}"/>
+  <parameters default-value="false">true</parameters>
+  <proc>${maven.compiler.proc}</proc>
+  <project default-value="${project}"/>
+  <release>${maven.compiler.release}</release>
+  <session default-value="${session}"/>
+  <showCompilationChanges default-value="false">${maven.compiler.showCompilationChanges}</showCompilationChanges>
+  <showDeprecation default-value="false">${maven.compiler.showDeprecation}</showDeprecation>
+  <showWarnings default-value="true">${maven.compiler.showWarnings}</showWarnings>
+  <skip>${maven.test.skip}</skip>
+  <skipMultiThreadWarning default-value="false">${maven.compiler.skipMultiThreadWarning}</skipMultiThreadWarning>
+  <source default-value="1.8">${maven.compiler.source}</source>
+  <staleMillis default-value="0">${lastModGranularityMs}</staleMillis>
+  <target default-value="1.8">${maven.compiler.target}</target>
+  <testPath default-value="${project.testClasspathElements}"/>
+  <testRelease>${maven.compiler.testRelease}</testRelease>
+  <testSource>${maven.compiler.testSource}</testSource>
+  <testTarget>${maven.compiler.testTarget}</testTarget>
+  <useIncrementalCompilation default-value="true">${maven.compiler.useIncrementalCompilation}</useIncrementalCompilation>
+  <useModulePath default-value="true"/>
+  <verbose default-value="false">${maven.compiler.verbose}</verbose>
+</configuration>
+[[1;36mDEBUG[m] -----------------------------------------------------------------------
+[[1;36mDEBUG[m] Goal:          org.apache.maven.plugins:maven-surefire-plugin:3.5.4:test (default-test)
+[[1;36mDEBUG[m] Style:         Regular
+[[1;36mDEBUG[m] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <additionalClasspathDependencies>${maven.test.additionalClasspathDependencies}</additionalClasspathDependencies>
+  <additionalClasspathElements>${maven.test.additionalClasspath}</additionalClasspathElements>
+  <argLine>${argLine}</argLine>
+  <basedir default-value="${basedir}"/>
+  <childDelegation default-value="false">${childDelegation}</childDelegation>
+  <classesDirectory default-value="${project.build.outputDirectory}"/>
+  <classpathDependencyExcludes>${maven.test.dependency.excludes}</classpathDependencyExcludes>
+  <debugForkedProcess>${maven.surefire.debug}</debugForkedProcess>
+  <dependenciesToScan>${dependenciesToScan}</dependenciesToScan>
+  <disableXmlReport>${disableXmlReport}</disableXmlReport>
+  <enableAssertions default-value="true">${enableAssertions}</enableAssertions>
+  <enableOutErrElements default-value="true">${enableOutErrElements}</enableOutErrElements>
+  <enableProcessChecker>${surefire.enableProcessChecker}</enableProcessChecker>
+  <enablePropertiesElement default-value="true">${enablePropertiesElement}</enablePropertiesElement>
+  <encoding default-value="${project.reporting.outputEncoding}">${surefire.encoding}</encoding>
+  <excludeJUnit5Engines>${surefire.excludeJUnit5Engines}</excludeJUnit5Engines>
+  <excludedEnvironmentVariables>${surefire.excludedEnvironmentVariables}</excludedEnvironmentVariables>
+  <excludedGroups>${excludedGroups}</excludedGroups>
+  <excludes>${surefire.excludes}</excludes>
+  <excludesFile>${surefire.excludesFile}</excludesFile>
+  <failIfNoSpecifiedTests default-value="true">${surefire.failIfNoSpecifiedTests}</failIfNoSpecifiedTests>
+  <failIfNoTests default-value="false">${failIfNoTests}</failIfNoTests>
+  <failOnFlakeCount default-value="0">${surefire.failOnFlakeCount}</failOnFlakeCount>
+  <forkCount default-value="1">${forkCount}</forkCount>
+  <forkNode>${surefire.forkNode}</forkNode>
+  <forkedProcessExitTimeoutInSeconds default-value="30">${surefire.exitTimeout}</forkedProcessExitTimeoutInSeconds>
+  <forkedProcessTimeoutInSeconds>${surefire.timeout}</forkedProcessTimeoutInSeconds>
+  <groups>${groups}</groups>
+  <includeJUnit5Engines>${surefire.includeJUnit5Engines}</includeJUnit5Engines>
+  <includes>${surefire.includes}</includes>
+  <includesFile>${surefire.includesFile}</includesFile>
+  <junitArtifactName default-value="junit:junit">${junitArtifactName}</junitArtifactName>
+  <jvm>${jvm}</jvm>
+  <objectFactory>${objectFactory}</objectFactory>
+  <parallel>${parallel}</parallel>
+  <parallelMavenExecution default-value="${session.parallel}"/>
+  <parallelOptimized default-value="true">${parallelOptimized}</parallelOptimized>
+  <parallelTestsTimeoutForcedInSeconds>${surefire.parallel.forcedTimeout}</parallelTestsTimeoutForcedInSeconds>
+  <parallelTestsTimeoutInSeconds>${surefire.parallel.timeout}</parallelTestsTimeoutInSeconds>
+  <perCoreThreadCount default-value="true">${perCoreThreadCount}</perCoreThreadCount>
+  <pluginArtifactMap>${plugin.artifactMap}</pluginArtifactMap>
+  <pluginDescriptor default-value="${plugin}"/>
+  <printSummary default-value="true">${surefire.printSummary}</printSummary>
+  <project default-value="${project}"/>
+  <projectArtifactMap>${project.artifactMap}</projectArtifactMap>
+  <projectBuildDirectory default-value="${project.build.directory}"/>
+  <promoteUserPropertiesToSystemProperties default-value="true"/>
+  <redirectTestOutputToFile default-value="false">${maven.test.redirectTestOutputToFile}</redirectTestOutputToFile>
+  <reportFormat default-value="brief">${surefire.reportFormat}</reportFormat>
+  <reportNameSuffix default-value="">${surefire.reportNameSuffix}</reportNameSuffix>
+  <reportsDirectory default-value="${project.build.directory}/surefire-reports"/>
+  <rerunFailingTestsCount default-value="0">${surefire.rerunFailingTestsCount}</rerunFailingTestsCount>
+  <reuseForks default-value="true">${reuseForks}</reuseForks>
+  <runOrder default-value="filesystem">${surefire.runOrder}</runOrder>
+  <runOrderRandomSeed>${surefire.runOrder.random.seed}</runOrderRandomSeed>
+  <session default-value="${session}"/>
+  <shutdown default-value="exit">${surefire.shutdown}</shutdown>
+  <skip default-value="false">${maven.test.skip}</skip>
+  <skipAfterFailureCount default-value="0">${surefire.skipAfterFailureCount}</skipAfterFailureCount>
+  <skipExec>${maven.test.skip.exec}</skipExec>
+  <skipTests default-value="false">${skipTests}</skipTests>
+  <suiteXmlFiles>${surefire.suiteXmlFiles}</suiteXmlFiles>
+  <systemPropertiesFile>${surefire.systemPropertiesFile}</systemPropertiesFile>
+  <tempDir default-value="surefire">${tempDir}</tempDir>
+  <test>${test}</test>
+  <testClassesDirectory default-value="${project.build.testOutputDirectory}"/>
+  <testFailureIgnore default-value="false">${maven.test.failure.ignore}</testFailureIgnore>
+  <testNGArtifactName default-value="org.testng:testng">${testNGArtifactName}</testNGArtifactName>
+  <testSourceDirectory default-value="${project.build.testSourceDirectory}"/>
+  <threadCount>${threadCount}</threadCount>
+  <threadCountClasses default-value="0">${threadCountClasses}</threadCountClasses>
+  <threadCountMethods default-value="0">${threadCountMethods}</threadCountMethods>
+  <threadCountSuites default-value="0">${threadCountSuites}</threadCountSuites>
+  <trimStackTrace default-value="false">${trimStackTrace}</trimStackTrace>
+  <useFile default-value="true">${surefire.useFile}</useFile>
+  <useManifestOnlyJar default-value="true">${surefire.useManifestOnlyJar}</useManifestOnlyJar>
+  <useModulePath default-value="true">${surefire.useModulePath}</useModulePath>
+  <useSystemClassLoader default-value="true">${surefire.useSystemClassLoader}</useSystemClassLoader>
+  <useUnlimitedThreads default-value="false">${useUnlimitedThreads}</useUnlimitedThreads>
+  <workingDirectory>${basedir}</workingDirectory>
+</configuration>
+[[1;36mDEBUG[m] -----------------------------------------------------------------------
+[[1;36mDEBUG[m] Goal:          org.apache.maven.plugins:maven-jar-plugin:3.4.2:jar (default-jar)
+[[1;36mDEBUG[m] Style:         Regular
+[[1;36mDEBUG[m] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <addDefaultExcludes default-value="true"/>
+  <archive>
+    <manifest>
+      <mainClass>${start-class}</mainClass>
+      <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+    </manifest>
+  </archive>
+  <classesDirectory default-value="${project.build.outputDirectory}"/>
+  <detectMultiReleaseJar default-value="true">${maven.jar.detectMultiReleaseJar}</detectMultiReleaseJar>
+  <finalName default-value="${project.build.finalName}"/>
+  <forceCreation default-value="false">${maven.jar.forceCreation}</forceCreation>
+  <outputDirectory default-value="${project.build.directory}"/>
+  <outputTimestamp default-value="${project.build.outputTimestamp}"/>
+  <project default-value="${project}"/>
+  <session default-value="${session}"/>
+  <skipIfEmpty default-value="false"/>
+  <useDefaultManifestFile default-value="false">${jar.useDefaultManifestFile}</useDefaultManifestFile>
+</configuration>
+[[1;36mDEBUG[m] -----------------------------------------------------------------------
+[[1;36mDEBUG[m] Goal:          org.springframework.boot:spring-boot-maven-plugin:3.5.8:repackage (repackage)
+[[1;36mDEBUG[m] Style:         Regular
+[[1;36mDEBUG[m] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <attach default-value="true"/>
+  <excludeDevtools default-value="true">${spring-boot.repackage.excludeDevtools}</excludeDevtools>
+  <excludeDockerCompose default-value="true">${spring-boot.repackage.excludeDockerCompose}</excludeDockerCompose>
+  <excludeGroupIds default-value="">${spring-boot.excludeGroupIds}</excludeGroupIds>
+  <excludes>
+    <exclude>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </exclude>${spring-boot.excludes}</excludes>
+  <executable default-value="false"/>
+  <finalName default-value="${project.build.finalName}"/>
+  <includeOptional default-value="true"/>
+  <includeSystemScope default-value="false"/>
+  <includeTools default-value="true"/>
+  <includes>${spring-boot.includes}</includes>
+  <layout>${spring-boot.repackage.layout}</layout>
+  <mainClass>${start-class}</mainClass>
+  <outputDirectory default-value="${project.build.directory}"/>
+  <outputTimestamp default-value="${project.build.outputTimestamp}"/>
+  <project default-value="${project}"/>
+  <session default-value="${session}"/>
+  <skip default-value="false">${spring-boot.repackage.skip}</skip>
+</configuration>
+[[1;36mDEBUG[m] =======================================================================
+[[1;36mDEBUG[m] Dependency collection stats: {ConflictMarker.analyzeTime=2706918, ConflictMarker.markTime=1092870, ConflictMarker.nodeCount=210, ConflictIdSorter.graphTime=1710670, ConflictIdSorter.topsortTime=1010223, ConflictIdSorter.conflictIdCount=102, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=23795632, ConflictResolver.conflictItemCount=207, DefaultDependencyCollector.collectTime=493715643, DefaultDependencyCollector.transformTime=33871066}
+[[1;36mDEBUG[m] com.sistem:monitoring:jar:0.0.1-SNAPSHOT
+[[1;36mDEBUG[m]    org.springframework.boot:spring-boot-starter-data-jpa:jar:3.5.8:compile
+[[1;36mDEBUG[m]       org.springframework.boot:spring-boot-starter:jar:3.5.8:compile (version managed from 3.5.8)
+[[1;36mDEBUG[m]          org.springframework.boot:spring-boot-starter-logging:jar:3.5.8:compile (version managed from 3.5.8)
+[[1;36mDEBUG[m]             ch.qos.logback:logback-classic:jar:1.5.21:compile (version managed from 1.5.21)
+[[1;36mDEBUG[m]                ch.qos.logback:logback-core:jar:1.5.21:compile (version managed from 1.5.21)
+[[1;36mDEBUG[m]             org.apache.logging.log4j:log4j-to-slf4j:jar:2.24.3:compile (version managed from 2.24.3)
+[[1;36mDEBUG[m]                org.apache.logging.log4j:log4j-api:jar:2.24.3:compile (version managed from 2.24.3)
+[[1;36mDEBUG[m]             org.slf4j:jul-to-slf4j:jar:2.0.17:compile (version managed from 2.0.17)
+[[1;36mDEBUG[m]          jakarta.annotation:jakarta.annotation-api:jar:2.1.1:compile (version managed from 2.1.1)
+[[1;36mDEBUG[m]          org.yaml:snakeyaml:jar:2.4:compile (version managed from 2.4)
+[[1;36mDEBUG[m]       org.springframework.boot:spring-boot-starter-jdbc:jar:3.5.8:compile (version managed from 3.5.8)
+[[1;36mDEBUG[m]          com.zaxxer:HikariCP:jar:6.3.3:compile (version managed from 6.3.3)
+[[1;36mDEBUG[m]          org.springframework:spring-jdbc:jar:6.2.14:compile (version managed from 6.2.14)
+[[1;36mDEBUG[m]       org.hibernate.orm:hibernate-core:jar:6.6.36.Final:compile (version managed from 6.6.36.Final)
+[[1;36mDEBUG[m]          jakarta.persistence:jakarta.persistence-api:jar:3.1.0:compile (version managed from 3.1.0)
+[[1;36mDEBUG[m]          jakarta.transaction:jakarta.transaction-api:jar:2.0.1:compile (version managed from 2.0.1)
+[[1;36mDEBUG[m]          org.jboss.logging:jboss-logging:jar:3.6.1.Final:runtime (version managed from 3.5.0.Final)
+[[1;36mDEBUG[m]          org.hibernate.common:hibernate-commons-annotations:jar:7.0.3.Final:runtime
+[[1;36mDEBUG[m]          io.smallrye:jandex:jar:3.2.0:runtime
+[[1;36mDEBUG[m]          com.fasterxml:classmate:jar:1.7.1:runtime (version managed from 1.5.1)
+[[1;36mDEBUG[m]          net.bytebuddy:byte-buddy:jar:1.17.8:runtime (version managed from 1.15.11)
+[[1;36mDEBUG[m]          org.glassfish.jaxb:jaxb-runtime:jar:4.0.6:runtime (version managed from 4.0.2)
+[[1;36mDEBUG[m]             org.glassfish.jaxb:jaxb-core:jar:4.0.6:runtime (version managed from 4.0.6)
+[[1;36mDEBUG[m]                org.eclipse.angus:angus-activation:jar:2.0.3:runtime (version managed from 2.0.3)
+[[1;36mDEBUG[m]                org.glassfish.jaxb:txw2:jar:4.0.6:runtime (version managed from 4.0.6)
+[[1;36mDEBUG[m]                com.sun.istack:istack-commons-runtime:jar:4.1.2:runtime (version managed from 4.1.2)
+[[1;36mDEBUG[m]          jakarta.inject:jakarta.inject-api:jar:2.0.1:runtime (version managed from 2.0.1)
+[[1;36mDEBUG[m]          org.antlr:antlr4-runtime:jar:4.13.0:compile
+[[1;36mDEBUG[m]       org.springframework.data:spring-data-jpa:jar:3.5.6:compile (version managed from 3.5.6)
+[[1;36mDEBUG[m]          org.springframework.data:spring-data-commons:jar:3.5.6:compile (version managed from 3.5.6)
+[[1;36mDEBUG[m]          org.springframework:spring-orm:jar:6.2.14:compile (version managed from 6.2.13)
+[[1;36mDEBUG[m]          org.springframework:spring-context:jar:6.2.14:compile (version managed from 6.2.13)
+[[1;36mDEBUG[m]          org.springframework:spring-tx:jar:6.2.14:compile (version managed from 6.2.13)
+[[1;36mDEBUG[m]          org.springframework:spring-beans:jar:6.2.14:compile (version managed from 6.2.13)
+[[1;36mDEBUG[m]       org.springframework:spring-aspects:jar:6.2.14:compile (version managed from 6.2.14)
+[[1;36mDEBUG[m]          org.aspectj:aspectjweaver:jar:1.9.25:compile (version managed from 1.9.22.1)
+[[1;36mDEBUG[m]    org.springframework.boot:spring-boot-starter-thymeleaf:jar:3.5.8:compile
+[[1;36mDEBUG[m]       org.thymeleaf:thymeleaf-spring6:jar:3.1.3.RELEASE:compile (version managed from 3.1.3.RELEASE)
+[[1;36mDEBUG[m]          org.thymeleaf:thymeleaf:jar:3.1.3.RELEASE:compile (version managed from 3.1.3.RELEASE)
+[[1;36mDEBUG[m]             org.attoparser:attoparser:jar:2.0.7.RELEASE:compile
+[[1;36mDEBUG[m]             org.unbescape:unbescape:jar:1.1.6.RELEASE:compile
+[[1;36mDEBUG[m]    org.thymeleaf.extras:thymeleaf-extras-springsecurity6:jar:3.1.3.RELEASE:compile
+[[1;36mDEBUG[m]       org.slf4j:slf4j-api:jar:2.0.17:compile (version managed from 2.0.16)
+[[1;36mDEBUG[m]    org.springframework.boot:spring-boot-starter-web:jar:3.5.8:compile
+[[1;36mDEBUG[m]       org.springframework.boot:spring-boot-starter-json:jar:3.5.8:compile (version managed from 3.5.8)
+[[1;36mDEBUG[m]          com.fasterxml.jackson.core:jackson-databind:jar:2.19.4:compile (version managed from 2.19.4)
+[[1;36mDEBUG[m]             com.fasterxml.jackson.core:jackson-annotations:jar:2.19.4:compile (version managed from 2.19.4)
+[[1;36mDEBUG[m]             com.fasterxml.jackson.core:jackson-core:jar:2.19.4:compile (version managed from 2.19.4)
+[[1;36mDEBUG[m]          com.fasterxml.jackson.datatype:jackson-datatype-jdk8:jar:2.19.4:compile (version managed from 2.19.4)
+[[1;36mDEBUG[m]          com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.19.4:compile (version managed from 2.19.4)
+[[1;36mDEBUG[m]          com.fasterxml.jackson.module:jackson-module-parameter-names:jar:2.19.4:compile (version managed from 2.19.4)
+[[1;36mDEBUG[m]       org.springframework.boot:spring-boot-starter-tomcat:jar:3.5.8:compile (version managed from 3.5.8)
+[[1;36mDEBUG[m]          org.apache.tomcat.embed:tomcat-embed-core:jar:10.1.49:compile (version managed from 10.1.49)
+[[1;36mDEBUG[m]          org.apache.tomcat.embed:tomcat-embed-el:jar:10.1.49:compile (version managed from 10.1.49)
+[[1;36mDEBUG[m]          org.apache.tomcat.embed:tomcat-embed-websocket:jar:10.1.49:compile (version managed from 10.1.49)
+[[1;36mDEBUG[m]       org.springframework:spring-web:jar:6.2.14:compile (version managed from 6.2.14)
+[[1;36mDEBUG[m]          io.micrometer:micrometer-observation:jar:1.15.6:compile (version managed from 1.14.13)
+[[1;36mDEBUG[m]             io.micrometer:micrometer-commons:jar:1.15.6:compile (version managed from 1.15.6)
+[[1;36mDEBUG[m]       org.springframework:spring-webmvc:jar:6.2.14:compile (version managed from 6.2.14)
+[[1;36mDEBUG[m]          org.springframework:spring-expression:jar:6.2.14:compile (version managed from 6.2.14)
+[[1;36mDEBUG[m]    org.springframework.boot:spring-boot-devtools:jar:3.5.8:runtime (optional)
+[[1;36mDEBUG[m]       org.springframework.boot:spring-boot:jar:3.5.8:compile (version managed from 3.5.8)
+[[1;36mDEBUG[m]       org.springframework.boot:spring-boot-autoconfigure:jar:3.5.8:compile (version managed from 3.5.8)
+[[1;36mDEBUG[m]    org.postgresql:postgresql:jar:42.7.8:runtime
+[[1;36mDEBUG[m]       org.checkerframework:checker-qual:jar:3.49.5:runtime
+[[1;36mDEBUG[m]    org.springframework.boot:spring-boot-starter-test:jar:3.5.8:test
+[[1;36mDEBUG[m]       org.springframework.boot:spring-boot-test:jar:3.5.8:test (version managed from 3.5.8)
+[[1;36mDEBUG[m]       org.springframework.boot:spring-boot-test-autoconfigure:jar:3.5.8:test (version managed from 3.5.8)
+[[1;36mDEBUG[m]       com.jayway.jsonpath:json-path:jar:2.9.0:test (version managed from 2.9.0)
+[[1;36mDEBUG[m]       jakarta.xml.bind:jakarta.xml.bind-api:jar:4.0.4:runtime (version managed from 4.0.4)
+[[1;36mDEBUG[m]          jakarta.activation:jakarta.activation-api:jar:2.1.4:runtime (version managed from 2.1.4)
+[[1;36mDEBUG[m]       net.minidev:json-smart:jar:2.5.2:test (version managed from 2.5.2)
+[[1;36mDEBUG[m]          net.minidev:accessors-smart:jar:2.5.2:test
+[[1;36mDEBUG[m]             org.ow2.asm:asm:jar:9.7.1:test
+[[1;36mDEBUG[m]       org.assertj:assertj-core:jar:3.27.6:test (version managed from 3.27.6)
+[[1;36mDEBUG[m]       org.awaitility:awaitility:jar:4.2.2:test (version managed from 4.2.2)
+[[1;36mDEBUG[m]       org.hamcrest:hamcrest:jar:3.0:test (version managed from 3.0)
+[[1;36mDEBUG[m]       org.junit.jupiter:junit-jupiter:jar:5.12.2:test (version managed from 5.12.2)
+[[1;36mDEBUG[m]          org.junit.jupiter:junit-jupiter-api:jar:5.12.2:test (version managed from 5.12.2)
+[[1;36mDEBUG[m]             org.opentest4j:opentest4j:jar:1.3.0:test
+[[1;36mDEBUG[m]             org.junit.platform:junit-platform-commons:jar:1.12.2:test (version managed from 1.12.2)
+[[1;36mDEBUG[m]             org.apiguardian:apiguardian-api:jar:1.1.2:test
+[[1;36mDEBUG[m]          org.junit.jupiter:junit-jupiter-params:jar:5.12.2:test (version managed from 5.12.2)
+[[1;36mDEBUG[m]          org.junit.jupiter:junit-jupiter-engine:jar:5.12.2:test (version managed from 5.12.2)
+[[1;36mDEBUG[m]             org.junit.platform:junit-platform-engine:jar:1.12.2:test (version managed from 1.12.2)
+[[1;36mDEBUG[m]       org.mockito:mockito-core:jar:5.17.0:test (version managed from 5.17.0)
+[[1;36mDEBUG[m]          net.bytebuddy:byte-buddy-agent:jar:1.17.8:test (version managed from 1.15.11)
+[[1;36mDEBUG[m]          org.objenesis:objenesis:jar:3.3:test
+[[1;36mDEBUG[m]       org.mockito:mockito-junit-jupiter:jar:5.17.0:test (version managed from 5.17.0)
+[[1;36mDEBUG[m]       org.skyscreamer:jsonassert:jar:1.5.3:test (version managed from 1.5.3)
+[[1;36mDEBUG[m]          com.vaadin.external.google:android-json:jar:0.0.20131108.vaadin1:test
+[[1;36mDEBUG[m]       org.springframework:spring-core:jar:6.2.14:compile (version managed from 6.2.14)
+[[1;36mDEBUG[m]          org.springframework:spring-jcl:jar:6.2.14:compile (version managed from 6.2.14)
+[[1;36mDEBUG[m]       org.springframework:spring-test:jar:6.2.14:test (version managed from 6.2.14)
+[[1;36mDEBUG[m]       org.xmlunit:xmlunit-core:jar:2.10.4:test (version managed from 2.10.4)
+[[1;36mDEBUG[m]    io.github.cdimascio:dotenv-java:jar:3.2.0:compile
+[[1;36mDEBUG[m]    org.springframework.boot:spring-boot-starter-security:jar:3.5.8:compile
+[[1;36mDEBUG[m]       org.springframework:spring-aop:jar:6.2.14:compile (version managed from 6.2.14)
+[[1;36mDEBUG[m]       org.springframework.security:spring-security-config:jar:6.5.7:compile (version managed from 6.5.7)
+[[1;36mDEBUG[m]          org.springframework.security:spring-security-core:jar:6.5.7:compile (version managed from 6.5.7)
+[[1;36mDEBUG[m]             org.springframework.security:spring-security-crypto:jar:6.5.7:compile (version managed from 6.5.7)
+[[1;36mDEBUG[m]       org.springframework.security:spring-security-web:jar:6.5.7:compile (version managed from 6.5.7)
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-clean-plugin:3.4.1:clean[m [1m(default-clean)[m @ [36mmonitoring[0;1m ---[m
+[[1;36mDEBUG[m] Dependency collection stats: {ConflictMarker.analyzeTime=62659, ConflictMarker.markTime=117322, ConflictMarker.nodeCount=2, ConflictIdSorter.graphTime=126479, ConflictIdSorter.topsortTime=18906, ConflictIdSorter.conflictIdCount=2, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=177366, ConflictResolver.conflictItemCount=2, DefaultDependencyCollector.collectTime=11092220, DefaultDependencyCollector.transformTime=588304}
+[[1;36mDEBUG[m] org.apache.maven.plugins:maven-clean-plugin:jar:3.4.1
+[[1;36mDEBUG[m]    org.codehaus.plexus:plexus-utils:jar:4.0.1:compile
+[[1;36mDEBUG[m] Created new class realm plugin>org.apache.maven.plugins:maven-clean-plugin:3.4.1
+[[1;36mDEBUG[m] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-clean-plugin:3.4.1
+[[1;36mDEBUG[m]   Imported:  < maven.api
+[[1;36mDEBUG[m] Populating class realm plugin>org.apache.maven.plugins:maven-clean-plugin:3.4.1
+[[1;36mDEBUG[m]   Included: org.apache.maven.plugins:maven-clean-plugin:jar:3.4.1
+[[1;36mDEBUG[m]   Included: org.codehaus.plexus:plexus-utils:jar:4.0.1
+[[1;36mDEBUG[m] Configuring mojo org.apache.maven.plugins:maven-clean-plugin:3.4.1:clean from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-clean-plugin:3.4.1, parent: jdk.internal.loader.ClassLoaders$AppClassLoader@639fee48]
+[[1;36mDEBUG[m] Configuring mojo 'org.apache.maven.plugins:maven-clean-plugin:3.4.1:clean' with basic configurator -->
+[[1;36mDEBUG[m]   (f) directory = /home/astha/Documents/dev/PKL/target
+[[1;36mDEBUG[m]   (f) excludeDefaultDirectories = false
+[[1;36mDEBUG[m]   (f) failOnError = true
+[[1;36mDEBUG[m]   (f) fast = false
+[[1;36mDEBUG[m]   (f) fastMode = background
+[[1;36mDEBUG[m]   (f) followSymLinks = false
+[[1;36mDEBUG[m]   (f) outputDirectory = /home/astha/Documents/dev/PKL/target/classes
+[[1;36mDEBUG[m]   (f) reportDirectory = /home/astha/Documents/dev/PKL/target/classes
+[[1;36mDEBUG[m]   (f) retryOnError = true
+[[1;36mDEBUG[m]   (f) session = org.apache.maven.execution.MavenSession@1f6d27cc
+[[1;36mDEBUG[m]   (f) skip = false
+[[1;36mDEBUG[m]   (f) testOutputDirectory = /home/astha/Documents/dev/PKL/target/test-classes
+[[1;36mDEBUG[m] -- end configuration --
+[[1;34mINFO[m] Deleting /home/astha/Documents/dev/PKL/target
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+[[1;34mINFO[m] Deleting directory /home/astha/Documents/dev/PKL/target/maven-status/maven-compiler-plugin/compile/default-compile
+[[1;34mINFO[m] Deleting directory /home/astha/Documents/dev/PKL/target/maven-status/maven-compiler-plugin/compile
+[[1;34mINFO[m] Deleting directory /home/astha/Documents/dev/PKL/target/maven-status/maven-compiler-plugin
+[[1;34mINFO[m] Deleting directory /home/astha/Documents/dev/PKL/target/maven-status
+[[1;34mINFO[m] Deleting directory /home/astha/Documents/dev/PKL/target/generated-sources/annotations
+[[1;34mINFO[m] Deleting directory /home/astha/Documents/dev/PKL/target/generated-sources
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/CompanyView/create-form.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/CompanyView/edit-form.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/CompanyView/profile.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/CompanyView/index.html
+[[1;34mINFO[m] Deleting directory /home/astha/Documents/dev/PKL/target/classes/templates/CompanyView
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/DailyJournalView/edit.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/DailyJournalView/create-form.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/DailyJournalView/detail.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/DailyJournalView/index.html
+[[1;34mINFO[m] Deleting directory /home/astha/Documents/dev/PKL/target/classes/templates/DailyJournalView
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/PlacementView/create-form.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/PlacementView/detail.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/PlacementView/edit-form.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/PlacementView/index.html
+[[1;34mINFO[m] Deleting directory /home/astha/Documents/dev/PKL/target/classes/templates/PlacementView
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/UserView/create-form.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/UserView/edit-form.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/UserView/profile.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/UserView/index.html
+[[1;34mINFO[m] Deleting directory /home/astha/Documents/dev/PKL/target/classes/templates/UserView
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/CompanySupervisorView/create-form.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/CompanySupervisorView/detail.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/CompanySupervisorView/edit-form.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/CompanySupervisorView/index.html
+[[1;34mINFO[m] Deleting directory /home/astha/Documents/dev/PKL/target/classes/templates/CompanySupervisorView
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/home.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/GradeView/create-form.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/GradeView/index.html
+[[1;34mINFO[m] Deleting directory /home/astha/Documents/dev/PKL/target/classes/templates/GradeView
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/layouts/js/app.js
+[[1;34mINFO[m] Deleting directory /home/astha/Documents/dev/PKL/target/classes/templates/layouts/js
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/layouts/fragments/sidebar.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/layouts/fragments/navbar.html
+[[1;34mINFO[m] Deleting directory /home/astha/Documents/dev/PKL/target/classes/templates/layouts/fragments
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/layouts/layout.html
+[[1;34mINFO[m] Deleting directory /home/astha/Documents/dev/PKL/target/classes/templates/layouts
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/AttendanceView/create-form.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/AttendanceView/detail.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/AttendanceView/edit-form.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/AttendanceView/index.html
+[[1;34mINFO[m] Deleting directory /home/astha/Documents/dev/PKL/target/classes/templates/AttendanceView
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/ReportSubmissionView/create-form.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/ReportSubmissionView/detail.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/ReportSubmissionView/index.html
+[[1;34mINFO[m] Deleting directory /home/astha/Documents/dev/PKL/target/classes/templates/ReportSubmissionView
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/Auth/login.html
+[[1;34mINFO[m] Deleting directory /home/astha/Documents/dev/PKL/target/classes/templates/Auth
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/error.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/SchoolSupervisorView/create-form.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/SchoolSupervisorView/edit-form.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/SchoolSupervisorView/profile.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/SchoolSupervisorView/index.html
+[[1;34mINFO[m] Deleting directory /home/astha/Documents/dev/PKL/target/classes/templates/SchoolSupervisorView
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/StudentView/create-form.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/StudentView/detail.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/StudentView/edit-form.html
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/StudentView/index.html
+[[1;34mINFO[m] Deleting directory /home/astha/Documents/dev/PKL/target/classes/templates/StudentView
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/templates/index.html
+[[1;34mINFO[m] Deleting directory /home/astha/Documents/dev/PKL/target/classes/templates
+[[1;34mINFO[m] Deleting file /home/astha/Documents/dev/PKL/target/classes/application.properties
+[[1;34mINFO[m] Deleting directory /home/astha/Documents/dev/PKL/target/classes
+[[1;34mINFO[m] Deleting directory /home/astha/Documents/dev/PKL/target
+[[1;36mDEBUG[m] Skipping non-existing directory /home/astha/Documents/dev/PKL/target/classes
+[[1;36mDEBUG[m] Skipping non-existing directory /home/astha/Documents/dev/PKL/target/test-classes
+[[1;36mDEBUG[m] Skipping non-existing directory /home/astha/Documents/dev/PKL/target/classes
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.3.1:resources[m [1m(default-resources)[m @ [36mmonitoring[0;1m ---[m
+[[1;36mDEBUG[m] Dependency collection stats: {ConflictMarker.analyzeTime=88117, ConflictMarker.markTime=135958, ConflictMarker.nodeCount=13, ConflictIdSorter.graphTime=70082, ConflictIdSorter.topsortTime=26851, ConflictIdSorter.conflictIdCount=9, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=317191, ConflictResolver.conflictItemCount=13, DefaultDependencyCollector.collectTime=57804959, DefaultDependencyCollector.transformTime=674518}
+[[1;36mDEBUG[m] org.apache.maven.plugins:maven-resources-plugin:jar:3.3.1
+[[1;36mDEBUG[m]    org.codehaus.plexus:plexus-interpolation:jar:1.26:runtime
+[[1;36mDEBUG[m]    org.codehaus.plexus:plexus-utils:jar:3.5.1:compile
+[[1;36mDEBUG[m]    org.apache.maven.shared:maven-filtering:jar:3.3.1:compile
+[[1;36mDEBUG[m]       javax.inject:javax.inject:jar:1:compile
+[[1;36mDEBUG[m]       org.slf4j:slf4j-api:jar:1.7.36:compile
+[[1;36mDEBUG[m]       org.sonatype.plexus:plexus-build-api:jar:0.0.7:compile
+[[1;36mDEBUG[m]    commons-io:commons-io:jar:2.11.0:compile
+[[1;36mDEBUG[m]    org.apache.commons:commons-lang3:jar:3.12.0:compile
+[[1;36mDEBUG[m] Created new class realm plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1
+[[1;36mDEBUG[m] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1
+[[1;36mDEBUG[m]   Imported:  < maven.api
+[[1;36mDEBUG[m] Populating class realm plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1
+[[1;36mDEBUG[m]   Included: org.apache.maven.plugins:maven-resources-plugin:jar:3.3.1
+[[1;36mDEBUG[m]   Included: org.codehaus.plexus:plexus-interpolation:jar:1.26
+[[1;36mDEBUG[m]   Included: org.codehaus.plexus:plexus-utils:jar:3.5.1
+[[1;36mDEBUG[m]   Included: org.apache.maven.shared:maven-filtering:jar:3.3.1
+[[1;36mDEBUG[m]   Included: org.sonatype.plexus:plexus-build-api:jar:0.0.7
+[[1;36mDEBUG[m]   Included: commons-io:commons-io:jar:2.11.0
+[[1;36mDEBUG[m]   Included: org.apache.commons:commons-lang3:jar:3.12.0
+[[1;36mDEBUG[m] Configuring mojo org.apache.maven.plugins:maven-resources-plugin:3.3.1:resources from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1, parent: jdk.internal.loader.ClassLoaders$AppClassLoader@639fee48]
+[[1;36mDEBUG[m] Configuring mojo 'org.apache.maven.plugins:maven-resources-plugin:3.3.1:resources' with basic configurator -->
+[[1;36mDEBUG[m]   (f) addDefaultExcludes = true
+[[1;36mDEBUG[m]   (f) buildFilters = []
+[[1;36mDEBUG[m]   (s) delimiters = [@]
+[[1;36mDEBUG[m]   (f) encoding = UTF-8
+[[1;36mDEBUG[m]   (f) escapeWindowsPaths = true
+[[1;36mDEBUG[m]   (f) fileNameFiltering = false
+[[1;36mDEBUG[m]   (s) includeEmptyDirs = false
+[[1;36mDEBUG[m]   (s) outputDirectory = /home/astha/Documents/dev/PKL/target/classes
+[[1;36mDEBUG[m]   (s) overwrite = false
+[[1;36mDEBUG[m]   (f) project = MavenProject: com.sistem:monitoring:0.0.1-SNAPSHOT @ /home/astha/Documents/dev/PKL/pom.xml
+[[1;36mDEBUG[m]   (f) propertiesEncoding = UTF-8
+[[1;36mDEBUG[m]   (s) resources = [Resource {targetPath: null, filtering: true, FileSet {directory: /home/astha/Documents/dev/PKL/src/main/resources, PatternSet [includes: {**/application*.yml, **/application*.yaml, **/application*.properties}, excludes: {}]}}, Resource {targetPath: null, filtering: false, FileSet {directory: /home/astha/Documents/dev/PKL/src/main/resources, PatternSet [includes: {}, excludes: {**/application*.yml, **/application*.yaml, **/application*.properties}]}}]
+[[1;36mDEBUG[m]   (f) session = org.apache.maven.execution.MavenSession@1f6d27cc
+[[1;36mDEBUG[m]   (f) skip = false
+[[1;36mDEBUG[m]   (f) supportMultiLineFiltering = false
+[[1;36mDEBUG[m]   (f) useBuildFilters = true
+[[1;36mDEBUG[m]   (s) useDefaultDelimiters = false
+[[1;36mDEBUG[m] -- end configuration --
+[[1;36mDEBUG[m] properties used:
+[[1;36mDEBUG[m] activemq.version: 6.1.8
+[[1;36mDEBUG[m] angus-mail.version: 2.0.5
+[[1;36mDEBUG[m] artemis.version: 2.40.0
+[[1;36mDEBUG[m] aspectj.version: 1.9.25
+[[1;36mDEBUG[m] assertj.version: 3.27.6
+[[1;36mDEBUG[m] awaitility.version: 4.2.2
+[[1;36mDEBUG[m] brave.version: 6.1.0
+[[1;36mDEBUG[m] build-helper-maven-plugin.version: 3.6.1
+[[1;36mDEBUG[m] byte-buddy.version: 1.17.8
+[[1;36mDEBUG[m] cache2k.version: 2.6.1.Final
+[[1;36mDEBUG[m] caffeine.version: 3.2.3
+[[1;36mDEBUG[m] cassandra-driver.version: 4.19.2
+[[1;36mDEBUG[m] classmate.version: 1.7.1
+[[1;36mDEBUG[m] classworlds.conf: /usr/share/maven/bin/m2.conf
+[[1;36mDEBUG[m] commons-codec.version: 1.18.0
+[[1;36mDEBUG[m] commons-dbcp2.version: 2.13.0
+[[1;36mDEBUG[m] commons-lang3.version: 3.17.0
+[[1;36mDEBUG[m] commons-pool.version: 1.6
+[[1;36mDEBUG[m] commons-pool2.version: 2.12.1
+[[1;36mDEBUG[m] couchbase-client.version: 3.8.3
+[[1;36mDEBUG[m] crac.version: 1.5.0
+[[1;36mDEBUG[m] cyclonedx-maven-plugin.version: 2.9.1
+[[1;36mDEBUG[m] db2-jdbc.version: 12.1.3.0
+[[1;36mDEBUG[m] dependency-management-plugin.version: 1.1.7
+[[1;36mDEBUG[m] derby.version: 10.16.1.1
+[[1;36mDEBUG[m] ehcache3.version: 3.10.9
+[[1;36mDEBUG[m] elasticsearch-client.version: 8.18.8
+[[1;36mDEBUG[m] env.COLORTERM: truecolor
+[[1;36mDEBUG[m] env.DBUS_SESSION_BUS_ADDRESS: unix:path=/run/user/1000/bus
+[[1;36mDEBUG[m] env.DESKTOP_SESSION: ubuntu-xorg
+[[1;36mDEBUG[m] env.DISPLAY: :0
+[[1;36mDEBUG[m] env.GDMSESSION: ubuntu-xorg
+[[1;36mDEBUG[m] env.GNOME_DESKTOP_SESSION_ID: this-is-deprecated
+[[1;36mDEBUG[m] env.GNOME_SHELL_SESSION_MODE: ubuntu
+[[1;36mDEBUG[m] env.GNOME_TERMINAL_SCREEN: /org/gnome/Terminal/screen/e2325f7d_6263_4ce7_b58f_772b427f3dfb
+[[1;36mDEBUG[m] env.GNOME_TERMINAL_SERVICE: :1.174
+[[1;36mDEBUG[m] env.GPG_AGENT_INFO: /run/user/1000/gnupg/S.gpg-agent:0:1
+[[1;36mDEBUG[m] env.GTK_IM_MODULE: ibus
+[[1;36mDEBUG[m] env.GTK_MODULES: gail:atk-bridge
+[[1;36mDEBUG[m] env.HOME: /home/astha
+[[1;36mDEBUG[m] env.LANG: en_US.UTF-8
+[[1;36mDEBUG[m] env.LC_ADDRESS: id_ID.UTF-8
+[[1;36mDEBUG[m] env.LC_IDENTIFICATION: id_ID.UTF-8
+[[1;36mDEBUG[m] env.LC_MEASUREMENT: id_ID.UTF-8
+[[1;36mDEBUG[m] env.LC_MONETARY: id_ID.UTF-8
+[[1;36mDEBUG[m] env.LC_NAME: id_ID.UTF-8
+[[1;36mDEBUG[m] env.LC_NUMERIC: id_ID.UTF-8
+[[1;36mDEBUG[m] env.LC_PAPER: id_ID.UTF-8
+[[1;36mDEBUG[m] env.LC_TELEPHONE: id_ID.UTF-8
+[[1;36mDEBUG[m] env.LC_TIME: id_ID.UTF-8
+[[1;36mDEBUG[m] env.LESSCLOSE: /usr/bin/lesspipe %s %s
+[[1;36mDEBUG[m] env.LESSOPEN: | /usr/bin/lesspipe %s
+[[1;36mDEBUG[m] env.LOGNAME: astha
+[[1;36mDEBUG[m] env.LS_COLORS: rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:
+[[1;36mDEBUG[m] env.MAVEN_CMD_LINE_ARGS:  -X clean package -DskipTests
+[[1;36mDEBUG[m] env.MAVEN_PROJECTBASEDIR: /home/astha/Documents/dev/PKL
+[[1;36mDEBUG[m] env.OLDPWD: /home/astha/Documents/dev/PKL
+[[1;36mDEBUG[m] env.PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin
+[[1;36mDEBUG[m] env.PWD: /home/astha/Documents/dev/PKL
+[[1;36mDEBUG[m] env.QT_ACCESSIBILITY: 1
+[[1;36mDEBUG[m] env.QT_IM_MODULE: ibus
+[[1;36mDEBUG[m] env.SESSION_MANAGER: local/astha-town:@/tmp/.ICE-unix/1661,unix/astha-town:/tmp/.ICE-unix/1661
+[[1;36mDEBUG[m] env.SHELL: /bin/bash
+[[1;36mDEBUG[m] env.SHLVL: 0
+[[1;36mDEBUG[m] env.SSH_AGENT_LAUNCHER: gnome-keyring
+[[1;36mDEBUG[m] env.SSH_AUTH_SOCK: /run/user/1000/keyring/ssh
+[[1;36mDEBUG[m] env.SYSTEMD_EXEC_PID: 62113
+[[1;36mDEBUG[m] env.TERM: xterm-256color
+[[1;36mDEBUG[m] env.USER: astha
+[[1;36mDEBUG[m] env.USERNAME: astha
+[[1;36mDEBUG[m] env.VTE_VERSION: 6800
+[[1;36mDEBUG[m] env.WINDOWPATH: 2
+[[1;36mDEBUG[m] env.XAUTHORITY: /run/user/1000/gdm/Xauthority
+[[1;36mDEBUG[m] env.XDG_CONFIG_DIRS: /etc/xdg/xdg-ubuntu-xorg:/etc/xdg
+[[1;36mDEBUG[m] env.XDG_CURRENT_DESKTOP: ubuntu:GNOME
+[[1;36mDEBUG[m] env.XDG_DATA_DIRS: /usr/share/ubuntu-xorg:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
+[[1;36mDEBUG[m] env.XDG_MENU_PREFIX: gnome-
+[[1;36mDEBUG[m] env.XDG_RUNTIME_DIR: /run/user/1000
+[[1;36mDEBUG[m] env.XDG_SESSION_CLASS: user
+[[1;36mDEBUG[m] env.XDG_SESSION_DESKTOP: ubuntu-xorg
+[[1;36mDEBUG[m] env.XDG_SESSION_TYPE: x11
+[[1;36mDEBUG[m] env.XMODIFIERS: @im=ibus
+[[1;36mDEBUG[m] env._: /usr/bin/mvn
+[[1;36mDEBUG[m] file.encoding: UTF-8
+[[1;36mDEBUG[m] file.separator: /
+[[1;36mDEBUG[m] flyway.version: 11.7.2
+[[1;36mDEBUG[m] freemarker.version: 2.3.34
+[[1;36mDEBUG[m] git-commit-id-maven-plugin.version: 9.0.2
+[[1;36mDEBUG[m] glassfish-jaxb.version: 4.0.6
+[[1;36mDEBUG[m] glassfish-jstl.version: 3.0.1
+[[1;36mDEBUG[m] graphql-java.version: 24.3
+[[1;36mDEBUG[m] groovy.version: 4.0.29
+[[1;36mDEBUG[m] gson.version: 2.13.2
+[[1;36mDEBUG[m] h2.version: 2.3.232
+[[1;36mDEBUG[m] hamcrest.version: 3.0
+[[1;36mDEBUG[m] hazelcast.version: 5.5.0
+[[1;36mDEBUG[m] hibernate-validator.version: 8.0.3.Final
+[[1;36mDEBUG[m] hibernate.version: 6.6.36.Final
+[[1;36mDEBUG[m] hikaricp.version: 6.3.3
+[[1;36mDEBUG[m] hsqldb.version: 2.7.3
+[[1;36mDEBUG[m] htmlunit.version: 4.11.1
+[[1;36mDEBUG[m] httpasyncclient.version: 4.1.5
+[[1;36mDEBUG[m] httpclient5.version: 5.5.1
+[[1;36mDEBUG[m] httpcore.version: 4.4.16
+[[1;36mDEBUG[m] httpcore5.version: 5.3.6
+[[1;36mDEBUG[m] infinispan.version: 15.2.6.Final
+[[1;36mDEBUG[m] influxdb-java.version: 2.25
+[[1;36mDEBUG[m] jackson-bom.version: 2.19.4
+[[1;36mDEBUG[m] jakarta-activation.version: 2.1.4
+[[1;36mDEBUG[m] jakarta-annotation.version: 2.1.1
+[[1;36mDEBUG[m] jakarta-inject.version: 2.0.1
+[[1;36mDEBUG[m] jakarta-jms.version: 3.1.0
+[[1;36mDEBUG[m] jakarta-json-bind.version: 3.0.1
+[[1;36mDEBUG[m] jakarta-json.version: 2.1.3
+[[1;36mDEBUG[m] jakarta-mail.version: 2.1.5
+[[1;36mDEBUG[m] jakarta-management.version: 1.1.4
+[[1;36mDEBUG[m] jakarta-persistence.version: 3.1.0
+[[1;36mDEBUG[m] jakarta-servlet-jsp-jstl.version: 3.0.2
+[[1;36mDEBUG[m] jakarta-servlet.version: 6.0.0
+[[1;36mDEBUG[m] jakarta-transaction.version: 2.0.1
+[[1;36mDEBUG[m] jakarta-validation.version: 3.0.2
+[[1;36mDEBUG[m] jakarta-websocket.version: 2.1.1
+[[1;36mDEBUG[m] jakarta-ws-rs.version: 3.1.0
+[[1;36mDEBUG[m] jakarta-xml-bind.version: 4.0.4
+[[1;36mDEBUG[m] jakarta-xml-soap.version: 3.0.2
+[[1;36mDEBUG[m] jakarta-xml-ws.version: 4.0.2
+[[1;36mDEBUG[m] janino.version: 3.1.12
+[[1;36mDEBUG[m] java.class.path: /usr/share/maven/boot/plexus-classworlds-2.x.jar
+[[1;36mDEBUG[m] java.class.version: 65.0
+[[1;36mDEBUG[m] java.home: /usr/lib/jvm/java-21-openjdk-amd64
+[[1;36mDEBUG[m] java.io.tmpdir: /tmp
+[[1;36mDEBUG[m] java.library.path: /usr/java/packages/lib:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib
+[[1;36mDEBUG[m] java.runtime.name: OpenJDK Runtime Environment
+[[1;36mDEBUG[m] java.runtime.version: 21.0.9+10-Ubuntu-122.04
+[[1;36mDEBUG[m] java.specification.name: Java Platform API Specification
+[[1;36mDEBUG[m] java.specification.vendor: Oracle Corporation
+[[1;36mDEBUG[m] java.specification.version: 21
+[[1;36mDEBUG[m] java.vendor: Ubuntu
+[[1;36mDEBUG[m] java.vendor.url: https://ubuntu.com/
+[[1;36mDEBUG[m] java.vendor.url.bug: https://bugs.launchpad.net/ubuntu/+source/openjdk-21
+[[1;36mDEBUG[m] java.version: 21.0.9
+[[1;36mDEBUG[m] java.version.date: 2025-10-21
+[[1;36mDEBUG[m] java.vm.compressedOopsMode: 32-bit
+[[1;36mDEBUG[m] java.vm.info: mixed mode, sharing
+[[1;36mDEBUG[m] java.vm.name: OpenJDK 64-Bit Server VM
+[[1;36mDEBUG[m] java.vm.specification.name: Java Virtual Machine Specification
+[[1;36mDEBUG[m] java.vm.specification.vendor: Oracle Corporation
+[[1;36mDEBUG[m] java.vm.specification.version: 21
+[[1;36mDEBUG[m] java.vm.vendor: Ubuntu
+[[1;36mDEBUG[m] java.vm.version: 21.0.9+10-Ubuntu-122.04
+[[1;36mDEBUG[m] javax-cache.version: 1.1.1
+[[1;36mDEBUG[m] javax-money.version: 1.1
+[[1;36mDEBUG[m] jaxen.version: 2.0.0
+[[1;36mDEBUG[m] jaybird.version: 6.0.3
+[[1;36mDEBUG[m] jboss-logging.version: 3.6.1.Final
+[[1;36mDEBUG[m] jdk.debug: release
+[[1;36mDEBUG[m] jdom2.version: 2.0.6.1
+[[1;36mDEBUG[m] jedis.version: 6.0.0
+[[1;36mDEBUG[m] jersey.version: 3.1.11
+[[1;36mDEBUG[m] jetty-reactive-httpclient.version: 4.0.13
+[[1;36mDEBUG[m] jetty.version: 12.0.30
+[[1;36mDEBUG[m] jmustache.version: 1.16
+[[1;36mDEBUG[m] jooq.version: 3.19.28
+[[1;36mDEBUG[m] json-path.version: 2.9.0
+[[1;36mDEBUG[m] json-smart.version: 2.5.2
+[[1;36mDEBUG[m] jsonassert.version: 1.5.3
+[[1;36mDEBUG[m] jtds.version: 1.3.1
+[[1;36mDEBUG[m] junit-jupiter.version: 5.12.2
+[[1;36mDEBUG[m] junit.version: 4.13.2
+[[1;36mDEBUG[m] kafka.version: 3.9.1
+[[1;36mDEBUG[m] kotlin-coroutines.version: 1.8.1
+[[1;36mDEBUG[m] kotlin-serialization.version: 1.6.3
+[[1;36mDEBUG[m] kotlin.version: 1.9.25
+[[1;36mDEBUG[m] lettuce.version: 6.6.0.RELEASE
+[[1;36mDEBUG[m] library.jansi.path: /usr/share/maven/lib/jansi-native
+[[1;36mDEBUG[m] line.separator: 
+
+[[1;36mDEBUG[m] liquibase.version: 4.31.1
+[[1;36mDEBUG[m] log4j2.version: 2.24.3
+[[1;36mDEBUG[m] logback.version: 1.5.21
+[[1;36mDEBUG[m] lombok.version: 1.18.42
+[[1;36mDEBUG[m] mariadb.version: 3.5.6
+[[1;36mDEBUG[m] maven-antrun-plugin.version: 3.1.0
+[[1;36mDEBUG[m] maven-assembly-plugin.version: 3.7.1
+[[1;36mDEBUG[m] maven-clean-plugin.version: 3.4.1
+[[1;36mDEBUG[m] maven-compiler-plugin.version: 3.14.1
+[[1;36mDEBUG[m] maven-dependency-plugin.version: 3.8.1
+[[1;36mDEBUG[m] maven-deploy-plugin.version: 3.1.4
+[[1;36mDEBUG[m] maven-enforcer-plugin.version: 3.5.0
+[[1;36mDEBUG[m] maven-failsafe-plugin.version: 3.5.4
+[[1;36mDEBUG[m] maven-help-plugin.version: 3.5.1
+[[1;36mDEBUG[m] maven-install-plugin.version: 3.1.4
+[[1;36mDEBUG[m] maven-invoker-plugin.version: 3.9.1
+[[1;36mDEBUG[m] maven-jar-plugin.version: 3.4.2
+[[1;36mDEBUG[m] maven-javadoc-plugin.version: 3.11.3
+[[1;36mDEBUG[m] maven-resources-plugin.version: 3.3.1
+[[1;36mDEBUG[m] maven-shade-plugin.version: 3.6.1
+[[1;36mDEBUG[m] maven-source-plugin.version: 3.3.1
+[[1;36mDEBUG[m] maven-surefire-plugin.version: 3.5.4
+[[1;36mDEBUG[m] maven-war-plugin.version: 3.4.0
+[[1;36mDEBUG[m] maven.build.timestamp: 2025-12-02T11:47:47Z
+[[1;36mDEBUG[m] maven.build.version: Apache Maven 3.6.3
+[[1;36mDEBUG[m] maven.compiler.release: 21
+[[1;36mDEBUG[m] maven.conf: /usr/share/maven/conf
+[[1;36mDEBUG[m] maven.home: /usr/share/maven
+[[1;36mDEBUG[m] maven.multiModuleProjectDirectory: /home/astha/Documents/dev/PKL
+[[1;36mDEBUG[m] maven.version: 3.6.3
+[[1;36mDEBUG[m] micrometer-tracing.version: 1.5.6
+[[1;36mDEBUG[m] micrometer.version: 1.15.6
+[[1;36mDEBUG[m] mockito.version: 5.17.0
+[[1;36mDEBUG[m] mongodb.version: 5.5.2
+[[1;36mDEBUG[m] mssql-jdbc.version: 12.10.2.jre11
+[[1;36mDEBUG[m] mysql.version: 9.5.0
+[[1;36mDEBUG[m] native-build-tools-plugin.version: 0.10.6
+[[1;36mDEBUG[m] native.encoding: UTF-8
+[[1;36mDEBUG[m] nekohtml.version: 1.9.22
+[[1;36mDEBUG[m] neo4j-java-driver.version: 5.28.10
+[[1;36mDEBUG[m] netty.version: 4.1.128.Final
+[[1;36mDEBUG[m] opentelemetry.version: 1.49.0
+[[1;36mDEBUG[m] oracle-database.version: 23.7.0.25.01
+[[1;36mDEBUG[m] oracle-r2dbc.version: 1.3.0
+[[1;36mDEBUG[m] os.arch: amd64
+[[1;36mDEBUG[m] os.name: Linux
+[[1;36mDEBUG[m] os.version: 6.8.0-87-generic
+[[1;36mDEBUG[m] path.separator: :
+[[1;36mDEBUG[m] pooled-jms.version: 3.1.7
+[[1;36mDEBUG[m] postgresql.version: 42.7.8
+[[1;36mDEBUG[m] project.baseUri: file:/home/astha/Documents/dev/PKL/
+[[1;36mDEBUG[m] project.build.sourceEncoding: UTF-8
+[[1;36mDEBUG[m] project.reporting.outputEncoding: UTF-8
+[[1;36mDEBUG[m] prometheus-client.version: 1.3.10
+[[1;36mDEBUG[m] prometheus-simpleclient.version: 0.16.0
+[[1;36mDEBUG[m] pulsar-reactive.version: 0.6.0
+[[1;36mDEBUG[m] pulsar.version: 4.0.7
+[[1;36mDEBUG[m] quartz.version: 2.5.1
+[[1;36mDEBUG[m] querydsl.version: 5.1.0
+[[1;36mDEBUG[m] r2dbc-h2.version: 1.0.1.RELEASE
+[[1;36mDEBUG[m] r2dbc-mariadb.version: 1.3.0
+[[1;36mDEBUG[m] r2dbc-mssql.version: 1.0.3.RELEASE
+[[1;36mDEBUG[m] r2dbc-mysql.version: 1.4.1
+[[1;36mDEBUG[m] r2dbc-pool.version: 1.0.2.RELEASE
+[[1;36mDEBUG[m] r2dbc-postgresql.version: 1.0.9.RELEASE
+[[1;36mDEBUG[m] r2dbc-proxy.version: 1.1.6.RELEASE
+[[1;36mDEBUG[m] r2dbc-spi.version: 1.0.0.RELEASE
+[[1;36mDEBUG[m] rabbit-amqp-client.version: 5.25.0
+[[1;36mDEBUG[m] rabbit-stream-client.version: 0.23.0
+[[1;36mDEBUG[m] reactive-streams.version: 1.0.4
+[[1;36mDEBUG[m] reactor-bom.version: 2024.0.12
+[[1;36mDEBUG[m] resource.delimiter: @
+[[1;36mDEBUG[m] rest-assured.version: 5.5.6
+[[1;36mDEBUG[m] rsocket.version: 1.1.5
+[[1;36mDEBUG[m] rxjava3.version: 3.1.12
+[[1;36mDEBUG[m] saaj-impl.version: 3.0.4
+[[1;36mDEBUG[m] selenium-htmlunit.version: 4.30.0
+[[1;36mDEBUG[m] selenium.version: 4.31.0
+[[1;36mDEBUG[m] sendgrid.version: 4.10.3
+[[1;36mDEBUG[m] skipTests: true
+[[1;36mDEBUG[m] slf4j.version: 2.0.17
+[[1;36mDEBUG[m] snakeyaml.version: 2.4
+[[1;36mDEBUG[m] spring-amqp.version: 3.2.8
+[[1;36mDEBUG[m] spring-authorization-server.version: 1.5.3
+[[1;36mDEBUG[m] spring-batch.version: 5.2.4
+[[1;36mDEBUG[m] spring-boot.run.main-class: ${start-class}
+[[1;36mDEBUG[m] spring-data-bom.version: 2025.0.6
+[[1;36mDEBUG[m] spring-framework.version: 6.2.14
+[[1;36mDEBUG[m] spring-graphql.version: 1.4.3
+[[1;36mDEBUG[m] spring-hateoas.version: 2.5.1
+[[1;36mDEBUG[m] spring-integration.version: 6.5.4
+[[1;36mDEBUG[m] spring-kafka.version: 3.3.11
+[[1;36mDEBUG[m] spring-ldap.version: 3.3.4
+[[1;36mDEBUG[m] spring-pulsar.version: 1.2.12
+[[1;36mDEBUG[m] spring-restdocs.version: 3.0.5
+[[1;36mDEBUG[m] spring-retry.version: 2.0.12
+[[1;36mDEBUG[m] spring-security.version: 6.5.7
+[[1;36mDEBUG[m] spring-session.version: 3.5.3
+[[1;36mDEBUG[m] spring-ws.version: 4.1.2
+[[1;36mDEBUG[m] sqlite-jdbc.version: 3.49.1.0
+[[1;36mDEBUG[m] stderr.encoding: UTF-8
+[[1;36mDEBUG[m] stdout.encoding: UTF-8
+[[1;36mDEBUG[m] sun.arch.data.model: 64
+[[1;36mDEBUG[m] sun.boot.library.path: /usr/lib/jvm/java-21-openjdk-amd64/lib
+[[1;36mDEBUG[m] sun.cpu.endian: little
+[[1;36mDEBUG[m] sun.io.unicode.encoding: UnicodeLittle
+[[1;36mDEBUG[m] sun.java.command: org.codehaus.plexus.classworlds.launcher.Launcher -X clean package -DskipTests
+[[1;36mDEBUG[m] sun.java.launcher: SUN_STANDARD
+[[1;36mDEBUG[m] sun.jnu.encoding: UTF-8
+[[1;36mDEBUG[m] sun.management.compiler: HotSpot 64-Bit Tiered Compilers
+[[1;36mDEBUG[m] testcontainers-redis-module.version: 2.2.4
+[[1;36mDEBUG[m] testcontainers.version: 1.21.3
+[[1;36mDEBUG[m] thymeleaf-extras-data-attribute.version: 2.0.1
+[[1;36mDEBUG[m] thymeleaf-extras-springsecurity.version: 3.1.3.RELEASE
+[[1;36mDEBUG[m] thymeleaf-layout-dialect.version: 3.4.0
+[[1;36mDEBUG[m] thymeleaf.version: 3.1.3.RELEASE
+[[1;36mDEBUG[m] tomcat.version: 10.1.49
+[[1;36mDEBUG[m] unboundid-ldapsdk.version: 7.0.3
+[[1;36mDEBUG[m] undertow.version: 2.3.20.Final
+[[1;36mDEBUG[m] user.country: US
+[[1;36mDEBUG[m] user.dir: /home/astha/Documents/dev/PKL
+[[1;36mDEBUG[m] user.home: /home/astha
+[[1;36mDEBUG[m] user.language: en
+[[1;36mDEBUG[m] user.name: astha
+[[1;36mDEBUG[m] versions-maven-plugin.version: 2.18.0
+[[1;36mDEBUG[m] vibur.version: 26.0
+[[1;36mDEBUG[m] webjars-locator-core.version: 0.59
+[[1;36mDEBUG[m] webjars-locator-lite.version: 1.1.2
+[[1;36mDEBUG[m] wsdl4j.version: 1.6.3
+[[1;36mDEBUG[m] xml-maven-plugin.version: 1.1.0
+[[1;36mDEBUG[m] xmlunit2.version: 2.10.4
+[[1;36mDEBUG[m] yasson.version: 3.0.4
+[[1;36mDEBUG[m] zipkin-reporter.version: 3.5.1
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resources.
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered properties files.
+[[1;36mDEBUG[m] resource with targetPath null
+directory /home/astha/Documents/dev/PKL/src/main/resources
+excludes []
+includes [**/application*.yml, **/application*.yaml, **/application*.properties]
+[[1;36mDEBUG[m] ignoreDelta true
+[[1;34mINFO[m] Copying 1 resource from src/main/resources to target/classes
+[[1;36mDEBUG[m] Copying file application.properties
+[[1;36mDEBUG[m] file application.properties has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'application.properties'.
+[[1;36mDEBUG[m] filtering /home/astha/Documents/dev/PKL/src/main/resources/application.properties to /home/astha/Documents/dev/PKL/target/classes/application.properties
+[[1;36mDEBUG[m] resource with targetPath null
+directory /home/astha/Documents/dev/PKL/src/main/resources
+excludes [**/application*.yml, **/application*.yaml, **/application*.properties]
+includes []
+[[1;36mDEBUG[m] ignoreDelta true
+[[1;34mINFO[m] Copying 45 resources from src/main/resources to target/classes
+[[1;36mDEBUG[m] Copying file templates/CompanyView/create-form.html
+[[1;36mDEBUG[m] file create-form.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'create-form.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/CompanyView/create-form.html to /home/astha/Documents/dev/PKL/target/classes/templates/CompanyView/create-form.html
+[[1;36mDEBUG[m] Copying file templates/CompanyView/edit-form.html
+[[1;36mDEBUG[m] file edit-form.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'edit-form.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/CompanyView/edit-form.html to /home/astha/Documents/dev/PKL/target/classes/templates/CompanyView/edit-form.html
+[[1;36mDEBUG[m] Copying file templates/CompanyView/profile.html
+[[1;36mDEBUG[m] file profile.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'profile.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/CompanyView/profile.html to /home/astha/Documents/dev/PKL/target/classes/templates/CompanyView/profile.html
+[[1;36mDEBUG[m] Copying file templates/CompanyView/index.html
+[[1;36mDEBUG[m] file index.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'index.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/CompanyView/index.html to /home/astha/Documents/dev/PKL/target/classes/templates/CompanyView/index.html
+[[1;36mDEBUG[m] Copying file templates/DailyJournalView/edit.html
+[[1;36mDEBUG[m] file edit.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'edit.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/DailyJournalView/edit.html to /home/astha/Documents/dev/PKL/target/classes/templates/DailyJournalView/edit.html
+[[1;36mDEBUG[m] Copying file templates/DailyJournalView/create-form.html
+[[1;36mDEBUG[m] file create-form.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'create-form.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/DailyJournalView/create-form.html to /home/astha/Documents/dev/PKL/target/classes/templates/DailyJournalView/create-form.html
+[[1;36mDEBUG[m] Copying file templates/DailyJournalView/detail.html
+[[1;36mDEBUG[m] file detail.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'detail.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/DailyJournalView/detail.html to /home/astha/Documents/dev/PKL/target/classes/templates/DailyJournalView/detail.html
+[[1;36mDEBUG[m] Copying file templates/DailyJournalView/index.html
+[[1;36mDEBUG[m] file index.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'index.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/DailyJournalView/index.html to /home/astha/Documents/dev/PKL/target/classes/templates/DailyJournalView/index.html
+[[1;36mDEBUG[m] Copying file templates/PlacementView/create-form.html
+[[1;36mDEBUG[m] file create-form.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'create-form.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/PlacementView/create-form.html to /home/astha/Documents/dev/PKL/target/classes/templates/PlacementView/create-form.html
+[[1;36mDEBUG[m] Copying file templates/PlacementView/detail.html
+[[1;36mDEBUG[m] file detail.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'detail.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/PlacementView/detail.html to /home/astha/Documents/dev/PKL/target/classes/templates/PlacementView/detail.html
+[[1;36mDEBUG[m] Copying file templates/PlacementView/edit-form.html
+[[1;36mDEBUG[m] file edit-form.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'edit-form.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/PlacementView/edit-form.html to /home/astha/Documents/dev/PKL/target/classes/templates/PlacementView/edit-form.html
+[[1;36mDEBUG[m] Copying file templates/PlacementView/index.html
+[[1;36mDEBUG[m] file index.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'index.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/PlacementView/index.html to /home/astha/Documents/dev/PKL/target/classes/templates/PlacementView/index.html
+[[1;36mDEBUG[m] Copying file templates/UserView/create-form.html
+[[1;36mDEBUG[m] file create-form.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'create-form.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/UserView/create-form.html to /home/astha/Documents/dev/PKL/target/classes/templates/UserView/create-form.html
+[[1;36mDEBUG[m] Copying file templates/UserView/edit-form.html
+[[1;36mDEBUG[m] file edit-form.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'edit-form.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/UserView/edit-form.html to /home/astha/Documents/dev/PKL/target/classes/templates/UserView/edit-form.html
+[[1;36mDEBUG[m] Copying file templates/UserView/profile.html
+[[1;36mDEBUG[m] file profile.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'profile.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/UserView/profile.html to /home/astha/Documents/dev/PKL/target/classes/templates/UserView/profile.html
+[[1;36mDEBUG[m] Copying file templates/UserView/index.html
+[[1;36mDEBUG[m] file index.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'index.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/UserView/index.html to /home/astha/Documents/dev/PKL/target/classes/templates/UserView/index.html
+[[1;36mDEBUG[m] Copying file templates/CompanySupervisorView/create-form.html
+[[1;36mDEBUG[m] file create-form.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'create-form.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/CompanySupervisorView/create-form.html to /home/astha/Documents/dev/PKL/target/classes/templates/CompanySupervisorView/create-form.html
+[[1;36mDEBUG[m] Copying file templates/CompanySupervisorView/detail.html
+[[1;36mDEBUG[m] file detail.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'detail.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/CompanySupervisorView/detail.html to /home/astha/Documents/dev/PKL/target/classes/templates/CompanySupervisorView/detail.html
+[[1;36mDEBUG[m] Copying file templates/CompanySupervisorView/edit-form.html
+[[1;36mDEBUG[m] file edit-form.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'edit-form.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/CompanySupervisorView/edit-form.html to /home/astha/Documents/dev/PKL/target/classes/templates/CompanySupervisorView/edit-form.html
+[[1;36mDEBUG[m] Copying file templates/CompanySupervisorView/index.html
+[[1;36mDEBUG[m] file index.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'index.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/CompanySupervisorView/index.html to /home/astha/Documents/dev/PKL/target/classes/templates/CompanySupervisorView/index.html
+[[1;36mDEBUG[m] Copying file templates/home.html
+[[1;36mDEBUG[m] file home.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'home.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/home.html to /home/astha/Documents/dev/PKL/target/classes/templates/home.html
+[[1;36mDEBUG[m] Copying file templates/GradeView/create-form.html
+[[1;36mDEBUG[m] file create-form.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'create-form.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/GradeView/create-form.html to /home/astha/Documents/dev/PKL/target/classes/templates/GradeView/create-form.html
+[[1;36mDEBUG[m] Copying file templates/GradeView/index.html
+[[1;36mDEBUG[m] file index.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'index.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/GradeView/index.html to /home/astha/Documents/dev/PKL/target/classes/templates/GradeView/index.html
+[[1;36mDEBUG[m] Copying file templates/layouts/js/app.js
+[[1;36mDEBUG[m] file app.js has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'app.js'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/layouts/js/app.js to /home/astha/Documents/dev/PKL/target/classes/templates/layouts/js/app.js
+[[1;36mDEBUG[m] Copying file templates/layouts/fragments/sidebar.html
+[[1;36mDEBUG[m] file sidebar.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'sidebar.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/layouts/fragments/sidebar.html to /home/astha/Documents/dev/PKL/target/classes/templates/layouts/fragments/sidebar.html
+[[1;36mDEBUG[m] Copying file templates/layouts/fragments/navbar.html
+[[1;36mDEBUG[m] file navbar.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'navbar.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/layouts/fragments/navbar.html to /home/astha/Documents/dev/PKL/target/classes/templates/layouts/fragments/navbar.html
+[[1;36mDEBUG[m] Copying file templates/layouts/layout.html
+[[1;36mDEBUG[m] file layout.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'layout.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/layouts/layout.html to /home/astha/Documents/dev/PKL/target/classes/templates/layouts/layout.html
+[[1;36mDEBUG[m] Copying file templates/AttendanceView/create-form.html
+[[1;36mDEBUG[m] file create-form.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'create-form.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/AttendanceView/create-form.html to /home/astha/Documents/dev/PKL/target/classes/templates/AttendanceView/create-form.html
+[[1;36mDEBUG[m] Copying file templates/AttendanceView/detail.html
+[[1;36mDEBUG[m] file detail.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'detail.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/AttendanceView/detail.html to /home/astha/Documents/dev/PKL/target/classes/templates/AttendanceView/detail.html
+[[1;36mDEBUG[m] Copying file templates/AttendanceView/edit-form.html
+[[1;36mDEBUG[m] file edit-form.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'edit-form.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/AttendanceView/edit-form.html to /home/astha/Documents/dev/PKL/target/classes/templates/AttendanceView/edit-form.html
+[[1;36mDEBUG[m] Copying file templates/AttendanceView/index.html
+[[1;36mDEBUG[m] file index.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'index.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/AttendanceView/index.html to /home/astha/Documents/dev/PKL/target/classes/templates/AttendanceView/index.html
+[[1;36mDEBUG[m] Copying file templates/ReportSubmissionView/create-form.html
+[[1;36mDEBUG[m] file create-form.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'create-form.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/ReportSubmissionView/create-form.html to /home/astha/Documents/dev/PKL/target/classes/templates/ReportSubmissionView/create-form.html
+[[1;36mDEBUG[m] Copying file templates/ReportSubmissionView/detail.html
+[[1;36mDEBUG[m] file detail.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'detail.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/ReportSubmissionView/detail.html to /home/astha/Documents/dev/PKL/target/classes/templates/ReportSubmissionView/detail.html
+[[1;36mDEBUG[m] Copying file templates/ReportSubmissionView/index.html
+[[1;36mDEBUG[m] file index.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'index.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/ReportSubmissionView/index.html to /home/astha/Documents/dev/PKL/target/classes/templates/ReportSubmissionView/index.html
+[[1;36mDEBUG[m] Copying file templates/Auth/login.html
+[[1;36mDEBUG[m] file login.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'login.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/Auth/login.html to /home/astha/Documents/dev/PKL/target/classes/templates/Auth/login.html
+[[1;36mDEBUG[m] Copying file templates/error.html
+[[1;36mDEBUG[m] file error.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'error.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/error.html to /home/astha/Documents/dev/PKL/target/classes/templates/error.html
+[[1;36mDEBUG[m] Copying file templates/SchoolSupervisorView/create-form.html
+[[1;36mDEBUG[m] file create-form.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'create-form.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/SchoolSupervisorView/create-form.html to /home/astha/Documents/dev/PKL/target/classes/templates/SchoolSupervisorView/create-form.html
+[[1;36mDEBUG[m] Copying file templates/SchoolSupervisorView/edit-form.html
+[[1;36mDEBUG[m] file edit-form.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'edit-form.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/SchoolSupervisorView/edit-form.html to /home/astha/Documents/dev/PKL/target/classes/templates/SchoolSupervisorView/edit-form.html
+[[1;36mDEBUG[m] Copying file templates/SchoolSupervisorView/profile.html
+[[1;36mDEBUG[m] file profile.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'profile.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/SchoolSupervisorView/profile.html to /home/astha/Documents/dev/PKL/target/classes/templates/SchoolSupervisorView/profile.html
+[[1;36mDEBUG[m] Copying file templates/SchoolSupervisorView/index.html
+[[1;36mDEBUG[m] file index.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'index.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/SchoolSupervisorView/index.html to /home/astha/Documents/dev/PKL/target/classes/templates/SchoolSupervisorView/index.html
+[[1;36mDEBUG[m] Copying file templates/StudentView/create-form.html
+[[1;36mDEBUG[m] file create-form.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'create-form.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/StudentView/create-form.html to /home/astha/Documents/dev/PKL/target/classes/templates/StudentView/create-form.html
+[[1;36mDEBUG[m] Copying file templates/StudentView/detail.html
+[[1;36mDEBUG[m] file detail.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'detail.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/StudentView/detail.html to /home/astha/Documents/dev/PKL/target/classes/templates/StudentView/detail.html
+[[1;36mDEBUG[m] Copying file templates/StudentView/edit-form.html
+[[1;36mDEBUG[m] file edit-form.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'edit-form.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/StudentView/edit-form.html to /home/astha/Documents/dev/PKL/target/classes/templates/StudentView/edit-form.html
+[[1;36mDEBUG[m] Copying file templates/StudentView/index.html
+[[1;36mDEBUG[m] file index.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'index.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/StudentView/index.html to /home/astha/Documents/dev/PKL/target/classes/templates/StudentView/index.html
+[[1;36mDEBUG[m] Copying file templates/index.html
+[[1;36mDEBUG[m] file index.html has a filtered file extension
+[[1;36mDEBUG[m] Using 'UTF-8' encoding to copy filtered resource 'index.html'.
+[[1;36mDEBUG[m] copy /home/astha/Documents/dev/PKL/src/main/resources/templates/index.html to /home/astha/Documents/dev/PKL/target/classes/templates/index.html
+[[1;36mDEBUG[m] no user filter components
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.14.1:compile[m [1m(default-compile)[m @ [36mmonitoring[0;1m ---[m
+[[1;36mDEBUG[m] Dependency collection stats: {ConflictMarker.analyzeTime=257357, ConflictMarker.markTime=54674, ConflictMarker.nodeCount=23, ConflictIdSorter.graphTime=21661, ConflictIdSorter.topsortTime=34205, ConflictIdSorter.conflictIdCount=14, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=490139, ConflictResolver.conflictItemCount=23, DefaultDependencyCollector.collectTime=56152980, DefaultDependencyCollector.transformTime=917819}
+[[1;36mDEBUG[m] org.apache.maven.plugins:maven-compiler-plugin:jar:3.14.1
+[[1;36mDEBUG[m]    org.ow2.asm:asm:jar:9.8:compile
+[[1;36mDEBUG[m]    org.apache.maven.shared:maven-shared-utils:jar:3.4.2:compile
+[[1;36mDEBUG[m]       org.slf4j:slf4j-api:jar:1.7.36:compile
+[[1;36mDEBUG[m]       commons-io:commons-io:jar:2.11.0:compile
+[[1;36mDEBUG[m]    org.apache.maven.shared:maven-shared-incremental:jar:1.1:compile
+[[1;36mDEBUG[m]    org.codehaus.plexus:plexus-java:jar:1.5.0:compile
+[[1;36mDEBUG[m]       com.thoughtworks.qdox:qdox:jar:2.2.0:compile
+[[1;36mDEBUG[m]    org.codehaus.plexus:plexus-compiler-api:jar:2.15.0:compile
+[[1;36mDEBUG[m]    org.codehaus.plexus:plexus-compiler-manager:jar:2.15.0:compile
+[[1;36mDEBUG[m]       javax.inject:javax.inject:jar:1:compile
+[[1;36mDEBUG[m]       org.codehaus.plexus:plexus-xml:jar:3.0.1:compile (version managed from default)
+[[1;36mDEBUG[m]    org.codehaus.plexus:plexus-compiler-javac:jar:2.15.0:runtime
+[[1;36mDEBUG[m]    org.codehaus.plexus:plexus-utils:jar:4.0.2:compile
+[[1;36mDEBUG[m] Created new class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.14.1
+[[1;36mDEBUG[m] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.14.1
+[[1;36mDEBUG[m]   Imported:  < maven.api
+[[1;36mDEBUG[m] Populating class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.14.1
+[[1;36mDEBUG[m]   Included: org.apache.maven.plugins:maven-compiler-plugin:jar:3.14.1
+[[1;36mDEBUG[m]   Included: org.ow2.asm:asm:jar:9.8
+[[1;36mDEBUG[m]   Included: org.apache.maven.shared:maven-shared-utils:jar:3.4.2
+[[1;36mDEBUG[m]   Included: commons-io:commons-io:jar:2.11.0
+[[1;36mDEBUG[m]   Included: org.apache.maven.shared:maven-shared-incremental:jar:1.1
+[[1;36mDEBUG[m]   Included: org.codehaus.plexus:plexus-java:jar:1.5.0
+[[1;36mDEBUG[m]   Included: com.thoughtworks.qdox:qdox:jar:2.2.0
+[[1;36mDEBUG[m]   Included: org.codehaus.plexus:plexus-compiler-api:jar:2.15.0
+[[1;36mDEBUG[m]   Included: org.codehaus.plexus:plexus-compiler-manager:jar:2.15.0
+[[1;36mDEBUG[m]   Included: org.codehaus.plexus:plexus-xml:jar:3.0.1
+[[1;36mDEBUG[m]   Included: org.codehaus.plexus:plexus-compiler-javac:jar:2.15.0
+[[1;36mDEBUG[m]   Included: org.codehaus.plexus:plexus-utils:jar:4.0.2
+[[1;36mDEBUG[m] Configuring mojo org.apache.maven.plugins:maven-compiler-plugin:3.14.1:compile from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-compiler-plugin:3.14.1, parent: jdk.internal.loader.ClassLoaders$AppClassLoader@639fee48]
+[[1;36mDEBUG[m] Configuring mojo 'org.apache.maven.plugins:maven-compiler-plugin:3.14.1:compile' with basic configurator -->
+[[1;36mDEBUG[m]   (s) groupId = org.projectlombok
+[[1;36mDEBUG[m]   (s) artifactId = lombok
+[[1;36mDEBUG[m]   (f) annotationProcessorPaths = [org.projectlombok:lombok.jar]
+[[1;36mDEBUG[m]   (f) annotationProcessorPathsUseDepMgmt = false
+[[1;36mDEBUG[m]   (f) basedir = /home/astha/Documents/dev/PKL
+[[1;36mDEBUG[m]   (f) buildDirectory = /home/astha/Documents/dev/PKL/target
+[[1;36mDEBUG[m]   (f) compilePath = [/home/astha/Documents/dev/PKL/target/classes, /home/astha/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.5.8/spring-boot-starter-data-jpa-3.5.8.jar, /home/astha/.m2/repository/org/springframework/boot/spring-boot-starter/3.5.8/spring-boot-starter-3.5.8.jar, /home/astha/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.5.8/spring-boot-starter-logging-3.5.8.jar, /home/astha/.m2/repository/ch/qos/logback/logback-classic/1.5.21/logback-classic-1.5.21.jar, /home/astha/.m2/repository/ch/qos/logback/logback-core/1.5.21/logback-core-1.5.21.jar, /home/astha/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.24.3/log4j-to-slf4j-2.24.3.jar, /home/astha/.m2/repository/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar, /home/astha/.m2/repository/org/slf4j/jul-to-slf4j/2.0.17/jul-to-slf4j-2.0.17.jar, /home/astha/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar, /home/astha/.m2/repository/org/yaml/snakeyaml/2.4/snakeyaml-2.4.jar, /home/astha/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.5.8/spring-boot-starter-jdbc-3.5.8.jar, /home/astha/.m2/repository/com/zaxxer/HikariCP/6.3.3/HikariCP-6.3.3.jar, /home/astha/.m2/repository/org/springframework/spring-jdbc/6.2.14/spring-jdbc-6.2.14.jar, /home/astha/.m2/repository/org/hibernate/orm/hibernate-core/6.6.36.Final/hibernate-core-6.6.36.Final.jar, /home/astha/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar, /home/astha/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar, /home/astha/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar, /home/astha/.m2/repository/org/springframework/data/spring-data-jpa/3.5.6/spring-data-jpa-3.5.6.jar, /home/astha/.m2/repository/org/springframework/data/spring-data-commons/3.5.6/spring-data-commons-3.5.6.jar, /home/astha/.m2/repository/org/springframework/spring-orm/6.2.14/spring-orm-6.2.14.jar, /home/astha/.m2/repository/org/springframework/spring-context/6.2.14/spring-context-6.2.14.jar, /home/astha/.m2/repository/org/springframework/spring-tx/6.2.14/spring-tx-6.2.14.jar, /home/astha/.m2/repository/org/springframework/spring-beans/6.2.14/spring-beans-6.2.14.jar, /home/astha/.m2/repository/org/springframework/spring-aspects/6.2.14/spring-aspects-6.2.14.jar, /home/astha/.m2/repository/org/aspectj/aspectjweaver/1.9.25/aspectjweaver-1.9.25.jar, /home/astha/.m2/repository/org/springframework/boot/spring-boot-starter-thymeleaf/3.5.8/spring-boot-starter-thymeleaf-3.5.8.jar, /home/astha/.m2/repository/org/thymeleaf/thymeleaf-spring6/3.1.3.RELEASE/thymeleaf-spring6-3.1.3.RELEASE.jar, /home/astha/.m2/repository/org/thymeleaf/thymeleaf/3.1.3.RELEASE/thymeleaf-3.1.3.RELEASE.jar, /home/astha/.m2/repository/org/attoparser/attoparser/2.0.7.RELEASE/attoparser-2.0.7.RELEASE.jar, /home/astha/.m2/repository/org/unbescape/unbescape/1.1.6.RELEASE/unbescape-1.1.6.RELEASE.jar, /home/astha/.m2/repository/org/thymeleaf/extras/thymeleaf-extras-springsecurity6/3.1.3.RELEASE/thymeleaf-extras-springsecurity6-3.1.3.RELEASE.jar, /home/astha/.m2/repository/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar, /home/astha/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.5.8/spring-boot-starter-web-3.5.8.jar, /home/astha/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.5.8/spring-boot-starter-json-3.5.8.jar, /home/astha/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.19.4/jackson-databind-2.19.4.jar, /home/astha/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.19.4/jackson-annotations-2.19.4.jar, /home/astha/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.19.4/jackson-core-2.19.4.jar, /home/astha/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.19.4/jackson-datatype-jdk8-2.19.4.jar, /home/astha/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.19.4/jackson-datatype-jsr310-2.19.4.jar, /home/astha/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.19.4/jackson-module-parameter-names-2.19.4.jar, /home/astha/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.5.8/spring-boot-starter-tomcat-3.5.8.jar, /home/astha/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.49/tomcat-embed-core-10.1.49.jar, /home/astha/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.49/tomcat-embed-el-10.1.49.jar, /home/astha/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.49/tomcat-embed-websocket-10.1.49.jar, /home/astha/.m2/repository/org/springframework/spring-web/6.2.14/spring-web-6.2.14.jar, /home/astha/.m2/repository/io/micrometer/micrometer-observation/1.15.6/micrometer-observation-1.15.6.jar, /home/astha/.m2/repository/io/micrometer/micrometer-commons/1.15.6/micrometer-commons-1.15.6.jar, /home/astha/.m2/repository/org/springframework/spring-webmvc/6.2.14/spring-webmvc-6.2.14.jar, /home/astha/.m2/repository/org/springframework/spring-expression/6.2.14/spring-expression-6.2.14.jar, /home/astha/.m2/repository/org/springframework/boot/spring-boot/3.5.8/spring-boot-3.5.8.jar, /home/astha/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.5.8/spring-boot-autoconfigure-3.5.8.jar, /home/astha/.m2/repository/org/springframework/spring-core/6.2.14/spring-core-6.2.14.jar, /home/astha/.m2/repository/org/springframework/spring-jcl/6.2.14/spring-jcl-6.2.14.jar, /home/astha/.m2/repository/io/github/cdimascio/dotenv-java/3.2.0/dotenv-java-3.2.0.jar, /home/astha/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.5.8/spring-boot-starter-security-3.5.8.jar, /home/astha/.m2/repository/org/springframework/spring-aop/6.2.14/spring-aop-6.2.14.jar, /home/astha/.m2/repository/org/springframework/security/spring-security-config/6.5.7/spring-security-config-6.5.7.jar, /home/astha/.m2/repository/org/springframework/security/spring-security-core/6.5.7/spring-security-core-6.5.7.jar, /home/astha/.m2/repository/org/springframework/security/spring-security-crypto/6.5.7/spring-security-crypto-6.5.7.jar, /home/astha/.m2/repository/org/springframework/security/spring-security-web/6.5.7/spring-security-web-6.5.7.jar]
+[[1;36mDEBUG[m]   (f) compileSourceRoots = [/home/astha/Documents/dev/PKL/src/main/java]
+[[1;36mDEBUG[m]   (f) compilerId = javac
+[[1;36mDEBUG[m]   (f) createMissingPackageInfoClass = true
+[[1;36mDEBUG[m]   (f) debug = true
+[[1;36mDEBUG[m]   (f) debugFileName = javac
+[[1;36mDEBUG[m]   (f) enablePreview = false
+[[1;36mDEBUG[m]   (f) encoding = UTF-8
+[[1;36mDEBUG[m]   (f) failOnError = true
+[[1;36mDEBUG[m]   (f) failOnWarning = false
+[[1;36mDEBUG[m]   (f) fileExtensions = [jar, class]
+[[1;36mDEBUG[m]   (f) forceJavacCompilerUse = false
+[[1;36mDEBUG[m]   (f) forceLegacyJavacApi = false
+[[1;36mDEBUG[m]   (f) fork = false
+[[1;36mDEBUG[m]   (f) generatedSourcesDirectory = /home/astha/Documents/dev/PKL/target/generated-sources/annotations
+[[1;36mDEBUG[m]   (f) moduleVersion = 0.0.1-SNAPSHOT
+[[1;36mDEBUG[m]   (f) mojoExecution = org.apache.maven.plugins:maven-compiler-plugin:3.14.1:compile {execution: default-compile}
+[[1;36mDEBUG[m]   (f) optimize = false
+[[1;36mDEBUG[m]   (f) outputDirectory = /home/astha/Documents/dev/PKL/target/classes
+[[1;36mDEBUG[m]   (f) parameters = true
+[[1;36mDEBUG[m]   (f) project = MavenProject: com.sistem:monitoring:0.0.1-SNAPSHOT @ /home/astha/Documents/dev/PKL/pom.xml
+[[1;36mDEBUG[m]   (f) projectArtifact = com.sistem:monitoring:jar:0.0.1-SNAPSHOT
+[[1;36mDEBUG[m]   (s) release = 21
+[[1;36mDEBUG[m]   (f) session = org.apache.maven.execution.MavenSession@1f6d27cc
+[[1;36mDEBUG[m]   (f) showCompilationChanges = false
+[[1;36mDEBUG[m]   (f) showDeprecation = false
+[[1;36mDEBUG[m]   (f) showWarnings = true
+[[1;36mDEBUG[m]   (f) skipMultiThreadWarning = false
+[[1;36mDEBUG[m]   (f) source = 1.8
+[[1;36mDEBUG[m]   (f) staleMillis = 0
+[[1;36mDEBUG[m]   (s) target = 1.8
+[[1;36mDEBUG[m]   (f) useIncrementalCompilation = true
+[[1;36mDEBUG[m]   (f) useModuleVersion = true
+[[1;36mDEBUG[m]   (f) verbose = false
+[[1;36mDEBUG[m] -- end configuration --
+[[1;36mDEBUG[m] Using compiler 'javac'.
+[[1;36mDEBUG[m] Dependency collection stats: {ConflictMarker.analyzeTime=64702, ConflictMarker.markTime=23004, ConflictMarker.nodeCount=2, ConflictIdSorter.graphTime=22202, ConflictIdSorter.topsortTime=16431, ConflictIdSorter.conflictIdCount=1, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=222391, ConflictResolver.conflictItemCount=1, DefaultDependencyCollector.collectTime=2078657, DefaultDependencyCollector.transformTime=371103}
+[[1;36mDEBUG[m] CompilerReuseStrategy: reuseCreated
+[[1;36mDEBUG[m] useIncrementalCompilation enabled
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/repositories/PlacementRepository.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/repositories/CompanyRepository.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/models/DailyJournal.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/controllers/StudentController.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/controllers/UserController.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/services/SchoolSupervisorService.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/services/UserService.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/controllers/DailyJournalController.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/controllers/AttendanceController.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/controllers/AuthController.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/services/ReportSubmissionService.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/services/StudentServices.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/models/PlacementModel.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/models/UserModel.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/services/DailyJournalService.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/repositories/ReportSubmissionRepository.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/configs/DataSeed.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/services/AttendanceScheduler.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/models/SchoolSupervisorModel.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/repositories/GradeRepository.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/repositories/UserRepository.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/models/StudentModel.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/repositories/SchoolSupervisorRepository.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/DTO/UserViewDTO.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/services/GradeService.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/configs/StaticResourceConfig.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/controllers/CompanySupervisorController.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/models/AttendanceModel.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/controllers/PlacementController.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/services/PlacementService.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/MonitoringApplication.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/configs/ApiConfiguration.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/repositories/StudentRepository.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/controllers/GradeController.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/controllers/CompanyController.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/repositories/CompanySupervisorRepository.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/repositories/DailyJournalRepository.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/models/CompanySupervisorModel.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/controllers/SchoolSupervisorController.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/models/ReportSubmissionModel.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/repositories/AttendanceRepository.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/controllers/ReportSubmissionController.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/configs/SecurityConfig.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/services/AttendanceService.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/services/CompanyService.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/services/CompanySupervisorService.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/models/CompanyModel.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/controllers/HomeController.java
+[[1;34mINFO[m] 	Stale source detected: /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/models/GradeModel.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/DTO/UserViewDTO.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/MonitoringApplication.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/configs/ApiConfiguration.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/configs/DataSeed.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/configs/SecurityConfig.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/configs/StaticResourceConfig.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/controllers/AttendanceController.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/controllers/AuthController.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/controllers/CompanyController.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/controllers/CompanySupervisorController.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/controllers/DailyJournalController.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/controllers/GradeController.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/controllers/HomeController.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/controllers/PlacementController.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/controllers/ReportSubmissionController.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/controllers/SchoolSupervisorController.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/controllers/StudentController.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/controllers/UserController.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/models/AttendanceModel.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/models/CompanyModel.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/models/CompanySupervisorModel.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/models/DailyJournal.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/models/GradeModel.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/models/PlacementModel.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/models/ReportSubmissionModel.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/models/SchoolSupervisorModel.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/models/StudentModel.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/models/UserModel.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/repositories/AttendanceRepository.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/repositories/CompanyRepository.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/repositories/CompanySupervisorRepository.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/repositories/DailyJournalRepository.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/repositories/GradeRepository.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/repositories/PlacementRepository.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/repositories/ReportSubmissionRepository.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/repositories/SchoolSupervisorRepository.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/repositories/StudentRepository.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/repositories/UserRepository.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/services/AttendanceScheduler.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/services/AttendanceService.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/services/CompanyService.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/services/CompanySupervisorService.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/services/DailyJournalService.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/services/GradeService.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/services/PlacementService.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/services/ReportSubmissionService.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/services/SchoolSupervisorService.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/services/StudentServices.java
+[[1;34mINFO[m] 	Input tree files (+): /home/astha/Documents/dev/PKL/src/main/java/com/sistem/monitoring/services/UserService.java
+[[1;34mINFO[m] Recompiling the module because of [1mchanged source code[m.
+[[1;36mDEBUG[m] Classpath:
+[[1;36mDEBUG[m]  /home/astha/Documents/dev/PKL/target/classes
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.5.8/spring-boot-starter-data-jpa-3.5.8.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/boot/spring-boot-starter/3.5.8/spring-boot-starter-3.5.8.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.5.8/spring-boot-starter-logging-3.5.8.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/ch/qos/logback/logback-classic/1.5.21/logback-classic-1.5.21.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/ch/qos/logback/logback-core/1.5.21/logback-core-1.5.21.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.24.3/log4j-to-slf4j-2.24.3.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/slf4j/jul-to-slf4j/2.0.17/jul-to-slf4j-2.0.17.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/yaml/snakeyaml/2.4/snakeyaml-2.4.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.5.8/spring-boot-starter-jdbc-3.5.8.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/com/zaxxer/HikariCP/6.3.3/HikariCP-6.3.3.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/spring-jdbc/6.2.14/spring-jdbc-6.2.14.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/hibernate/orm/hibernate-core/6.6.36.Final/hibernate-core-6.6.36.Final.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/data/spring-data-jpa/3.5.6/spring-data-jpa-3.5.6.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/data/spring-data-commons/3.5.6/spring-data-commons-3.5.6.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/spring-orm/6.2.14/spring-orm-6.2.14.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/spring-context/6.2.14/spring-context-6.2.14.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/spring-tx/6.2.14/spring-tx-6.2.14.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/spring-beans/6.2.14/spring-beans-6.2.14.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/spring-aspects/6.2.14/spring-aspects-6.2.14.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/aspectj/aspectjweaver/1.9.25/aspectjweaver-1.9.25.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/boot/spring-boot-starter-thymeleaf/3.5.8/spring-boot-starter-thymeleaf-3.5.8.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/thymeleaf/thymeleaf-spring6/3.1.3.RELEASE/thymeleaf-spring6-3.1.3.RELEASE.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/thymeleaf/thymeleaf/3.1.3.RELEASE/thymeleaf-3.1.3.RELEASE.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/attoparser/attoparser/2.0.7.RELEASE/attoparser-2.0.7.RELEASE.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/unbescape/unbescape/1.1.6.RELEASE/unbescape-1.1.6.RELEASE.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/thymeleaf/extras/thymeleaf-extras-springsecurity6/3.1.3.RELEASE/thymeleaf-extras-springsecurity6-3.1.3.RELEASE.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.5.8/spring-boot-starter-web-3.5.8.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.5.8/spring-boot-starter-json-3.5.8.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.19.4/jackson-databind-2.19.4.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.19.4/jackson-annotations-2.19.4.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.19.4/jackson-core-2.19.4.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.19.4/jackson-datatype-jdk8-2.19.4.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.19.4/jackson-datatype-jsr310-2.19.4.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.19.4/jackson-module-parameter-names-2.19.4.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.5.8/spring-boot-starter-tomcat-3.5.8.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.49/tomcat-embed-core-10.1.49.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.49/tomcat-embed-el-10.1.49.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.49/tomcat-embed-websocket-10.1.49.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/spring-web/6.2.14/spring-web-6.2.14.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/io/micrometer/micrometer-observation/1.15.6/micrometer-observation-1.15.6.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/io/micrometer/micrometer-commons/1.15.6/micrometer-commons-1.15.6.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/spring-webmvc/6.2.14/spring-webmvc-6.2.14.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/spring-expression/6.2.14/spring-expression-6.2.14.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/boot/spring-boot/3.5.8/spring-boot-3.5.8.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.5.8/spring-boot-autoconfigure-3.5.8.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/spring-core/6.2.14/spring-core-6.2.14.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/spring-jcl/6.2.14/spring-jcl-6.2.14.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/io/github/cdimascio/dotenv-java/3.2.0/dotenv-java-3.2.0.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.5.8/spring-boot-starter-security-3.5.8.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/spring-aop/6.2.14/spring-aop-6.2.14.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/security/spring-security-config/6.5.7/spring-security-config-6.5.7.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/security/spring-security-core/6.5.7/spring-security-core-6.5.7.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/security/spring-security-crypto/6.5.7/spring-security-crypto-6.5.7.jar
+[[1;36mDEBUG[m]  /home/astha/.m2/repository/org/springframework/security/spring-security-web/6.5.7/spring-security-web-6.5.7.jar
+[[1;36mDEBUG[m] Source roots:
+[[1;36mDEBUG[m]  /home/astha/Documents/dev/PKL/src/main/java
+[[1;36mDEBUG[m] Command line options:
+[[1;36mDEBUG[m] -d /home/astha/Documents/dev/PKL/target/classes -classpath /home/astha/Documents/dev/PKL/target/classes:/home/astha/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.5.8/spring-boot-starter-data-jpa-3.5.8.jar:/home/astha/.m2/repository/org/springframework/boot/spring-boot-starter/3.5.8/spring-boot-starter-3.5.8.jar:/home/astha/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.5.8/spring-boot-starter-logging-3.5.8.jar:/home/astha/.m2/repository/ch/qos/logback/logback-classic/1.5.21/logback-classic-1.5.21.jar:/home/astha/.m2/repository/ch/qos/logback/logback-core/1.5.21/logback-core-1.5.21.jar:/home/astha/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.24.3/log4j-to-slf4j-2.24.3.jar:/home/astha/.m2/repository/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar:/home/astha/.m2/repository/org/slf4j/jul-to-slf4j/2.0.17/jul-to-slf4j-2.0.17.jar:/home/astha/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/home/astha/.m2/repository/org/yaml/snakeyaml/2.4/snakeyaml-2.4.jar:/home/astha/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.5.8/spring-boot-starter-jdbc-3.5.8.jar:/home/astha/.m2/repository/com/zaxxer/HikariCP/6.3.3/HikariCP-6.3.3.jar:/home/astha/.m2/repository/org/springframework/spring-jdbc/6.2.14/spring-jdbc-6.2.14.jar:/home/astha/.m2/repository/org/hibernate/orm/hibernate-core/6.6.36.Final/hibernate-core-6.6.36.Final.jar:/home/astha/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/home/astha/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/home/astha/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/home/astha/.m2/repository/org/springframework/data/spring-data-jpa/3.5.6/spring-data-jpa-3.5.6.jar:/home/astha/.m2/repository/org/springframework/data/spring-data-commons/3.5.6/spring-data-commons-3.5.6.jar:/home/astha/.m2/repository/org/springframework/spring-orm/6.2.14/spring-orm-6.2.14.jar:/home/astha/.m2/repository/org/springframework/spring-context/6.2.14/spring-context-6.2.14.jar:/home/astha/.m2/repository/org/springframework/spring-tx/6.2.14/spring-tx-6.2.14.jar:/home/astha/.m2/repository/org/springframework/spring-beans/6.2.14/spring-beans-6.2.14.jar:/home/astha/.m2/repository/org/springframework/spring-aspects/6.2.14/spring-aspects-6.2.14.jar:/home/astha/.m2/repository/org/aspectj/aspectjweaver/1.9.25/aspectjweaver-1.9.25.jar:/home/astha/.m2/repository/org/springframework/boot/spring-boot-starter-thymeleaf/3.5.8/spring-boot-starter-thymeleaf-3.5.8.jar:/home/astha/.m2/repository/org/thymeleaf/thymeleaf-spring6/3.1.3.RELEASE/thymeleaf-spring6-3.1.3.RELEASE.jar:/home/astha/.m2/repository/org/thymeleaf/thymeleaf/3.1.3.RELEASE/thymeleaf-3.1.3.RELEASE.jar:/home/astha/.m2/repository/org/attoparser/attoparser/2.0.7.RELEASE/attoparser-2.0.7.RELEASE.jar:/home/astha/.m2/repository/org/unbescape/unbescape/1.1.6.RELEASE/unbescape-1.1.6.RELEASE.jar:/home/astha/.m2/repository/org/thymeleaf/extras/thymeleaf-extras-springsecurity6/3.1.3.RELEASE/thymeleaf-extras-springsecurity6-3.1.3.RELEASE.jar:/home/astha/.m2/repository/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar:/home/astha/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.5.8/spring-boot-starter-web-3.5.8.jar:/home/astha/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.5.8/spring-boot-starter-json-3.5.8.jar:/home/astha/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.19.4/jackson-databind-2.19.4.jar:/home/astha/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.19.4/jackson-annotations-2.19.4.jar:/home/astha/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.19.4/jackson-core-2.19.4.jar:/home/astha/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.19.4/jackson-datatype-jdk8-2.19.4.jar:/home/astha/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.19.4/jackson-datatype-jsr310-2.19.4.jar:/home/astha/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.19.4/jackson-module-parameter-names-2.19.4.jar:/home/astha/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.5.8/spring-boot-starter-tomcat-3.5.8.jar:/home/astha/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.49/tomcat-embed-core-10.1.49.jar:/home/astha/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.49/tomcat-embed-el-10.1.49.jar:/home/astha/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.49/tomcat-embed-websocket-10.1.49.jar:/home/astha/.m2/repository/org/springframework/spring-web/6.2.14/spring-web-6.2.14.jar:/home/astha/.m2/repository/io/micrometer/micrometer-observation/1.15.6/micrometer-observation-1.15.6.jar:/home/astha/.m2/repository/io/micrometer/micrometer-commons/1.15.6/micrometer-commons-1.15.6.jar:/home/astha/.m2/repository/org/springframework/spring-webmvc/6.2.14/spring-webmvc-6.2.14.jar:/home/astha/.m2/repository/org/springframework/spring-expression/6.2.14/spring-expression-6.2.14.jar:/home/astha/.m2/repository/org/springframework/boot/spring-boot/3.5.8/spring-boot-3.5.8.jar:/home/astha/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.5.8/spring-boot-autoconfigure-3.5.8.jar:/home/astha/.m2/repository/org/springframework/spring-core/6.2.14/spring-core-6.2.14.jar:/home/astha/.m2/repository/org/springframework/spring-jcl/6.2.14/spring-jcl-6.2.14.jar:/home/astha/.m2/repository/io/github/cdimascio/dotenv-java/3.2.0/dotenv-java-3.2.0.jar:/home/astha/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.5.8/spring-boot-starter-security-3.5.8.jar:/home/astha/.m2/repository/org/springframework/spring-aop/6.2.14/spring-aop-6.2.14.jar:/home/astha/.m2/repository/org/springframework/security/spring-security-config/6.5.7/spring-security-config-6.5.7.jar:/home/astha/.m2/repository/org/springframework/security/spring-security-core/6.5.7/spring-security-core-6.5.7.jar:/home/astha/.m2/repository/org/springframework/security/spring-security-crypto/6.5.7/spring-security-crypto-6.5.7.jar:/home/astha/.m2/repository/org/springframework/security/spring-security-web/6.5.7/spring-security-web-6.5.7.jar: -sourcepath /home/astha/Documents/dev/PKL/src/main/java: -s /home/astha/Documents/dev/PKL/target/generated-sources/annotations -processorpath /home/astha/.m2/repository/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar: -g -parameters --release 21 -encoding UTF-8 -XDuseUnsharedTable=true
+[[1;36mDEBUG[m] incrementalBuildHelper#beforeRebuildExecution
+[[1;34mINFO[m] Compiling 49 source files with javac [debug parameters release 21] to target/classes
+[[1;36mDEBUG[m] Adding /home/astha/Documents/dev/PKL/target/generated-sources/annotations to the project compile source roots but NOT the actual compile source roots:
+  /home/astha/Documents/dev/PKL/src/main/java
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;31mBUILD FAILURE[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  2.919 s
+[[1;34mINFO[m] Finished at: 2025-12-02T18:47:48+07:00
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;31mERROR[m] Failed to execute goal [32morg.apache.maven.plugins:maven-compiler-plugin:3.14.1:compile[m [1m(default-compile)[m on project [36mmonitoring[m: [1;31mFatal error compiling[m: error: release version 21 not supported -> [1m[Help 1][m
+[1;31morg.apache.maven.lifecycle.LifecycleExecutionException[m: [1;31mFailed to execute goal [32morg.apache.maven.plugins:maven-compiler-plugin:3.14.1:compile[m [1m(default-compile)[m on project [36mmonitoring[m: [1;31mFatal error compiling[m[m
+    [1mat[m org.apache.maven.lifecycle.internal.MojoExecutor.execute ([1mMojoExecutor.java:215[m)
+    [1mat[m org.apache.maven.lifecycle.internal.MojoExecutor.execute ([1mMojoExecutor.java:156[m)
+    [1mat[m org.apache.maven.lifecycle.internal.MojoExecutor.execute ([1mMojoExecutor.java:148[m)
+    [1mat[m org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject ([1mLifecycleModuleBuilder.java:117[m)
+    [1mat[m org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject ([1mLifecycleModuleBuilder.java:81[m)
+    [1mat[m org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build ([1mSingleThreadedBuilder.java:56[m)
+    [1mat[m org.apache.maven.lifecycle.internal.LifecycleStarter.execute ([1mLifecycleStarter.java:128[m)
+    [1mat[m org.apache.maven.DefaultMaven.doExecute ([1mDefaultMaven.java:305[m)
+    [1mat[m org.apache.maven.DefaultMaven.doExecute ([1mDefaultMaven.java:192[m)
+    [1mat[m org.apache.maven.DefaultMaven.execute ([1mDefaultMaven.java:105[m)
+    [1mat[m org.apache.maven.cli.MavenCli.execute ([1mMavenCli.java:957[m)
+    [1mat[m org.apache.maven.cli.MavenCli.doMain ([1mMavenCli.java:289[m)
+    [1mat[m org.apache.maven.cli.MavenCli.main ([1mMavenCli.java:193[m)
+    [1mat[m jdk.internal.reflect.DirectMethodHandleAccessor.invoke ([1mDirectMethodHandleAccessor.java:103[m)
+    [1mat[m java.lang.reflect.Method.invoke ([1mMethod.java:580[m)
+    [1mat[m org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced ([1mLauncher.java:282[m)
+    [1mat[m org.codehaus.plexus.classworlds.launcher.Launcher.launch ([1mLauncher.java:225[m)
+    [1mat[m org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode ([1mLauncher.java:406[m)
+    [1mat[m org.codehaus.plexus.classworlds.launcher.Launcher.main ([1mLauncher.java:347[m)
+[1mCaused by[m: org.apache.maven.plugin.MojoExecutionException: [1;31mFatal error compiling[m
+    [1mat[m org.apache.maven.plugin.compiler.AbstractCompilerMojo.executeReal ([1mAbstractCompilerMojo.java:1238[m)
+    [1mat[m org.apache.maven.plugin.compiler.AbstractCompilerMojo.execute ([1mAbstractCompilerMojo.java:708[m)
+    [1mat[m org.apache.maven.plugin.compiler.CompilerMojo.execute ([1mCompilerMojo.java:235[m)
+    [1mat[m org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo ([1mDefaultBuildPluginManager.java:137[m)
+    [1mat[m org.apache.maven.lifecycle.internal.MojoExecutor.execute ([1mMojoExecutor.java:210[m)
+    [1mat[m org.apache.maven.lifecycle.internal.MojoExecutor.execute ([1mMojoExecutor.java:156[m)
+    [1mat[m org.apache.maven.lifecycle.internal.MojoExecutor.execute ([1mMojoExecutor.java:148[m)
+    [1mat[m org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject ([1mLifecycleModuleBuilder.java:117[m)
+    [1mat[m org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject ([1mLifecycleModuleBuilder.java:81[m)
+    [1mat[m org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build ([1mSingleThreadedBuilder.java:56[m)
+    [1mat[m org.apache.maven.lifecycle.internal.LifecycleStarter.execute ([1mLifecycleStarter.java:128[m)
+    [1mat[m org.apache.maven.DefaultMaven.doExecute ([1mDefaultMaven.java:305[m)
+    [1mat[m org.apache.maven.DefaultMaven.doExecute ([1mDefaultMaven.java:192[m)
+    [1mat[m org.apache.maven.DefaultMaven.execute ([1mDefaultMaven.java:105[m)
+    [1mat[m org.apache.maven.cli.MavenCli.execute ([1mMavenCli.java:957[m)
+    [1mat[m org.apache.maven.cli.MavenCli.doMain ([1mMavenCli.java:289[m)
+    [1mat[m org.apache.maven.cli.MavenCli.main ([1mMavenCli.java:193[m)
+    [1mat[m jdk.internal.reflect.DirectMethodHandleAccessor.invoke ([1mDirectMethodHandleAccessor.java:103[m)
+    [1mat[m java.lang.reflect.Method.invoke ([1mMethod.java:580[m)
+    [1mat[m org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced ([1mLauncher.java:282[m)
+    [1mat[m org.codehaus.plexus.classworlds.launcher.Launcher.launch ([1mLauncher.java:225[m)
+    [1mat[m org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode ([1mLauncher.java:406[m)
+    [1mat[m org.codehaus.plexus.classworlds.launcher.Launcher.main ([1mLauncher.java:347[m)
+[1mCaused by[m: org.codehaus.plexus.compiler.CompilerException: [1;31merror: release version 21 not supported[m
+    [1mat[m org.codehaus.plexus.compiler.javac.JavaxToolsCompiler.compileInProcess ([1mJavaxToolsCompiler.java:179[m)
+    [1mat[m org.codehaus.plexus.compiler.javac.JavacCompiler.performCompile ([1mJavacCompiler.java:214[m)
+    [1mat[m org.apache.maven.plugin.compiler.AbstractCompilerMojo.executeReal ([1mAbstractCompilerMojo.java:1235[m)
+    [1mat[m org.apache.maven.plugin.compiler.AbstractCompilerMojo.execute ([1mAbstractCompilerMojo.java:708[m)
+    [1mat[m org.apache.maven.plugin.compiler.CompilerMojo.execute ([1mCompilerMojo.java:235[m)
+    [1mat[m org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo ([1mDefaultBuildPluginManager.java:137[m)
+    [1mat[m org.apache.maven.lifecycle.internal.MojoExecutor.execute ([1mMojoExecutor.java:210[m)
+    [1mat[m org.apache.maven.lifecycle.internal.MojoExecutor.execute ([1mMojoExecutor.java:156[m)
+    [1mat[m org.apache.maven.lifecycle.internal.MojoExecutor.execute ([1mMojoExecutor.java:148[m)
+    [1mat[m org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject ([1mLifecycleModuleBuilder.java:117[m)
+    [1mat[m org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject ([1mLifecycleModuleBuilder.java:81[m)
+    [1mat[m org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build ([1mSingleThreadedBuilder.java:56[m)
+    [1mat[m org.apache.maven.lifecycle.internal.LifecycleStarter.execute ([1mLifecycleStarter.java:128[m)
+    [1mat[m org.apache.maven.DefaultMaven.doExecute ([1mDefaultMaven.java:305[m)
+    [1mat[m org.apache.maven.DefaultMaven.doExecute ([1mDefaultMaven.java:192[m)
+    [1mat[m org.apache.maven.DefaultMaven.execute ([1mDefaultMaven.java:105[m)
+    [1mat[m org.apache.maven.cli.MavenCli.execute ([1mMavenCli.java:957[m)
+    [1mat[m org.apache.maven.cli.MavenCli.doMain ([1mMavenCli.java:289[m)
+    [1mat[m org.apache.maven.cli.MavenCli.main ([1mMavenCli.java:193[m)
+    [1mat[m jdk.internal.reflect.DirectMethodHandleAccessor.invoke ([1mDirectMethodHandleAccessor.java:103[m)
+    [1mat[m java.lang.reflect.Method.invoke ([1mMethod.java:580[m)
+    [1mat[m org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced ([1mLauncher.java:282[m)
+    [1mat[m org.codehaus.plexus.classworlds.launcher.Launcher.launch ([1mLauncher.java:225[m)
+    [1mat[m org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode ([1mLauncher.java:406[m)
+    [1mat[m org.codehaus.plexus.classworlds.launcher.Launcher.main ([1mLauncher.java:347[m)
+[1mCaused by[m: java.lang.IllegalArgumentException: [1;31merror: release version 21 not supported[m
+    [1mat[m com.sun.tools.javac.main.Arguments.reportDiag ([1mArguments.java:886[m)
+    [1mat[m com.sun.tools.javac.main.Arguments.handleReleaseOptions ([1mArguments.java:312[m)
+    [1mat[m com.sun.tools.javac.main.Arguments.processArgs ([1mArguments.java:351[m)
+    [1mat[m com.sun.tools.javac.main.Arguments.init ([1mArguments.java:247[m)
+    [1mat[m com.sun.tools.javac.api.JavacTool.getTask ([1mJavacTool.java:191[m)
+    [1mat[m com.sun.tools.javac.api.JavacTool.getTask ([1mJavacTool.java:119[m)
+    [1mat[m com.sun.tools.javac.api.JavacTool.getTask ([1mJavacTool.java:68[m)
+    [1mat[m org.codehaus.plexus.compiler.javac.JavaxToolsCompiler.compileInProcess ([1mJavaxToolsCompiler.java:125[m)
+    [1mat[m org.codehaus.plexus.compiler.javac.JavacCompiler.performCompile ([1mJavacCompiler.java:214[m)
+    [1mat[m org.apache.maven.plugin.compiler.AbstractCompilerMojo.executeReal ([1mAbstractCompilerMojo.java:1235[m)
+    [1mat[m org.apache.maven.plugin.compiler.AbstractCompilerMojo.execute ([1mAbstractCompilerMojo.java:708[m)
+    [1mat[m org.apache.maven.plugin.compiler.CompilerMojo.execute ([1mCompilerMojo.java:235[m)
+    [1mat[m org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo ([1mDefaultBuildPluginManager.java:137[m)
+    [1mat[m org.apache.maven.lifecycle.internal.MojoExecutor.execute ([1mMojoExecutor.java:210[m)
+    [1mat[m org.apache.maven.lifecycle.internal.MojoExecutor.execute ([1mMojoExecutor.java:156[m)
+    [1mat[m org.apache.maven.lifecycle.internal.MojoExecutor.execute ([1mMojoExecutor.java:148[m)
+    [1mat[m org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject ([1mLifecycleModuleBuilder.java:117[m)
+    [1mat[m org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject ([1mLifecycleModuleBuilder.java:81[m)
+    [1mat[m org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build ([1mSingleThreadedBuilder.java:56[m)
+    [1mat[m org.apache.maven.lifecycle.internal.LifecycleStarter.execute ([1mLifecycleStarter.java:128[m)
+    [1mat[m org.apache.maven.DefaultMaven.doExecute ([1mDefaultMaven.java:305[m)
+    [1mat[m org.apache.maven.DefaultMaven.doExecute ([1mDefaultMaven.java:192[m)
+    [1mat[m org.apache.maven.DefaultMaven.execute ([1mDefaultMaven.java:105[m)
+    [1mat[m org.apache.maven.cli.MavenCli.execute ([1mMavenCli.java:957[m)
+    [1mat[m org.apache.maven.cli.MavenCli.doMain ([1mMavenCli.java:289[m)
+    [1mat[m org.apache.maven.cli.MavenCli.main ([1mMavenCli.java:193[m)
+    [1mat[m jdk.internal.reflect.DirectMethodHandleAccessor.invoke ([1mDirectMethodHandleAccessor.java:103[m)
+    [1mat[m java.lang.reflect.Method.invoke ([1mMethod.java:580[m)
+    [1mat[m org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced ([1mLauncher.java:282[m)
+    [1mat[m org.codehaus.plexus.classworlds.launcher.Launcher.launch ([1mLauncher.java:225[m)
+    [1mat[m org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode ([1mLauncher.java:406[m)
+    [1mat[m org.codehaus.plexus.classworlds.launcher.Launcher.main ([1mLauncher.java:347[m)
+[[1;31mERROR[m] 
+[[1;31mERROR[m] 
+[[1;31mERROR[m] For more information about the errors and possible solutions, please read the following articles:
+[[1;31mERROR[m] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

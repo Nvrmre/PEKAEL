@@ -26,6 +26,9 @@ public class CompanyModel {
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CompanySupervisorModel> supervisors = new ArrayList<>();
 
+    @OneToMany(mappedBy = "company", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<PlacementModel> placements;
+
     @Column(nullable = false)
     private String companyAddress;
     
@@ -112,9 +115,6 @@ public class CompanyModel {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-   
-
+    } 
 
 }

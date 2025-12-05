@@ -2,12 +2,16 @@ package com.sistem.monitoring.models;
 
 
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -34,7 +38,9 @@ public class StudentModel {
     private String studentMajor;
     private String studentClass;
 
-    // constructor
+    @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<PlacementModel> placements;
+
     public StudentModel(){}
 
     public Long getStudentId() {
@@ -101,6 +107,12 @@ public class StudentModel {
         this.studentClass = studentClass;
     }
 
-  
-   
+    public List<PlacementModel> getPlacements() {
+        return placements;
+    }
+
+    public void setPlacements(List<PlacementModel> placements) {
+        this.placements = placements;
+    }
+
 }

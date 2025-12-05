@@ -51,10 +51,14 @@
     .page-header {
       padding: 1.5rem 2rem;
       border-bottom: 1px solid var(--border-color);
+      background: #fff;
+    }
+
+    .header-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #fff;
+      margin-bottom: 1.5rem;
     }
 
     h1 {
@@ -85,6 +89,80 @@
       font-size: 0.9rem;
     }
     .btn-add:hover { background-color: var(--navy-light); transform: translateY(-1px); color: #fff; }
+
+    /* Filter Section */
+    .filter-section {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .filter-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .filter-select {
+      flex: 1;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      background-color: #fff;
+      transition: all 0.2s;
+    }
+
+    .filter-select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(183, 139, 74, 0.1);
+    }
+
+    .filter-stats {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: #f8fafc;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .filter-stats strong {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    .btn-reset {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border-color);
+      background: #fff;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-reset:hover {
+      background: #f8fafc;
+      border-color: var(--accent);
+      color: var(--accent);
+    }
 
     /* --- Table Styling --- */
     .table-responsive { padding: 0; }
@@ -129,7 +207,7 @@
 
     /* Info Perusahaan & Pembimbing */
     .info-primary { font-weight: 600; color: var(--navy); display: block; }
-    .info-secondary { font-size: 0.85rem; color: var(--text-muted); }
+    .info-secondary { font-size: 0.85rem; color: var(--text-muted); display: block; }
 
     /* Periode */
     .period-box {
@@ -169,28 +247,87 @@
 
     /* --- RESPONSIVE MOBILE (Card View) --- */
     @media (max-width: 992px) {
-      .container-main { margin: 1rem; background: transparent; box-shadow: none; overflow: visible; }
-      .page-header { background: transparent; border: none; padding: 0 0 1.5rem 0; flex-wrap: wrap; gap: 1rem; }
+      .container-main { 
+        margin: 1rem; 
+        background: transparent; 
+        box-shadow: none; 
+        overflow: visible;
+        border-radius: 0;
+      }
+      
+      .page-header { 
+        background: #fff; 
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .header-top {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      h1 {
+        font-size: 1.2rem;
+      }
+
+      .btn-add {
+        width: 100%;
+        justify-content: center;
+        padding: 0.7rem;
+      }
+
+      .filter-section {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .filter-group {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        min-width: unset;
+      }
+
+      .filter-label {
+        font-size: 0.8rem;
+      }
+
+      .filter-stats {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .btn-reset {
+        width: 100%;
+        justify-content: center;
+      }
       
       .table-custom thead { display: none; }
-      .table-custom, .table-custom tbody, .table-custom tr, .table-custom td { display: block; width: 100%; }
+      .table-custom, .table-custom tbody, .table-custom tr, .table-custom td { 
+        display: block; 
+        width: 100%; 
+      }
       
       .table-custom tr {
         background: #fff;
         margin-bottom: 1rem;
         border-radius: 12px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        padding: 1.25rem;
+        padding: 1rem;
         border: 1px solid var(--border-color);
       }
 
       .table-custom td {
-        padding: 0.5rem 0;
+        padding: 0.65rem 0;
         border: none;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        text-align: right;
+        flex-direction: column;
+        align-items: stretch;
+        text-align: left;
       }
 
       /* Label for mobile */
@@ -198,9 +335,10 @@
         content: attr(data-label);
         font-weight: 600;
         color: var(--text-muted);
-        font-size: 0.85rem;
-        margin-right: 1rem;
-        text-align: left;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.4rem;
       }
 
       /* Hide NO column on mobile */
@@ -208,22 +346,77 @@
 
       /* Custom Layout per row in mobile */
       .td-student { 
-        justify-content: flex-start !important; 
-        border-bottom: 1px dashed var(--border-color) !important; 
-        padding-bottom: 1rem !important; 
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 1rem !important;
         margin-bottom: 0.5rem;
       }
-      .td-student::before { display: none; } /* Hide label for student section */
+      .td-student::before { display: none; }
 
+      /* Company section */
+      .td-company {
+        padding: 0.65rem 0;
+      }
+
+      /* Pembimbing section */
+      .td-supervisor {
+        padding: 0.65rem 0;
+      }
+
+      /* Period section */
+      .td-period {
+        padding: 0.65rem 0;
+      }
+
+      .period-box {
+        width: 100%;
+        text-align: center;
+        display: block;
+        padding: 0.5rem;
+      }
+
+      /* Status section */
+      .td-status {
+        padding: 0.65rem 0;
+      }
+
+      .status-badge {
+        width: 100%;
+        justify-content: center;
+      }
+
+      /* Actions section */
       .td-actions {
-        justify-content: flex-end;
-        margin-top: 1rem;
+        margin-top: 0.5rem;
         padding-top: 1rem !important;
-        border-top: 1px dashed var(--border-color);
+        border-top: 1px solid var(--border-color);
+      }
+
+      .td-actions::before {
+        display: none;
+      }
+
+      .action-links {
+        justify-content: center;
+        gap: 0.75rem;
+      }
+
+      .btn-icon {
+        width: 40px;
+        height: 40px;
+      }
+
+      /* Empty state adjustments */
+      .table-custom tbody tr td[colspan] {
+        padding: 2rem 1rem;
       }
     }
     
-    footer.footer { text-align: center; color: var(--text-muted); padding: 2rem 0; font-size: 0.85rem; }
+    footer.footer { 
+      text-align: center; 
+      color: var(--text-muted); 
+      padding: 2rem 0; 
+      font-size: 0.85rem; 
+    }
   </style>
 </head>
 
@@ -234,19 +427,49 @@
   <main class="container-main">
     
     <div class="page-header">
-      <h1>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-           <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
-        </svg>
-        Daftar Tempat PKL
-      </h1>
-      
-      <a th:href="@{/placements/create}" class="btn-add" th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-        </svg>
-        Tambah Placement
-      </a>
+      <div class="header-top">
+        <h1>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
+          </svg>
+          Daftar Tempat PKL
+        </h1>
+        
+        <a th:href="@{/placements/create}" class="btn-add" th:if="${#authorization.expression('hasAnyAuthority(''ADMINISTRATOR'', ''Administrator'')')}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+          </svg>
+          Tambah Placement
+        </a>
+      </div>
+
+      <!-- Filter Section -->
+      <div class="filter-section">
+        <div class="filter-group">
+          <label class="filter-label">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 4px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+            </svg>
+            Filter Tempat PKL:
+          </label>
+          <select id="companyFilter" class="filter-select">
+            <option value="">Semua Tempat PKL</option>
+            <option th:each="company : ${companies}" 
+                    th:value="${company.companyId}"
+                    th:text="${company.companyName}"
+                    th:selected="${selectedCompanyId != null && selectedCompanyId == company.companyId}">
+              Nama Perusahaan
+            </option>
+          </select>
+        </div>
+
+        <button type="button" class="btn-reset" onclick="resetFilter()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 4px;">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          Reset
+        </button>
+      </div>
     </div>
 
     <div class="table-responsive">
@@ -267,7 +490,7 @@
             
             <td class="text-center td-no" th:text="${stat.count}">1</td>
 
-            <td class="td-student">
+            <td class="td-student" data-label="Siswa">
               <div class="student-wrapper">
                 <div class="avatar-circle">
                    <span th:text="${p.student?.user?.username != null ? #strings.substring(p.student.user.username, 0, 1).toUpperCase() : 'S'}">S</span>
@@ -279,12 +502,12 @@
               </div>
             </td>
 
-            <td data-label="Tempat">
+            <td class="td-company" data-label="Tempat PKL">
                <span class="info-primary" th:text="${p.company?.companyName ?: '-'}">Nama Perusahaan</span>
                <span class="info-secondary" th:text="${p.company?.companyAddress ?: '-'}">Alamat Perusahaan</span>
             </td>
 
-            <td data-label="Pembimbing">
+            <td class="td-supervisor" data-label="Pembimbing">
                <span class="info-primary" 
                      th:text="${p.companySupervisor?.user?.username ?: (p.schoolSupervisor?.user?.username ?: '-')}">
                      Nama Pembimbing
@@ -293,7 +516,7 @@
                <span class="info-secondary" th:if="${p.companySupervisor == null and p.schoolSupervisor != null}">Pembimbing Sekolah</span>
             </td>
 
-            <td data-label="Periode">
+            <td class="td-period" data-label="Periode">
                <div class="period-box">
                  <span th:text="${p.startDate != null ? #temporals.format(p.startDate, 'dd MMM yy') : '-'}">01 Jan 25</span>
                  <span class="text-muted mx-1">&rarr;</span>
@@ -301,7 +524,7 @@
                </div>
             </td>
 
-            <td data-label="Status">
+            <td class="td-status" data-label="Status">
                <span th:classappend="'status-' + ${p.status}" class="status-badge">
                  <svg th:if="${#strings.toString(p.status) == 'ACTIVE'}" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
                  <svg th:if="${#strings.toString(p.status) == 'PENDING'}" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -324,7 +547,7 @@
                   </svg>
                 </a>
 
-                <form th:action="@{/placements/{id}(id=${p.placementId})}" method="post" class="m-0">
+                <form th:action="@{/placements/{id}(id=${p.placementId})}" method="post" class="m-0" th:id="'del-' + ${p.placementId}">
                   <input type="hidden" name="_method" value="delete" />
                   <button type="button" class="btn-icon btn-delete btn-open-delete"
                           th:attr="data-form-id='del-' + ${p.placementId}, data-name=${p.student?.user?.username}"
@@ -378,6 +601,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
+      // Delete Modal Handler
       let formToSubmit = null;
       const modalEl = document.getElementById('confirmDeleteModal');
       const bsModal = new bootstrap.Modal(modalEl);
@@ -385,7 +609,6 @@
 
       document.querySelectorAll('.btn-open-delete').forEach(btn => {
         btn.addEventListener('click', function () {
-          // Cari form terdekat dari tombol ini
           formToSubmit = btn.closest('form');
           bsModal.show();
         });
@@ -398,7 +621,29 @@
           formToSubmit.submit();
         }
       });
+
+      // Filter Handler
+      const companyFilter = document.getElementById('companyFilter');
+      
+      companyFilter.addEventListener('change', function() {
+        const companyId = this.value;
+        const currentUrl = new URL(window.location.href);
+        
+        if (companyId) {
+          currentUrl.searchParams.set('companyId', companyId);
+        } else {
+          currentUrl.searchParams.delete('companyId');
+        }
+        
+        window.location.href = currentUrl.toString();
+      });
     });
+
+    function resetFilter() {
+      const currentUrl = new URL(window.location.href);
+      currentUrl.searchParams.delete('companyId');
+      window.location.href = currentUrl.toString();
+    }
   </script>
 
 </body>

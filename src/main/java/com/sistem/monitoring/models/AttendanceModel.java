@@ -28,20 +28,17 @@ public class AttendanceModel {
     @ManyToOne
     @JoinColumn(name = "studentId")
     private StudentModel student;
+
     @ManyToOne
     @JoinColumn(name = "created_by")
     private UserModel createdBy;
-
-
 
     @Column(nullable = false)
     private LocalDateTime date;
 
     @Column(nullable = false)
     private LocalDateTime checkInTime;
-
     private LocalDateTime checkOutTime;
-
     private String checkInPhotoUrl;
     private String notes;
 
@@ -51,7 +48,6 @@ public class AttendanceModel {
 
     
     public AttendanceModel(){}
-    
     public Long getAttendId() {
         return attendId;
     }

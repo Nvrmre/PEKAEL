@@ -75,4 +75,16 @@ public class PlacementService {
         return placementRepository.findBySchoolSupervisor_SSupervisorId(sSupervisorId);
     }
 
+    public List<PlacementModel> findByCompanyId(Long companyId) {
+        return placementRepository.findByCompany_CompanyId(companyId);
+    }
+
+     public List<PlacementModel> getByCompanyId(Long companyId) {
+        return placementRepository.findByCompany_CompanyId(companyId);
+    }
+
+    public List<PlacementModel> getBySchoolSupervisorIdAndCompanyId(Long schoolSupervisorId, Long companyId) {
+        return placementRepository.findBySchoolSupervisorIdAndCompanyId(schoolSupervisorId, companyId);
+    }
+
 }
