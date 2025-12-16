@@ -17,7 +17,7 @@ import com.sistem.monitoring.services.AttendanceService;
 import com.sistem.monitoring.services.CompanyService;
 import com.sistem.monitoring.services.CompanySupervisorService;
 import com.sistem.monitoring.services.DailyJournalService;
-import com.sistem.monitoring.services.GradeService;
+// import com.sistem.monitoring.services.GradeService;
 import com.sistem.monitoring.services.PlacementService;
 import com.sistem.monitoring.services.ReportSubmissionService;
 import com.sistem.monitoring.services.SchoolSupervisorService;
@@ -34,7 +34,7 @@ public class HomeController {
     private final PlacementService placementService;
     private final DailyJournalService dailyJournalService;
     private final CompanyService companyService;
-    private final GradeService gradeService;
+    // private final GradeService gradeService;
     private final ReportSubmissionService reportSubmissionService;
     private final AttendanceService attendanceService;
 
@@ -46,7 +46,7 @@ public class HomeController {
             PlacementService placementService,
             DailyJournalService dailyJournalService,
             CompanyService companyService,
-            GradeService gradeService,
+            // GradeService gradeService,
             ReportSubmissionService reportSubmissionService,
             AttendanceService attendanceService) {
         this.userService = userService;
@@ -56,7 +56,7 @@ public class HomeController {
         this.placementService = placementService;
         this.dailyJournalService = dailyJournalService;
         this.companyService = companyService;
-        this.gradeService = gradeService;
+        // this.gradeService = gradeService;
         this.reportSubmissionService = reportSubmissionService;
         this.attendanceService = attendanceService;
     }
@@ -73,7 +73,7 @@ public class HomeController {
             @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
 
-        model.addAttribute("totalGrade", gradeService.getAllGrade().size());
+        // model.addAttribute("totalGrade", gradeService.getAllGrade().size());
         model.addAttribute("totalUsers", userService.getAllUser().size());
         model.addAttribute("totalStudents", studentServices.getAllUserStudent().size());
         model.addAttribute("totalCompanySpv", companySupervisorService.getCompanySupervisor().size());

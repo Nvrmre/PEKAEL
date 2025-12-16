@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -31,8 +32,6 @@ import com.sistem.monitoring.services.CompanySupervisorService;
 import com.sistem.monitoring.services.PlacementService;
 import com.sistem.monitoring.services.SchoolSupervisorService;
 import com.sistem.monitoring.services.UserService;
-
-import lombok.var;
 
 @Controller
 @RequestMapping("/attendances")
@@ -99,8 +98,8 @@ public class AttendanceController {
     }
     // 3) SUPERVISOR (school OR company) → absensi siswa bimbingan dari PLACEMENT
     else {
-        var maybeSchoolSupervisor = schoolSupervisorService.findByUserUsername(username);
-        var maybeCompanySupervisor = companySupervisorService.findByUsername(username);
+        Optional<SchoolSupervisorModel> maybeSchoolSupervisor = schoolSupervisorService.findByUserUsername(username);
+        Optional<CompanySupervisorModel> maybeCompanySupervisor = companySupervisorService.findByUsername(username);
 
         if (maybeSchoolSupervisor.isPresent()) {
             isSupervisor = true;

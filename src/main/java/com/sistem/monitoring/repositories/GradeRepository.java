@@ -1,9 +1,9 @@
-package com.sistem.monitoring.repositories;
+// package com.sistem.monitoring.repositories;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+// import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.sistem.monitoring.models.GradeModel;
+// import com.sistem.monitoring.models.GradeModel;
 
-public interface GradeRepository extends JpaRepository<GradeModel, Long> {
+// public interface GradeRepository extends JpaRepository<GradeModel, Long> {
     
-}
+// }
