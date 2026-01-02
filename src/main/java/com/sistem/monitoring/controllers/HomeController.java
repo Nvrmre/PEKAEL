@@ -175,7 +175,7 @@ public class HomeController {
         if (endDate == null) endDate = defaultEnd;
 
         // Kirim ke View
-        model.addAttribute("attendanceTotal", studentAttendanceTotal);
+        model.addAttribute("attendanceTotal", presentCount);
         model.addAttribute("reportTotal", studentReportTotal);
 
         // Student attendance stats

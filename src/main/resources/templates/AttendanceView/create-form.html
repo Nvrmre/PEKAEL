@@ -4,153 +4,296 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Absen Masuk - Sistem Monitoring</title>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
   <style>
-    :root{ --navy:#0b2340; --cream:#f2ece3; --accent:#b78b4a; --muted:#6c757d; }
-    body{ background:var(--cream); color:var(--navy); font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial; }
-    
-    .container-main{ max-width:800px; margin:2rem auto; background:#fff; border-radius:12px; padding:2rem; box-shadow:0 2px 12px rgba(11,35,64,0.08); }
-    
-    /* Header Title Style */
-    .page-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid #eee; }
-    .page-title { margin: 0; font-weight: 700; color: var(--navy); }
-    .header-icon { width: 32px; height: 32px; stroke: var(--accent); }
+    :root{
+      --navy:#0b2340;
+      --cream:#f2ece3;
+      --accent:#b78b4a;
+      --muted:#6c757d;
+      --border:#e5e7eb;
+    }
 
-    /* Form Styling */
-    .form-label{ font-weight:600; color:var(--navy); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; }
-    
-    /* Input Group Icons */
-    .input-group-text { background-color: #fff; border-right: none; color: var(--accent); }
-    .form-control { border-left: none; }
-    .form-control:focus { box-shadow: none; border-color: #dee2e6; }
-    .input-group:focus-within .input-group-text { border-color: #86b7fe; }
-    .input-group:focus-within .form-control { border-color: #86b7fe; }
-    .input-icon { width: 20px; height: 20px; stroke-width: 1.8; }
+    body{
+      background:var(--cream);
+      color:var(--navy);
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+    }
 
-    /* Buttons */
-    .btn-save{ background:var(--accent); color:#fff; border:none; border-radius:8px; padding:.6rem 1.5rem; font-weight:600; transition:.25s; display: inline-flex; align-items: center; gap: 8px; }
-    .btn-save:hover{ background:#a5793e; color:white; transform:translateY(-2px); }
-    .btn-cancel{ background:#e9ecef; color:var(--muted); text-decoration:none; border-radius:8px; padding:.6rem 1.5rem; font-weight:600; transition: .2s; }
-    .btn-cancel:hover{ background:#dee2e6; color:var(--navy); }
-    
-    /* Readonly styling */
-    .readonly-field { background-color: #f8f9fa !important; color: #495057; }
-    
-    /* File Input Fix */
-    input[type="file"].form-control { border-left: 1px solid #dee2e6; }
+    .container-main{
+      max-width:800px;
+      margin:1.5rem auto;
+      background:#fff;
+      border-radius:14px;
+      padding:1.75rem;
+      box-shadow:0 8px 24px rgba(11,35,64,.08);
+    }
+
+    .page-header{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:1.25rem;
+      padding-bottom:.75rem;
+      border-bottom:1px solid var(--border);
+    }
+
+    .header-icon{
+      width:28px;
+      height:28px;
+      stroke:var(--accent);
+    }
+
+    .page-title{
+      margin:0;
+      font-weight:700;
+      font-size:1.25rem;
+    }
+
+    .form-label{
+      font-weight:600;
+      font-size:.78rem;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      margin-bottom:.35rem;
+    }
+
+    .input-group-text{
+      background:#fff;
+      border-right:none;
+      color:var(--accent);
+    }
+
+    .form-control{
+      border-left:none;
+      font-size:.9rem;
+    }
+
+    .readonly-field{
+      background:#f9fafb!important;
+    }
+
+    /* CAMERA */
+    .camera-box{
+      border:1.5px dashed var(--border);
+      border-radius:12px;
+      padding:8px;
+      background:#fafafa;
+      transition:.2s;
+    }
+
+    .camera-box.active{
+      border-color:var(--accent);
+      background:#fff;
+    }
+
+    .camera-video{
+      width:100%;
+      height:240px;
+      background:#000;
+      border-radius:10px;
+      object-fit:cover;
+    }
+
+    /* Mobile lebih besar */
+    @media (max-width: 768px){
+      .camera-video{
+        height:320px;
+      }
+    }
+
+    .camera-actions{
+      display:flex;
+      gap:8px;
+      margin-top:6px;
+    }
+
+    .btn-outline-accent{
+      border:1px solid var(--accent);
+      color:var(--accent);
+      background:#fff;
+    }
+
+    .btn-outline-accent:hover{
+      background:var(--accent);
+      color:#fff;
+    }
+
+    .btn-save{
+      background:var(--accent);
+      color:#fff;
+      border:none;
+      border-radius:10px;
+      padding:.55rem 1.5rem;
+      font-weight:600;
+      font-size:.9rem;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .btn-save:disabled{
+      background:#d6c4a3;
+      cursor:not-allowed;
+    }
+
+    .btn-cancel{
+      background:#eef0f2;
+      color:var(--muted);
+      border-radius:10px;
+      padding:.55rem 1.3rem;
+      font-weight:600;
+      font-size:.9rem;
+    }
   </style>
 </head>
 
 <body>
-  <div th:replace="~{layouts/fragments/navbar :: topbar}"></div>
-  <div th:replace="~{layouts/fragments/sidebar :: sidebar}"></div>
+<div th:replace="~{layouts/fragments/navbar :: topbar}"></div>
+<div th:replace="~{layouts/fragments/sidebar :: sidebar}"></div>
 
-  <main class="container-main">
-    
-    <div class="page-header">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="header-icon">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
-      </svg>
-      <h3>Absen Masuk Harian</h3>
+<main class="container-main">
+
+  <div class="page-header">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+         stroke-width="1.5" stroke="currentColor" class="header-icon">
+      <path stroke-linecap="round" stroke-linejoin="round"
+            d="M3 7.5h18M3 12h18M3 16.5h18"/>
+    </svg>
+    <h3 class="page-title">Absen Masuk Harian</h3>
+  </div>
+
+  <form th:action="@{/attendances}"
+        th:object="${attend}"
+        method="post">
+
+    <!-- LOKASI -->
+    <div class="mb-3">
+      <label class="form-label">Lokasi PKL</label>
+      <div class="input-group">
+        <span class="input-group-text">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="none"
+               viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3 21h18M4 3h16M5 3v18m14-18v18"/>
+          </svg>
+        </span>
+        <input type="text" class="form-control readonly-field"
+               th:value="${attend.placement.company.companyName}" readonly>
+      </div>
+      <input type="hidden" th:field="*{placement}">
     </div>
 
-    <form th:action="@{/attendances}" th:object="${attend}" method="post" enctype="multipart/form-data">
-      
-      <div class="row g-4">
-        
-        <div class="col-12">
-            <label class="form-label">Lokasi PKL</label>
-            <div th:if="${attend.placement != null}">
-                <div class="input-group">
-                    <span class="input-group-text">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="input-icon">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
-                        </svg>
-                    </span>
-                    <input type="text" class="form-control readonly-field" 
-                           th:value="${attend.placement.company.companyName}" readonly>
-                </div>
-                <input type="hidden" th:field="*{placement}" />
-            </div>
-            
-            <div th:if="${attend.placement == null}">
-                <div class="alert alert-warning d-flex align-items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
-                    Data Penempatan tidak ditemukan. Hubungi Guru Pembimbing.
-                </div>
-            </div>
-        </div>
+    <!-- CAMERA -->
+    <div class="mb-3">
+      <label class="form-label">Foto Bukti Check-In</label>
 
-        <div class="col-md-6">
-            <label class="form-label">Tanggal</label>
-            <div class="input-group">
-                <span class="input-group-text">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="input-icon">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
-                    </svg>
-                </span>
-                <input type="date" class="form-control readonly-field" 
-                       th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" 
-                       readonly>
-            </div>
-            <small class="text-muted" style="font-size: 0.8rem; margin-left: 5px;">*Otomatis tanggal hari ini</small>
-        </div>
+      <div id="cameraBox" class="camera-box">
+        <video id="video" class="camera-video" autoplay playsinline></video>
+        <canvas id="canvas" class="d-none"></canvas>
+        <input type="hidden" name="checkInPhotoBase64" id="photoInput">
 
-        <div class="col-md-6">
-            <label class="form-label">Status Kehadiran</label>
-            <div class="input-group">
-                <span class="input-group-text">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="input-icon">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
-                    </svg>
-                </span>
-                <input type="text" class="form-control readonly-field fw-bold text-success" value="HADIR" readonly>
-            </div>
-            <input type="hidden" name="presenceStatus" value="PRESENT">
-        </div>
-
-        <div class="col-12">
-            <label class="form-label">Foto Bukti Check-In <span class="text-danger">*</span></label>
-            <div class="input-group">
-                <span class="input-group-text">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="input-icon">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
-                    </svg>
-                </span>
-                <input type="file" class="form-control" name="checkInPhoto" accept="image/*" required>
-            </div>
-            <div class="form-text">Upload foto selfie di lokasi PKL (Wajib).</div>
-        </div>
-
-        <div class="col-12">
-          <label class="form-label">Jurnal Singkat / Keterangan</label>
-          <div class="input-group">
-              <span class="input-group-text" style="align-items: flex-start; padding-top: 0.8rem;">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="input-icon">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                  </svg>
-              </span>
-              <textarea th:field="*{notes}" class="form-control" rows="3" placeholder="Deskripsikan kegiatan hari ini secara singkat..."></textarea>
-          </div>
-        </div>
-
-        <div class="col-12 d-flex justify-content-end gap-2 mt-4">
-          <a th:href="@{/attendances}" class="btn-cancel">Batal</a>
-          <button type="submit" class="btn-save" th:disabled="${attend.placement == null}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-            </svg>
-            Simpan Absensi
+        <div class="camera-actions">
+          <button type="button"
+                  class="btn btn-sm btn-outline-accent"
+                  onclick="takePhoto()">
+            Ambil Foto
           </button>
         </div>
-
       </div>
-    </form>
-  </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+      <small class="text-muted">Selfie langsung di lokasi PKL</small>
+    </div>
+
+    <!-- JURNAL -->
+    <div class="mb-3">
+      <label class="form-label">Jurnal Singkat / Keterangan</label>
+      <textarea th:field="*{notes}"
+                class="form-control"
+                rows="2"
+                placeholder="Deskripsikan kegiatan hari ini secara singkat..."></textarea>
+    </div>
+
+    <!-- ACTION -->
+    <div class="d-flex justify-content-end gap-2">
+      <a th:href="@{/attendances}" class="btn-cancel">Batal</a>
+      <button type="submit" id="submitBtn" class="btn-save" disabled>
+        Simpan Absensi
+      </button>
+    </div>
+
+  </form>
+</main>
+
+<!-- MODAL -->
+<div class="modal fade" id="alertModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title" id="alertTitle">Informasi</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="alertMessage"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  const video = document.getElementById("video");
+  const canvas = document.getElementById("canvas");
+  const photoInput = document.getElementById("photoInput");
+  const cameraBox = document.getElementById("cameraBox");
+  const submitBtn = document.getElementById("submitBtn");
+
+  let stream = null;
+
+  function showModal(title, msg){
+    document.getElementById("alertTitle").innerText = title;
+    document.getElementById("alertMessage").innerText = msg;
+    new bootstrap.Modal(document.getElementById("alertModal")).show();
+  }
+
+  async function startCamera(){
+    try{
+      stream = await navigator.mediaDevices.getUserMedia({
+        video:{ facingMode:"user" }, audio:false
+      });
+      video.srcObject = stream;
+      cameraBox.classList.add("active");
+    }catch(e){
+      showModal("Kamera Tidak Aktif","Izin kamera belum diberikan.");
+    }
+  }
+
+  function takePhoto(){
+    if(!stream){
+      showModal("Perhatian","Kamera belum siap.");
+      return;
+    }
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext("2d").drawImage(video,0,0);
+
+    // freeze preview
+    video.pause();
+    stream.getTracks().forEach(t => t.stop());
+
+    photoInput.value = canvas.toDataURL("image/jpeg");
+
+    submitBtn.disabled = false;
+    showModal("Berhasil","Foto berhasil diambil.");
+  }
+
+  // AUTO START CAMERA
+  document.addEventListener("DOMContentLoaded", () => {
+    startCamera();
+  });
+</script>
+
 </body>
 </html>

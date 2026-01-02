@@ -1,11 +1,10 @@
 package com.sistem.monitoring.controllers;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.Objects;
@@ -15,7 +14,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -194,18 +192,17 @@ public class AttendanceController {
     // 3. SIMPAN DATA ABSENSI + FOTO
     // ===========================================================
     @PostMapping
-    public String saveData(@ModelAttribute AttendanceModel attend,
-            @RequestParam("checkInPhoto") MultipartFile file,
+    public String saveData(
+            @ModelAttribute AttendanceModel attend,
+            @RequestParam("checkInPhotoBase64") String checkInPhotoBase64,
             Principal principal) {
 
-        // --- pastikan user login ---
         if (principal == null) {
             return "redirect:/login";
         }
 
         String username = principal.getName();
 
-        // Cari user entity
         UserModel user = userService.getAllUser().stream()
                 .filter(u -> u.getUsername().equals(username))
                 .findFirst()
@@ -215,27 +212,35 @@ public class AttendanceController {
             return "redirect:/login";
         }
 
-        // --- upload foto (tetap seperti sebelumnya) ---
-        if (file != null && !file.isEmpty()) {
+        // ===== SIMPAN FOTO DARI KAMERA (BASE64) =====
+        if (checkInPhotoBase64 != null && !checkInPhotoBase64.isBlank()) {
             try {
-                String fileName = UUID.randomUUID().toString() + "_" +
-                        StringUtils.cleanPath(file.getOriginalFilename());
+                String[] parts = checkInPhotoBase64.split(",");
+                String imageData = parts.length > 1 ? parts[1] : parts[0];
+
+                byte[] imageBytes = Base64.getDecoder().decode(imageData);
+
+                String fileName = "checkin_" + UUID.randomUUID() + ".jpg";
 
                 Path uploadPath = Paths.get(UPLOAD_DIR);
-                if (!Files.exists(uploadPath))
+                if (!Files.exists(uploadPath)) {
                     Files.createDirectories(uploadPath);
+                }
+
                 Path filePath = uploadPath.resolve(fileName);
-                Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+                Files.write(filePath, imageBytes);
 
                 attend.setCheckInPhotoUrl("/uploads/absensi/" + fileName);
-            } catch (IOException e) {
+
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
         attend.setCreatedBy(user);
+
+        // ===== SET PLACEMENT & STUDENT (TETAP) =====
         if (attend.getPlacement() == null || attend.getPlacement().getPlacementId() == null) {
-            // jika pembuat adalah student, otomatis ambil placement miliknya
             if (user.getRole() == UserModel.Role.Student && user.getStudent() != null) {
                 Long studentId = user.getStudent().getStudentId();
                 PlacementModel p = placementService.getPlacementByStudentId(studentId).orElse(null);
@@ -245,20 +250,24 @@ public class AttendanceController {
                 }
             }
         } else {
-            PlacementModel p = placementService.getPlacementById(attend.getPlacement().getPlacementId())
+            PlacementModel p = placementService
+                    .getPlacementById(attend.getPlacement().getPlacementId())
                     .orElse(null);
             if (p != null) {
                 attend.setPlacement(p);
                 attend.setStudent(p.getStudent());
             }
         }
+
         if (attend.getStudent() == null && user.getRole() == UserModel.Role.Student && user.getStudent() != null) {
             attend.setStudent(user.getStudent());
         }
+
         attendanceService.createAttendance(attend);
 
         return "redirect:/attendances";
     }
+
 
     // ===========================================================
     // 4. EDIT FORM
